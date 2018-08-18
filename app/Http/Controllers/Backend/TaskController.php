@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Task;
+use App\Http\Requests\StoreTask;
+use App\Http\Requests\UpdateTask;
 
 class TaskController extends Controller
 {
@@ -15,23 +17,12 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request->ajax());
-        // dd(Task::all());
         if ($request->ajax()) {
             return response()->json(['tasks' => Task::all()]);
         }
         return view('backend.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -39,31 +30,13 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTask $request)
     {
-        //
-    }
+        $input = $request->validated();
+        $input['user_id'] = \Auth::id();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $task = Task::create($input);
+        return response()->json(['message' => 'success', 'task' => $task]);
     }
 
     /**
@@ -73,9 +46,13 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTask $request, $id)
     {
-        //
+        if (!$task = Task::find($id))
+            return response()->json(['error' => 'Not Found'], 404);
+
+        $task->update($request->validated());
+        return response()->json(['message' => 'success']);
     }
 
     /**

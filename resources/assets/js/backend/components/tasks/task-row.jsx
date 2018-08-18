@@ -40,7 +40,7 @@ class TaskRow extends React.Component {
             isActiveTask: false,
             task: {
                 description: '',
-                startTime: 0,
+                start_time: 0,
             },
         }
 
@@ -67,6 +67,7 @@ class TaskRow extends React.Component {
     }
 
     createTask(task={}) {
+        console.log('task row create', task);
         if (Object.keys(task).length > 0) {
             this.props.createTask(task);
             return;
@@ -76,6 +77,7 @@ class TaskRow extends React.Component {
     }
 
     updateTask(task={}) {
+        console.log('task row: ', task);
         let t;
         if (Object.keys(task).length > 0) {
             t = Object.assign({}, task);
@@ -95,18 +97,14 @@ class TaskRow extends React.Component {
 
         let task            = Object.assign({}, this.state.task);
         const date          = new Date();
-        const region        = new Intl.DateTimeFormat();
-        const regionValues  = region.resolvedOptions();
-        task.tzName         = regionValues.timeZone;
-        task.tzOffset       = (date.getTimezoneOffset() / 60) * -1;
 
         if ( ! TaskHelper.isStarted(task) ) {
-            task.startTime = this.date.toMysqlDateTime(date);
+            task.start_time = this.date.toMysqlDateTime(date);
             this.updateTask(task);
             return;
         }
 
-        task.endTime = this.date.toMysqlDateTime(date);
+        task.end_time = this.date.toMysqlDateTime(date);
         this.updateTask(task);
     }
 
@@ -120,7 +118,7 @@ class TaskRow extends React.Component {
 
     displayDuration(task) {
         let date = new DateHelper;
-        const durationInSeconds = date.mysqlToSeconds(task.endTime) - date.mysqlToSeconds(task.startTime);
+        const durationInSeconds = date.mysqlToSeconds(task.end_time) - date.mysqlToSeconds(task.start_time);
         return date.durationForDisplay(durationInSeconds);
     }
 
@@ -180,13 +178,13 @@ class TaskRow extends React.Component {
                     <div className="ttr-last">
                         <div className="ttr-times" >
                             { ! props.isActiveTask 
-                                ? <span>{this.displayTime(task.startTime)} - {this.displayTime(task.endTime)}</span> 
+                                ? <span>{this.displayTime(task.start_time)} - {this.displayTime(task.end_time)}</span> 
                                 : ''
                             }
                         </div>
                         <div className="ttr-display-timer">
                             { props.isActiveTask && TaskHelper.isStarted(task)
-                                ? <DisplayTimer startTime={task.startTime} />
+                                ? <DisplayTimer startTime={task.start_time} />
                                 : this.displayDuration(task)
                             }
                         </div> 

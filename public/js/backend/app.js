@@ -2783,7 +2783,7 @@ var TaskHelper = function () {
             var tasksByDate = {};
             for (var i = 0; i < tasks.length; i++) {
                 var task = tasks[i];
-                var dateKey = this.date.toMysqlDate(new Date(task.startTime));
+                var dateKey = this.date.toMysqlDate(new Date(task.start_time));
 
                 if (!tasksByDate.hasOwnProperty(dateKey)) {
                     tasksByDate[dateKey] = [];
@@ -2799,8 +2799,8 @@ var TaskHelper = function () {
         value: function dailyTotal(tasks) {
             var total = 0;
             for (var i = 0; i < tasks.length; i++) {
-                var startTime = tasks[i].startTime;
-                var endTime = tasks[i].endTime;
+                var startTime = tasks[i].start_time;
+                var endTime = tasks[i].end_time;
                 var duration = this.date.durationInSeconds(startTime, endTime);
                 total += duration;
             }
@@ -2810,12 +2810,15 @@ var TaskHelper = function () {
     }, {
         key: 'hasNotBeenCreated',
         value: function hasNotBeenCreated(task) {
-            return task.id === 0;
+            return !task.id;
         }
     }, {
         key: 'isStarted',
         value: function isStarted(task) {
-            return new Date(task.startTime).getTime() > 0;
+
+            if (!task.start_time) return false;
+
+            return new Date(task.start_time).getTime() > 0;
         }
 
         // Check if a task is done (has a valid end date).
@@ -2823,7 +2826,10 @@ var TaskHelper = function () {
     }, {
         key: 'isDone',
         value: function isDone(task) {
-            return this.isStarted(task) && new Date(task.endTime).getTime() > 0;
+
+            if (!task.end_time) return false;
+
+            return this.isStarted(task) && new Date(task.end_time).getTime() > 0;
         }
     }]);
 
@@ -25545,16 +25551,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 var emptyTask = {
-    id: 0,
-    description: '',
-    projectId: 0,
-    clientId: 0,
-    typeId: 0,
-    activeButton: 'start',
-    startTime: 0,
-    endTime: 0,
-    tzOffset: 0,
-    tzName: 'none'
+    description: ''
 };
 
 var Timer = function (_React$Component) {
@@ -25619,7 +25616,7 @@ var Timer = function (_React$Component) {
         value: function createTask(task) {
             var _this4 = this;
 
-            if (task.id != 0) return;
+            if (task.id) return;
 
             __WEBPACK_IMPORTED_MODULE_2__core_Helpers_AjaxHelper__["a" /* default */].post(this.ajaxUrl, task).then(function (res) {
                 return _this4.setState({ activeTask: Object.assign(task, res.task) });
@@ -25632,7 +25629,9 @@ var Timer = function (_React$Component) {
         value: function updateTask(task) {
             var isActiveTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-            if (task.id == 0) return;
+            console.log('tasks: ', task);
+
+            if (!task.id) return;
 
             this.setState(function (currentState) {
 
@@ -25659,7 +25658,7 @@ var Timer = function (_React$Component) {
             });
 
             // Update server.
-            __WEBPACK_IMPORTED_MODULE_2__core_Helpers_AjaxHelper__["a" /* default */].put(this.ajaxUrl, task).catch(function (err) {
+            __WEBPACK_IMPORTED_MODULE_2__core_Helpers_AjaxHelper__["a" /* default */].put(this.ajaxUrl + task.id, task).catch(function (err) {
                 return console.log('Task could not be updated. Error: ', err);
             });
         }
@@ -25869,7 +25868,7 @@ var TaskRow = function (_React$Component) {
             isActiveTask: false,
             task: {
                 description: '',
-                startTime: 0
+                start_time: 0
             }
         };
 
@@ -25903,6 +25902,7 @@ var TaskRow = function (_React$Component) {
         value: function createTask() {
             var task = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
+            console.log('task row create', task);
             if (Object.keys(task).length > 0) {
                 this.props.createTask(task);
                 return;
@@ -25915,6 +25915,7 @@ var TaskRow = function (_React$Component) {
         value: function updateTask() {
             var task = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
+            console.log('task row: ', task);
             var t = void 0;
             if (Object.keys(task).length > 0) {
                 t = Object.assign({}, task);
@@ -25935,18 +25936,14 @@ var TaskRow = function (_React$Component) {
 
             var task = Object.assign({}, this.state.task);
             var date = new Date();
-            var region = new Intl.DateTimeFormat();
-            var regionValues = region.resolvedOptions();
-            task.tzName = regionValues.timeZone;
-            task.tzOffset = date.getTimezoneOffset() / 60 * -1;
 
             if (!__WEBPACK_IMPORTED_MODULE_4__core_Helpers_TaskHelper__["a" /* default */].isStarted(task)) {
-                task.startTime = this.date.toMysqlDateTime(date);
+                task.start_time = this.date.toMysqlDateTime(date);
                 this.updateTask(task);
                 return;
             }
 
-            task.endTime = this.date.toMysqlDateTime(date);
+            task.end_time = this.date.toMysqlDateTime(date);
             this.updateTask(task);
         }
     }, {
@@ -25963,7 +25960,7 @@ var TaskRow = function (_React$Component) {
         key: 'displayDuration',
         value: function displayDuration(task) {
             var date = new __WEBPACK_IMPORTED_MODULE_3__core_Helpers_DateHelper__["a" /* default */]();
-            var durationInSeconds = date.mysqlToSeconds(task.endTime) - date.mysqlToSeconds(task.startTime);
+            var durationInSeconds = date.mysqlToSeconds(task.end_time) - date.mysqlToSeconds(task.start_time);
             return date.durationForDisplay(durationInSeconds);
         }
 
@@ -26039,15 +26036,15 @@ var TaskRow = function (_React$Component) {
                             !props.isActiveTask ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'span',
                                 null,
-                                this.displayTime(task.startTime),
+                                this.displayTime(task.start_time),
                                 ' - ',
-                                this.displayTime(task.endTime)
+                                this.displayTime(task.end_time)
                             ) : ''
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
                             { className: 'ttr-display-timer' },
-                            props.isActiveTask && __WEBPACK_IMPORTED_MODULE_4__core_Helpers_TaskHelper__["a" /* default */].isStarted(task) ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__timer_jsx__["a" /* default */], { startTime: task.startTime }) : this.displayDuration(task)
+                            props.isActiveTask && __WEBPACK_IMPORTED_MODULE_4__core_Helpers_TaskHelper__["a" /* default */].isStarted(task) ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__timer_jsx__["a" /* default */], { startTime: task.start_time }) : this.displayDuration(task)
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',

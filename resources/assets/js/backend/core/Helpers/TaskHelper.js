@@ -11,7 +11,7 @@ class TaskHelper {
         let tasksByDate = {};
         for ( let i=0; i < tasks.length; i++ ) {
             let task    = tasks[i];
-            let dateKey = this.date.toMysqlDate(new Date(task.startTime));
+            let dateKey = this.date.toMysqlDate(new Date(task.start_time));
             
             if ( ! tasksByDate.hasOwnProperty(dateKey) ) {
                 tasksByDate[dateKey] = [];
@@ -26,8 +26,8 @@ class TaskHelper {
     dailyTotal(tasks) {
         let total = 0;
         for (let i=0; i < tasks.length; i++) {
-            let startTime = tasks[i].startTime;
-            let endTime = tasks[i].endTime;
+            let startTime = tasks[i].start_time;
+            let endTime = tasks[i].end_time;
             let duration = this.date.durationInSeconds(startTime, endTime);
             total += duration;
         }
@@ -37,16 +37,24 @@ class TaskHelper {
     
 
     hasNotBeenCreated(task) {
-        return task.id === 0;
+        return !task.id;
     }
 
     isStarted(task) {
-        return new Date(task.startTime).getTime() > 0;
+
+        if (!task.start_time)
+            return false;
+
+        return new Date(task.start_time).getTime() > 0;
     }
 
     // Check if a task is done (has a valid end date).
     isDone(task) {
-        return this.isStarted(task) && new Date(task.endTime).getTime() > 0;
+
+        if (!task.end_time)
+            return false;
+
+        return this.isStarted(task) && new Date(task.end_time).getTime() > 0;
     }
 }
 

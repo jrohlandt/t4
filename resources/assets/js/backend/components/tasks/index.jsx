@@ -9,16 +9,7 @@ import TaskHelper from '../../core/Helpers/TaskHelper';
 
 
 var emptyTask = {
-    id: 0,
     description: '',
-    projectId: 0,
-    clientId: 0,
-    typeId: 0,
-    activeButton: 'start',
-    startTime: 0,
-    endTime: 0,
-    tzOffset: 0,
-    tzName: 'none',
 };
 
 class Timer extends React.Component {
@@ -75,7 +66,7 @@ class Timer extends React.Component {
     
     createTask(task) {
         
-        if (task.id != 0)
+        if (task.id)
             return;
 
         Ajax.post(this.ajaxUrl, task)
@@ -84,7 +75,9 @@ class Timer extends React.Component {
     }
 
     updateTask(task, isActiveTask=false) {
-        if (task.id == 0)
+        console.log('tasks: ', task);
+
+        if (!task.id)
             return;
 
         this.setState((currentState) => {
@@ -115,7 +108,7 @@ class Timer extends React.Component {
 
 
         // Update server.
-        Ajax.put(this.ajaxUrl, task)
+        Ajax.put(this.ajaxUrl + task.id, task)
             .catch(err => console.log('Task could not be updated. Error: ', err));
     }
 
