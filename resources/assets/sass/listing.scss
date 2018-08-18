@@ -1,0 +1,15 @@
+.listing-table {
+    width: 100%;
+    border: thin black solid;
+    color: red;
+}
+
+.listing-td-actions {
+    width: 10%;
+}
+
+.listing-td-actions div {
+    float: right;
+    padding: 5px;
+    cursor: pointer;
+}

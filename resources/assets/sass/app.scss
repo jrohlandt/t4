@@ -1,14 +1,85 @@
-
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Variables
 @import 'variables';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import './normalize.css';
+@import './sidebar.scss';
+@import './tasks.scss';
+@import './listing.scss';
+@import './popup.scss';
+@import './buttons.scss';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+html, body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    height: 100%;
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+ul, li {
+    padding: 0;
+    margin: 0;
+}
+
+#app {
+    height: 100%;
+}
+
+#wrapper {
+    display: grid;
+    height: 100%;
+    grid-template-columns: auto;
+    grid-template-areas: 
+        "main";
+}
+
+
+
+main {
+    grid-area: main;
+    background-color: $main-background-color;
+}
+
+.main-header {
+    height: 100px;
+    width: 100%;
+}
+
+.main-header h1 {
+    float: left;
+    margin-left: 20px;
+}
+
+.main-header .create-new-btn {
+    float: right;
+    width: 150px;
+    margin-right: 20px;
+    padding: 5px;
+    border: thin solid black;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 700px) {
+    
+    #wrapper {
+        display: grid;
+        height: 100%;
+        grid-template-columns: 50px auto;
+        grid-template-areas: 
+            "leftnav main";
+    
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    
+    #wrapper {
+        grid-template-columns: 170px auto;
+    }
+
 }

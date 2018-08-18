@@ -1,0 +1,178 @@
+.tasks-date-heading {
+    padding: 10px;
+    font-size: .9em;
+    text-transform: capitalize;
+    color: $grey-dark;
+}
+
+.tasks-rows {
+    width: 100%;
+    list-style: none;
+}
+
+.timer-active-task-row,
+.timer-task-row {
+    clear: left;
+    height: 50px;
+    padding: 5px;
+    border-bottom: 1px solid rgba(116, 118, 143, .1);
+}
+
+.timer-active-task-row {
+    height: 70px;
+    margin-bottom: 30px;
+}
+
+.ttr-left, .ttr-right {
+    height: 100%;
+}
+
+.ttr-left {
+    float: left;
+    width: 60%;
+}
+
+.ttr-right {
+    float: right;
+    width: 40%;
+}
+
+.ttr-description-wrapper {
+    float: left;
+    width: 70%;
+    height: 100%;
+}
+
+.ttr-description-wrapper input[type="text"] {
+    width: 90%;
+    height: 100%;
+    color: $grey-darker;
+    background-color: $main-background-color;
+    /* background-color: rgba(255, 255, 255, .05); */
+    padding: 0 10px;
+    border: none;
+}
+
+.ttr-description-wrapper input[type="text"]::placeholder {
+    color: $grey-lighter;
+}
+
+.ttr-last {
+    float: right;
+    width: 60%;
+}
+
+.ttr-times {
+    display: none;
+    float: left;
+    font-size: .8em;
+    padding: 17px 10px 17px 5px;
+    color: $task-row-start-end-times-color;
+}
+
+.ttr-display-timer {
+    float: left;
+    font-weight: bold;
+    padding: 15px 10px;
+}
+
+.ttr-actions {
+    float: right;
+    padding: 15px 10px;
+}
+
+.ttr-start-button, .ttr-stop-button {
+    float: left;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    line-height: 35px;
+    color: white;
+    font-size: .8em;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.ttr-start-button {
+    background: rgb(24, 179, 24);
+}
+
+.ttr-stop-button {
+    background: rgb(233, 16, 16);
+}
+
+.ttr-delete {
+    padding: 5px;
+    cursor: pointer;
+    color: $grey-light;
+}
+
+.ttr-delete:hover {
+    color: rgb(241, 59, 59);
+}
+
+/* dropdown */
+.ttr-dropdown {
+    height: 100%;
+}
+
+.ttr-project-select, .ttr-type-select, .ttr-no-selected {
+    display: inline-block;
+    width: 50px;
+    padding: 15px 5px;
+    font-size: .8em;
+    cursor: pointer;
+    // overflow: hidden;
+}
+
+.ttr-project-select.ttr-dropdown-expanded, 
+.ttr-type-select.ttr-dropdown-expanded, 
+.ttr-no-selected.ttr-dropdown-expanded {
+    background: $grey-lightest;
+}
+
+.ttr-project-select {
+    max-width: 150px;
+}
+
+.ttr-type-select {
+    width: 100px;
+}
+
+.ttr-dropdown-icon {
+    color: $task-row-icons-color;
+    font-weight: bold;
+}
+
+.ttr-dropdown-list-wrapper {
+    position: relative;
+}
+.ttr-dropdown-list {
+    position: absolute;
+    top: 20px;
+    left: -10px;
+    z-index: 10;
+    padding: 10px;
+    background: $grey-lightest;
+    
+}
+
+.ttr-dropdown-list li {
+    list-style: none;
+    padding: 5px;
+}
+
+// .ttr-dropdown-icon:hover {
+//     color: darken($default-color, 30%); or $grey-dark
+// }
+
+
+
+@media screen and (min-width: 1150px) {
+    .ttr-times {
+        display: block;
+        float: left;
+    }
+}
+

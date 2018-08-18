@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['prefix' => 'app'], function() {
+    Route::get('/', 'Backend\TaskController@index');
+    Route::get('/tasks', 'Backend\TaskController@index');
+
+
+
+});

@@ -1,20 +1,13 @@
+$grey-lightest: rgb(216, 216, 216);
+$grey-lighter: rgb(167, 167, 167);
+$grey-light: rgb(124, 124, 124);
+$grey-darker: rgb(97, 97, 97);
+$grey-dark: rgb(61, 61, 61);
 
-// Body
-$body-bg: #f8fafc;
+$main-background-color: rgb(255, 255, 255);
+$leftnav-background-color: rgba(0, 0, 0, .82);
+$leftnav-item-color: rgb(182, 182, 182); 
+$leftnav-active-item-background: $grey-light;
 
-// Typography
-$font-family-sans-serif: "Nunito", sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
-
-// Colors
-$blue: #3490dc;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66D9b;
-$red: #e3342f;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
+$task-row-icons-color: $grey-lighter;
+$task-row-start-end-times-color: $grey-lighter;
