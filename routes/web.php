@@ -21,9 +21,10 @@ Route::get('/', function () {
 Route::group(['prefix' => 'app', 'middleware' => 'auth'], function() {
     Route::get('/', 'Backend\TaskController@index');
     Route::get('/tasks', 'Backend\TaskController@index');
+    Route::get('/tasks/active', 'Backend\TaskController@active');
     Route::post('/tasks', 'Backend\TaskController@store');
-    Route::put('/tasks/{id}', 'Backend\TaskController@update');
-
+    Route::put('/tasks/{id}', 'Backend\TaskController@update'); // Todo change to patch as per laravel convention.
+    Route::delete('/tasks/{id}', 'Backend\TaskController@destroy');
 
 
 });

@@ -122,7 +122,7 @@ class Timer extends React.Component {
             }
         });
 
-        Ajax.delete(this.ajaxUrl, {id: id} )
+        Ajax.delete(this.ajaxUrl + id, {})
             .catch(err => console.log('Task could not be deleted. Error: ', err));
     }
 

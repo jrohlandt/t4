@@ -37,7 +37,7 @@ export default {
 	 * @param {object} data
 	 */
 	delete(url, data, urlencode=true ) {
-		return this.send(url, 'delete', {params: data}, urlencode);
+		return this.send(url, 'delete', data, urlencode);
 		// Note: When sending 'params' instead of data, Axios will add ?id=177 to this.url. (If you data is {id: 177}).
 		// And then if using Express you can get the params in the query (req.query.id).
 	},

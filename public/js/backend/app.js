@@ -1623,7 +1623,7 @@ var matchPath = function matchPath(pathname) {
 	delete: function _delete(url, data) {
 		var urlencode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-		return this.send(url, 'delete', { params: data }, urlencode);
+		return this.send(url, 'delete', data, urlencode);
 		// Note: When sending 'params' instead of data, Axios will add ?id=177 to this.url. (If you data is {id: 177}).
 		// And then if using Express you can get the params in the query (req.query.id).
 	},
@@ -25676,7 +25676,7 @@ var Timer = function (_React$Component) {
                 };
             });
 
-            __WEBPACK_IMPORTED_MODULE_2__core_Helpers_AjaxHelper__["a" /* default */].delete(this.ajaxUrl, { id: id }).catch(function (err) {
+            __WEBPACK_IMPORTED_MODULE_2__core_Helpers_AjaxHelper__["a" /* default */].delete(this.ajaxUrl + id, {}).catch(function (err) {
                 return console.log('Task could not be deleted. Error: ', err);
             });
         }

@@ -19,8 +19,23 @@ class TaskController extends Controller
     {
         if ($request->ajax()) {
             return response()->json(['tasks' => Task::all()]);
+
+            // todo limit to last 10 days of tasks.
         }
         return view('backend.index');
+    }
+
+    public function active() {
+
+        // Fetch only the last task.
+        $task = Task::orderByDesc('id')->first();
+
+        // Then check if it is still active (has a end_time or not).
+        // If it has no end_time then the task is still active.
+        if (empty($task->end_time))
+            return response()->json(['message' => 'success', 'task' => $task]);
+
+        return response()->json(['message' => 'No active task']);
     }
 
 
@@ -51,6 +66,9 @@ class TaskController extends Controller
         if (!$task = Task::find($id))
             return response()->json(['error' => 'Not Found'], 404);
 
+        if ($task->user_id != \Auth::id())
+            return response()->json(['error' => 'Not Authorized'], 401);
+
         $task->update($request->validated());
         return response()->json(['message' => 'success']);
     }
@@ -63,6 +81,13 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (!$task = Task::find($id))
+            return response()->json(['error' => 'Not Found'], 404);
+
+        if ($task->user_id != \Auth::id())
+            return response()->json(['error' => 'Not Authorized'], 401);
+
+        $task->delete();
+        return response()->json(['message' => 'success']);
     }
 }
