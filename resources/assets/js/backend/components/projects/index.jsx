@@ -62,7 +62,7 @@ class Projects extends React.Component {
         this.setState({projects});
         this.hidePopup();
 
-        Ajax.delete('/app/projects', {id})
+        Ajax.delete('/app/projects/' + id, {})
             .catch(err => console.log(err));
     }
 
@@ -75,8 +75,9 @@ class Projects extends React.Component {
             return this.store();
         }
 
+        const id = this.state.activeProject.id;
         const projects = this.state.projects.map(p => {
-            if (this.state.activeProject.id === p.id) {
+            if (id === p.id) {
                 return this.state.activeProject;
             }
             return p;
@@ -84,7 +85,7 @@ class Projects extends React.Component {
         this.setState({projects});
         this.hidePopup();
         
-        Ajax.put('/app/projects/', this.state.activeProject)
+        Ajax.put('/app/projects/' + id, this.state.activeProject)
             .catch(err => console.log(err));
     }
 

@@ -109,7 +109,7 @@ class TaskRow extends React.Component {
     }
 
     handleProjectChange(projectId) {
-        this.updateTask(Object.assign(this.state.task, {projectId}));
+        this.updateTask(Object.assign(this.state.task, {project_id: projectId}));
     }
 
     handleTypeChange(typeId) {
@@ -161,7 +161,7 @@ class TaskRow extends React.Component {
                         </div>
 
                         <DropDown 
-                            selected={ task.projectId } 
+                            selected={ task.project_id } 
                             handleChange={ this.handleProjectChange } 
                             options={ props.projects }
                             role="project-select"

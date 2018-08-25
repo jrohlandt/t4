@@ -25949,7 +25949,7 @@ var TaskRow = function (_React$Component) {
     }, {
         key: 'handleProjectChange',
         value: function handleProjectChange(projectId) {
-            this.updateTask(Object.assign(this.state.task, { projectId: projectId }));
+            this.updateTask(Object.assign(this.state.task, { project_id: projectId }));
         }
     }, {
         key: 'handleTypeChange',
@@ -26012,7 +26012,7 @@ var TaskRow = function (_React$Component) {
                         })
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__dropdown_jsx__["a" /* default */], {
-                        selected: task.projectId,
+                        selected: task.project_id,
                         handleChange: this.handleProjectChange,
                         options: props.projects,
                         role: 'project-select'
@@ -27998,7 +27998,7 @@ var Projects = function (_React$Component) {
             this.setState({ projects: projects });
             this.hidePopup();
 
-            __WEBPACK_IMPORTED_MODULE_1__core_Helpers_AjaxHelper__["a" /* default */].delete('/app/projects', { id: id }).catch(function (err) {
+            __WEBPACK_IMPORTED_MODULE_1__core_Helpers_AjaxHelper__["a" /* default */].delete('/app/projects/' + id, {}).catch(function (err) {
                 return console.log(err);
             });
         }
@@ -28016,8 +28016,9 @@ var Projects = function (_React$Component) {
                 return this.store();
             }
 
+            var id = this.state.activeProject.id;
             var projects = this.state.projects.map(function (p) {
-                if (_this2.state.activeProject.id === p.id) {
+                if (id === p.id) {
                     return _this2.state.activeProject;
                 }
                 return p;
@@ -28025,7 +28026,7 @@ var Projects = function (_React$Component) {
             this.setState({ projects: projects });
             this.hidePopup();
 
-            __WEBPACK_IMPORTED_MODULE_1__core_Helpers_AjaxHelper__["a" /* default */].put('/app/projects/', this.state.activeProject).catch(function (err) {
+            __WEBPACK_IMPORTED_MODULE_1__core_Helpers_AjaxHelper__["a" /* default */].put('/app/projects/' + id, this.state.activeProject).catch(function (err) {
                 return console.log(err);
             });
         }
@@ -28319,7 +28320,7 @@ var Clients = function (_React$Component) {
             this.setState({ clients: clients });
             this.hidePopup();
 
-            __WEBPACK_IMPORTED_MODULE_1__core_Helpers_AjaxHelper__["a" /* default */].delete('/app/clients', { id: id }).catch(function (err) {
+            __WEBPACK_IMPORTED_MODULE_1__core_Helpers_AjaxHelper__["a" /* default */].delete('/app/clients/' + id, {}).catch(function (err) {
                 return console.log(err);
             });
         }
@@ -28346,7 +28347,7 @@ var Clients = function (_React$Component) {
             this.setState({ clients: clients });
             this.hidePopup();
 
-            __WEBPACK_IMPORTED_MODULE_1__core_Helpers_AjaxHelper__["a" /* default */].put('/app/clients/', this.state.activeClient).catch(function (err) {
+            __WEBPACK_IMPORTED_MODULE_1__core_Helpers_AjaxHelper__["a" /* default */].put('/app/clients/' + this.state.activeClient.id, this.state.activeClient).catch(function (err) {
                 return console.log(err);
             });
         }

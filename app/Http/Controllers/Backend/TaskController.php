@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Task;
 use App\Http\Requests\StoreTask;
 use App\Http\Requests\UpdateTask;
+use Carbon\Carbon;
+
 
 class TaskController extends Controller
 {
@@ -18,9 +20,18 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return response()->json(['tasks' => Task::all()]);
 
-            // todo limit to last 10 days of tasks.
+            $to = Carbon::now();
+            $from = Carbon::now()->subWeek();
+                $tasks = Task::where('user_id', \Auth::id())
+                ->whereNotNull('start_time')
+                ->whereNotNull('end_time')
+                ->whereBetween('created_at', [$from, $to])
+                ->orderBy('created_at', 'desc')
+                ->take(100)
+                ->get();
+
+            return response()->json(['tasks' => $tasks]);
         }
         return view('backend.index');
     }

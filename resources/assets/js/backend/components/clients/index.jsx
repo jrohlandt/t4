@@ -60,7 +60,7 @@ class Clients extends React.Component {
         this.setState({clients});
         this.hidePopup();
 
-        Ajax.delete('/app/clients', {id})
+        Ajax.delete('/app/clients/' + id, {})
             .catch(err => console.log(err));
     }
 
@@ -82,7 +82,7 @@ class Clients extends React.Component {
         this.setState({clients});
         this.hidePopup();
         
-        Ajax.put('/app/clients/', this.state.activeClient)
+        Ajax.put('/app/clients/' + this.state.activeClient.id, this.state.activeClient)
             .catch(err => console.log(err));
     }
 
