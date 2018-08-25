@@ -6,11 +6,13 @@ import Timer from './components/tasks/index.jsx';
 import Reports from './components/reports/index.jsx';
 import Projects from './components/projects/index.jsx';
 import Clients from './components/clients/index.jsx';
+import Labels from './components/labels/index.jsx';
 
 import FaClock from 'react-icons/lib/fa/clock-o';
 import FaBarChart from 'react-icons/lib/fa/bar-chart';
 import FaFolderO from 'react-icons/lib/fa/folder-o';
 import FaUser from 'react-icons/lib/fa/user';
+import FaTags from 'react-icons/lib/fa/tags';
 
 const App = () => (
     <Router>
@@ -58,6 +60,15 @@ const App = () => (
                             <span>Clients</span>
                             </NavLink>
                         </li>
+                        <li>
+                            <NavLink 
+                                to="/app/labels"
+                                activeClassName="left-nav-active"
+                            >
+                            <FaTags size={20} style={{marginBottom: '5px'}}/>                                                        
+                            <span>Labels</span>
+                            </NavLink>
+                        </li>
                     </ul>
                 </nav>
             </aside>
@@ -66,6 +77,7 @@ const App = () => (
                 <Route path="/app/reports" component={Reports} />
                 <Route path="/app/projects" component={Projects} />
                 <Route path="/app/clients" component={Clients} />
+                <Route path="/app/labels" component={Labels} />
             </main>
         </div>
     </Router>

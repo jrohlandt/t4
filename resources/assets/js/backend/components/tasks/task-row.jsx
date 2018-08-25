@@ -19,12 +19,12 @@ const getProjectName = (projectId, projects) => {
     return 'no project';
 };
 
-const getTypeName = (typeId, types) => {
+const getLabelName = (labelId, labels) => {
     
-    for (let i=0; i < types.length; i++) {
-        let type = types[i];
-        if (type.id == typeId) {
-            return type.name;
+    for (let i=0; i < labels.length; i++) {
+        let label = labels[i];
+        if (label.id == labelId) {
+            return label.name;
         }
     }
 
@@ -50,7 +50,7 @@ class TaskRow extends React.Component {
         this.updateTask                 = this.updateTask.bind(this);
         this.toggleTimer                = this.toggleTimer.bind(this);
         this.handleProjectChange        = this.handleProjectChange.bind(this);
-        this.handleTypeChange           = this.handleTypeChange.bind(this);
+        this.handleLabelChange           = this.handleLabelChange.bind(this);
         this.handleDescriptionChange    = this.handleDescriptionChange.bind(this);
         this.handleDescriptionOnBlur    = this.handleDescriptionOnBlur.bind(this);
     }
@@ -112,8 +112,8 @@ class TaskRow extends React.Component {
         this.updateTask(Object.assign(this.state.task, {project_id: projectId}));
     }
 
-    handleTypeChange(typeId) {
-        this.updateTask(Object.assign(this.state.task, {typeId}));
+    handleLabelChange(labelId) {
+        this.updateTask(Object.assign(this.state.task, {label_id: labelId}));
     }
 
     displayDuration(task) {
@@ -170,10 +170,10 @@ class TaskRow extends React.Component {
                 
                 <div className="ttr-right">
                     <DropDown 
-                        selected={ task.typeId } 
-                        handleChange={ this.handleTypeChange } 
-                        options={ props.types } 
-                        role="type-select"
+                        selected={ task.label_id } 
+                        handleChange={ this.handleLabelChange } 
+                        options={ props.labels } 
+                        role="label-select"
                     />
                     <div className="ttr-last">
                         <div className="ttr-times" >

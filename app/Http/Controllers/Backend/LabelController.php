@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Client;
-use App\Http\Requests\ClientRequest;
+use App\Label;
+use App\Http\Requests\LabelRequest;
 
-class ClientController extends Controller
+class LabelController extends Controller
 {
-    /**
+   /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -17,8 +17,8 @@ class ClientController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $clients = Client::where('user_id', \Auth::id())->get();
-            return response()->json(['clients' => $clients]);
+            $labels = Label::where('user_id', \Auth::id())->get();
+            return response()->json(['labels' => $labels]);
         }
         return view('backend.index');
     }
@@ -29,13 +29,13 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ClientRequest $request)
+    public function store(LabelRequest $request)
     {
         $input = $request->validated();
         $input['user_id'] = \Auth::id();
 
-        $client = Client::create($input);
-        return response()->json(['message' => 'success', 'client' => $client]);
+        $label = Label::create($input);
+        return response()->json(['message' => 'success', 'label' => $label]);
     }
 
     /**
@@ -45,15 +45,15 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ClientRequest $request, $id)
+    public function update(LabelRequest $request, $id)
     {
-        if (!$client = Client::find($id))
+        if (!$label = Label::find($id))
             return response()->json(['error' => 'Not Found'], 404);
 
-        if ($client->user_id != \Auth::id())
+        if ($label->user_id != \Auth::id())
             return response()->json(['error' => 'Not Authorized'], 401);
 
-        $client->update($request->validated());
+        $label->update($request->validated());
         return response()->json(['message' => 'success']);
     }
 
@@ -65,13 +65,13 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        if (!$client = Client::find($id))
+        if (!$label = Label::find($id))
             return response()->json(['error' => 'Not Found'], 404);
 
-        if ($client->user_id != \Auth::id())
+        if ($label->user_id != \Auth::id())
             return response()->json(['error' => 'Not Authorized'], 401);
 
-        $client->delete();
+        $label->delete();
         return response()->json(['message' => 'success']);
     }
 }

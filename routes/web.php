@@ -39,6 +39,12 @@ Route::group(['prefix' => 'app', 'middleware' => 'auth'], function() {
     Route::post('/clients', 'Backend\ClientController@store');
     Route::put('/clients/{id}', 'Backend\ClientController@update'); // Todo change to patch as per laravel convention.
     Route::delete('/clients/{id}', 'Backend\ClientController@destroy');
+
+    // Labels
+    Route::get('/labels', 'Backend\LabelController@index');
+    Route::post('/labels', 'Backend\LabelController@store');
+    Route::put('/labels/{id}', 'Backend\LabelController@update'); // Todo change to patch as per laravel convention.
+    Route::delete('/labels/{id}', 'Backend\LabelController@destroy');
 });
 
 

@@ -12,6 +12,16 @@ var emptyTask = {
     description: '',
 };
 
+const emptyLabel = {
+    id: 0,
+    name: 'none',
+}
+
+const emptyProject = {
+    id: 0,
+    name: 'none',
+}
+
 class Timer extends React.Component {
 
     constructor(props) {
@@ -22,12 +32,7 @@ class Timer extends React.Component {
             tasks: [],
             activeTask: Object.assign({}, emptyTask),
             projects: [],
-            types: [
-                { id: 0, name: 'none' },
-                { id: 1, name: 'ticket' },
-                { id: 2, name: 'bug fix' },
-                { id: 3, name: 'development' },
-            ],
+            labels: [],
         };
 
         this.ajaxUrl = '/app/tasks/';
@@ -42,11 +47,7 @@ class Timer extends React.Component {
 
     getTasks() {
         Ajax.get(this.ajaxUrl)
-            .then(res => {
-                this.setState({
-                    tasks: res.tasks,
-                });
-            })
+            .then(res => this.setState({tasks: res.tasks}))
             .catch(err => console.log('Could not fetch tasks. Error: ', err));
     }
 
@@ -75,7 +76,6 @@ class Timer extends React.Component {
     }
 
     updateTask(task, isActiveTask=false) {
-        console.log('tasks: ', task);
 
         if (!task.id)
             return;
@@ -129,12 +129,21 @@ class Timer extends React.Component {
     componentDidMount() {
         this.getTasks();
         this.getActiveTask();
-        // Ajax.get('/app/getAuthUser')
-        //     .then(res => this.setState({authUser: res.user}))
-        //     .catch(err => window.location.href = '/login');
 
         Ajax.get('/app/projects')
-            .then(res => this.setState({projects: res.projects}))
+            .then(res => {
+                let projects = res.projects;
+                projects.unshift(emptyProject);
+                this.setState({projects})
+            })
+            .catch(err => console.log(err));
+
+        Ajax.get('/app/labels')
+            .then(res => {
+                let labels = res.labels;
+                labels.unshift(emptyLabel);
+                this.setState({labels})
+            })
             .catch(err => console.log(err));
     }
 
@@ -166,16 +175,13 @@ class Timer extends React.Component {
                 <TaskRow 
                     task={t} 
                     projects={this.state.projects} 
-                    types={this.state.types} 
+                    labels={this.state.labels} 
                     key={t.id} 
                     updateTask={this.updateTask}
                     deleteTask={this.deleteTask}
                 />
             ));
         }
-
-        const projectOptions = this.state.projects.map((p, i) => <option value={p.id} key={p.id} >{p.name}</option>);
-        const typeOptions = this.state.types.map((t, i) => <option value={t.id} key={t.id} >{t.name}</option>);
 
         const activeTask = this.state.activeTask;
 
@@ -186,7 +192,7 @@ class Timer extends React.Component {
                         <TaskRow 
                             task={activeTask} 
                             projects={this.state.projects} 
-                            types={this.state.types} 
+                            labels={this.state.labels} 
                             key={activeTask.id} 
                             createTask={this.createTask} 
                             updateTask={this.updateTask}

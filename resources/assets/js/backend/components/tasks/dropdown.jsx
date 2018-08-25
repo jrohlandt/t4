@@ -53,7 +53,7 @@ class DropDown extends React.Component {
             case 'project-select':
                 icon = <FaFolder size={14}/>;
                 break;
-            case 'type-select':
+            case 'label-select':
                 icon = <FaTag size={14}/>;
                 break;
             default:

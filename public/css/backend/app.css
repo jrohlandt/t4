@@ -531,7 +531,7 @@
 }
 
 .ttr-project-select,
-.ttr-type-select,
+.ttr-label-select,
 .ttr-no-selected {
   display: inline-block;
   width: 50px;
@@ -541,7 +541,7 @@
 }
 
 .ttr-project-select.ttr-dropdown-expanded,
-.ttr-type-select.ttr-dropdown-expanded,
+.ttr-label-select.ttr-dropdown-expanded,
 .ttr-no-selected.ttr-dropdown-expanded {
   background: #d8d8d8;
 }
@@ -550,7 +550,7 @@
   max-width: 150px;
 }
 
-.ttr-type-select {
+.ttr-label-select {
   width: 100px;
 }
 
