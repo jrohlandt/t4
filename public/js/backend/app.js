@@ -1114,7 +1114,7 @@ var DateHelper = function () {
 			__WEBPACK_IMPORTED_MODULE_0_axios___default.a[requestType.toLowerCase()](url, data).then(function (response) {
 				return resolve(response.data);
 			}).catch(function (error) {
-				if (error.response.status == 403) {
+				if (error.response.status == 403 || error.response.status == 419) {
 					console.log('Ajax error: ', error);
 					window.location.href = '/login';
 					return;

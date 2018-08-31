@@ -59,7 +59,7 @@ export default {
 				axios[ requestType.toLowerCase() ]( url, data )
 					.then(response => resolve(response.data))
 					.catch(error => {
-						if (error.response.status == 403) {
+						if (error.response.status == 403 || error.response.status == 419) {
 							console.log('Ajax error: ', error);
 							window.location.href = '/login';
 							return;
