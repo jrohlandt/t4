@@ -19,6 +19,6 @@ class DatabaseSeeder extends Seeder
             'remember_token' => str_random(10),
         ]);
 
-        
+        $this->call(ColorsTableSeeder::class);
     }
 }

@@ -20,10 +20,10 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-
-            $to = Carbon::now();
             $from = Carbon::now()->subWeek();
-                $tasks = Task::where('user_id', \Auth::id())
+            $to = Carbon::now();
+            
+            $tasks = Task::where('user_id', \Auth::id())
                 ->whereNotNull('start_time')
                 ->whereNotNull('end_time')
                 ->whereBetween('created_at', [$from, $to])
@@ -41,7 +41,7 @@ class TaskController extends Controller
         // Fetch only the last task.
         $task = Task::orderByDesc('id')->first();
 
-        // Then check if it is still active (has a end_time or not).
+        // Then check if the task is still active (has a end_time or not).
         // If it has no end_time then the task is still active.
         if (empty($task->end_time))
             return response()->json(['message' => 'success', 'task' => $task]);

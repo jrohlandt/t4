@@ -147,7 +147,7 @@ class Projects extends React.Component {
 
                     {
                         showPopup === 'delete' 
-                            ? <div className='popup-form'>
+                            ? <div className='popup-form' >
                                     <h3>Deleting project <small>{this.state.activeProject.name}</small></h3>.
                                     <div className='popup-buttons'>
                                         <div className='popup-btn-cancel'
@@ -156,7 +156,7 @@ class Projects extends React.Component {
                                             onClick={this.delete}>Delete</div>
                                     </div>
                                 </div>
-                            : <form className='popup-form'>
+                            : <form className='popup-form' style={{width: '500px'}}>
                                     <h3>{this.state.activeProject.id ? 'Edit' : 'Create'} project</h3>        
                                     <input 
                                         type="text" 
