@@ -3,6 +3,7 @@ import Ajax from '../../core/Helpers/AjaxHelper';
 
 import List from '../shared/listing/list.jsx';
 import Row from '../shared/listing/row.jsx';
+import ColorPalette from '../shared/colorPalette.jsx';
 
 const emptyProject = {
     name: '',
@@ -17,6 +18,8 @@ class Projects extends React.Component {
 
         this.state = {
             projects: [],
+            colors: [],
+            clients: [],
             showPopup: false, // Valid values are: create, edit, delete and false.
             activeProject: {...emptyProject},
             savingToDb: false,
@@ -53,7 +56,7 @@ class Projects extends React.Component {
         this.setState({
             showPopup: false,
             activeProject: {...emptyProject},
-        })
+        });
     }
 
     delete() {
@@ -113,9 +116,11 @@ class Projects extends React.Component {
 
     componentDidMount() {
         Ajax.get('/app/projects')
-            .then(res => {
-                this.setState({projects: res.projects});
-            })
+            .then(res => this.setState({projects: res.projects}))
+            .catch(err => console.log(err));
+
+        Ajax.get('/app/colors')
+            .then(res => this.setState({colors: res.colors}))
             .catch(err => console.log(err));
     }
 
@@ -163,6 +168,12 @@ class Projects extends React.Component {
                                         value={this.state.activeProject.name} 
                                         onChange={this.handleChange} 
                                     />
+                                    <div style={{
+                                            position: 'absolute',
+                                            
+                                        }}>
+                                        <ColorPalette colors={this.state.colors} />
+                                    </div>
                                     <div className='popup-buttons'>
                                         <div className='popup-btn-cancel'
                                             onClick={this.hidePopup}>Cancel</div>

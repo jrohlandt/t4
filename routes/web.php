@@ -18,6 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/sandbox', function() {
+
+    $colors = \App\Color::all();
+
+    return view('sandbox', compact(['colors']));
+});
+
 Route::group(['prefix' => 'app', 'middleware' => 'auth'], function() {
 
     // Tasks
@@ -45,6 +52,10 @@ Route::group(['prefix' => 'app', 'middleware' => 'auth'], function() {
     Route::post('/labels', 'Backend\LabelController@store');
     Route::put('/labels/{id}', 'Backend\LabelController@update'); // Todo change to patch as per laravel convention.
     Route::delete('/labels/{id}', 'Backend\LabelController@destroy');
+
+    // Colors 
+    Route::get('/colors', 'Backend\ColorController@index');
+    
 });
 
 
@@ -52,3 +63,9 @@ Route::group(['prefix' => 'app', 'middleware' => 'auth'], function() {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/prototyping', function() {
+        return view('prototyping.project-popup');
+    });
+});
