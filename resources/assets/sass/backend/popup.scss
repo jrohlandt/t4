@@ -6,7 +6,7 @@
     justify-content: center;
     height: 100%;
     width: 100%;
-    background: tomato;
+    background: rgba(0, 0, 0, .3);
 }
 
 .popup-hide {
@@ -15,37 +15,56 @@
 
 .popup-form {
     display: grid;
-    grid-template-rows: 75px 50px 100px;
-    height: 250px;
-    width: 500px;
+    grid-template-rows: 50px 75px 75px;
+    height: 260px;
+    width: 700px;
     margin-top: 150px;
-    background: yellow;
-    padding: 10px;
+    background: $grey-lightest;
+    padding: 10px 30px;
+    box-shadow: 0 5px 15px rgba(128, 128, 128, .5);
 }
 
 .popup-form-row-1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: greenyellow;
 }
 
 .popup-form-row-2 {
     display: grid;
-    grid-template-columns: auto 50px auto;
-    background: rgb(47, 255, 255);
+    grid-template-columns: auto 150px;
+    padding: 12px;
+}
+
+.popup-form-row-2 > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .popup-form-row-3 {
     display: flex;
-    justify-content: flex-end;
-    background: rgb(189, 47, 255);
+    justify-content: space-between;
+    align-items: flex-end;
 }
 
-.popup-form-row-3 > div {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
+// .popup-form-row-3 > div {
+//     display: flex;
+//     justify-content: center;
+//     margin-top: 50px;
+// }
+
+.popup-heading {
+    color: $grey-dark;
+}
+
+.popup-close {
+    color: $grey-light;
+    cursor: pointer;
+}
+
+.popup-close:hover {
+    color: $grey-dark;
 }
 
 .popup-input {
@@ -54,17 +73,38 @@
     border: none;
 }
 
+.popup-selected-client-container {
+
+}
+
 .popup-selected-color-container {
     position: relative;
+    display: grid;
+    grid-template-columns: 40px 25px;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 1px 3px rgba(128, 128, 128, .2);
+    cursor: pointer;
+}
+
+.popup-selected-color-container > div {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: pink;
+}
+
+.popup-selected-color-container-caret {
+    color: $grey-light;
+}
+
+
+.popup-selected-color-container-caret:hover {
+    color: $grey-dark;
 }
 
 .popup-color-palette-container {
     position: absolute;
-    top: 50px;
+    top: 70px;
     left: 0;
 }
 
@@ -80,16 +120,12 @@
     justify-content: center;
     align-items: center;
     height: 45px;
-    padding: 0 10px;
+    padding: 0 20px;
+    font-size: 14px;
     cursor: pointer;
-    margin-right: 20px;
 }
 
-popup-close {
-    height: 50px;
-    width: 50px;
-    cursor: pointer;
-}
+
 
 .popup-create-button {
     background: rgb(64, 223, 117);

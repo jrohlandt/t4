@@ -6,6 +6,8 @@ import Row from '../shared/listing/row.jsx';
 import ColorPalette from '../shared/colorPalette.jsx';
 
 import Close from 'react-icons/lib/fa/close';
+import CaretDown from 'react-icons/lib/fa/caret-down';
+
 const emptyProject = {
     name: '',
     client_id: 0,
@@ -174,7 +176,7 @@ class Projects extends React.Component {
                                 <div className='popup-form' >
                                     <div className="popup-form-row-1">
                                         <h3>Deleting project <small>{this.state.activeProject.name}</small></h3>
-                                        <div className="popup-close" onClick={this.hidePopup} ><Close size={35}/></div>
+                                        <div className="popup-close" onClick={this.hidePopup} ><Close size={20}/></div>
                                     </div>
                                     <div className="popup-form-row-2">
                                     </div>
@@ -187,8 +189,8 @@ class Projects extends React.Component {
                             <div>
                                 <div className="popup-form">
                                     <div className="popup-form-row-1">
-                                        <h3>{this.state.activeProject.id ? 'Edit' : 'Create'} project</h3>
-                                        <div className="popup-close" onClick={this.hidePopup} ><Close size={35}/></div>
+                                        <h3 className="popup-heading">{this.state.activeProject.id ? 'Edit' : 'Create'} project</h3>
+                                        <div className="popup-close" onClick={this.hidePopup} ><Close size={20}/></div>
                                     </div>
                                     <div className="popup-form-row-2">
                                         <input 
@@ -197,8 +199,19 @@ class Projects extends React.Component {
                                             value={this.state.activeProject.name} 
                                             onChange={this.handleChange}  
                                         />
+                                        <div className='popup-selected-client-container'>
+                                            long client name
+                                        </div>
+                                    </div>
+                                    <div className="popup-form-row-3">
                                         <div className="popup-selected-color-container">
-                                            <div className='popup-selected-color' style={{background: `hsl(${this.getColorValueById(this.state.activeProject.color_id)})`}}></div>
+                                            <div 
+                                                className='popup-selected-color' 
+                                                style={{background: `hsl(${this.getColorValueById(this.state.activeProject.color_id)})`}}>
+                                            </div>
+                                            <div className='popup-selected-color-container-caret'>
+                                                <CaretDown size={15} />
+                                            </div>
                                             <div className="popup-color-palette-container">
                                                 <ColorPalette 
                                                     selected={this.state.activeProject.color_id} 
@@ -207,11 +220,6 @@ class Projects extends React.Component {
                                                 />
                                             </div>
                                         </div>
-                                        <div>
-                                            long client name
-                                        </div>
-                                    </div>
-                                    <div className="popup-form-row-3">
                                         <div>
                                             <div className="popup-buttons popup-create-button" onClick={this.save}>{showPopup === 'edit' ? 'Save' : 'Create'} Project</div>
                                         </div>
