@@ -348,10 +348,11 @@
 
 @media screen and (min-width: 700px) {
   #sidebar-left {
-    position: fixed;
+    position: -webkit-sticky;
+    position: sticky;
     display: block;
     grid-area: leftnav;
-    height: 100%;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.82);
   }
 
@@ -602,13 +603,17 @@
 
 .popup-overlay {
   position: absolute;
-  background: rgba(255, 255, 255, 0.9);
-  width: 100%;
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   height: 100%;
-}
-
-.popup-show {
-  display: inline-block;
+  width: 100%;
+  background: tomato;
 }
 
 .popup-hide {
@@ -616,29 +621,99 @@
 }
 
 .popup-form {
-  margin: auto;
-  width: 300px;
-  background: white;
-  border: thin solid black;
+  display: grid;
+  grid-template-rows: 75px 50px 100px;
+  height: 250px;
+  width: 500px;
+  margin-top: 150px;
+  background: yellow;
+  padding: 10px;
+}
+
+.popup-form-row-1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: greenyellow;
+}
+
+.popup-form-row-2 {
+  display: grid;
+  grid-template-columns: auto 50px auto;
+  background: #2fffff;
+}
+
+.popup-form-row-3 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  background: #bd2fff;
+}
+
+.popup-form-row-3 > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 50px;
+}
+
+.popup-input {
+  height: 50px;
+  padding: 5px;
+  border: none;
+}
+
+.popup-selected-color {
+  position: relative;
+  background: pink;
+}
+
+.popup-color-palette-container {
+  position: absolute;
+  top: 50px;
+  left: 0;
 }
 
 .popup-buttons {
-  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 45px;
+  padding: 0 10px;
+  cursor: pointer;
+  margin-right: 20px;
 }
 
-.popup-btn-cancel,
-.popup-btn-save {
-  border: thin solid black;
-  width: 60px;
-  padding: 5px;
+popup-close {
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
 }
 
-.popup-btn-cancel {
-  float: left;
+.popup-create-button {
+  background: #40df75;
 }
 
-.popup-btn-save {
-  float: right;
+.popup-delete-button {
+  background: red;
 }
 
 .btn-disable {
@@ -646,19 +721,12 @@
 }
 
 .color-palette {
-  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 30px;
   width: 100px;
-  min-height: 100px;
-  padding: 10px;
   background: white;
-}
-
-.color-patch {
-  float: left;
-  width: 25px;
-  height: 25px;
-  margin-top: 5px;
-  margin-right: 5px;
+  padding: 5px;
 }
 
 html,
@@ -698,8 +766,10 @@ li {
 }
 
 main {
+  position: relative;
   grid-area: main;
   background-color: white;
+  padding: 10px;
 }
 
 .main-header {

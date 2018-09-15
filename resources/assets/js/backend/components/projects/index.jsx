@@ -5,6 +5,7 @@ import List from '../shared/listing/list.jsx';
 import Row from '../shared/listing/row.jsx';
 import ColorPalette from '../shared/colorPalette.jsx';
 
+import Close from 'react-icons/lib/fa/times-circle-o';
 const emptyProject = {
     name: '',
     clientId: 0,
@@ -148,39 +149,57 @@ class Projects extends React.Component {
                         onClick={this.create}>Create New</div>
                 </div>
                 
-                <div className={ 'popup-overlay ' + (showPopup ? 'popup-show' : 'popup-hide')}>
+                <div className={ 'popup-overlay ' + (showPopup ? '' : 'popup-hide')}>
 
                     {
                         showPopup === 'delete' 
-                            ? <div className='popup-form' >
-                                    <h3>Deleting project <small>{this.state.activeProject.name}</small></h3>.
-                                    <div className='popup-buttons'>
-                                        <div className='popup-btn-cancel'
-                                            onClick={this.hidePopup}>Cancel</div>
-                                        <div className='popup-btn-delete'
-                                            onClick={this.delete}>Delete</div>
+                            ? 
+                            <div>
+                                <div className='popup-form' >
+                                    <div className="popup-form-row-1">
+                                        <h3>Deleting project <small>{this.state.activeProject.name}</small></h3>
+                                        <div className="popup-close" onClick={this.hidePopup} ><Close size={35}/></div>
+                                    </div>
+                                    <div className="popup-form-row-2">
+                                    </div>
+                                    <div className="popup-form-row-3">
+                                        <div className="popup-buttons popup-delete-button" onClick={this.delete}>Delete</div>
                                     </div>
                                 </div>
-                            : <form className='popup-form' style={{width: '500px'}}>
-                                    <h3>{this.state.activeProject.id ? 'Edit' : 'Create'} project</h3>        
-                                    <input 
-                                        type="text" 
-                                        value={this.state.activeProject.name} 
-                                        onChange={this.handleChange} 
-                                    />
-                                    <div style={{
-                                            position: 'absolute',
-                                            
-                                        }}>
-                                        <ColorPalette colors={this.state.colors} />
+                            </div>
+                            : 
+                            <div>
+                                <div className="popup-form">
+                                    <div className="popup-form-row-1">
+                                        <h3>{this.state.activeProject.id ? 'Edit' : 'Create'} project</h3>
+                                        <div className="popup-close" onClick={this.hidePopup} ><Close size={35}/></div>
                                     </div>
-                                    <div className='popup-buttons'>
-                                        <div className='popup-btn-cancel'
-                                            onClick={this.hidePopup}>Cancel</div>
-                                        <div className={ 'popup-btn-save ' + (this.state.savingToDb ? 'btn-disable' : '') }
-                                            onClick={this.save}>{showPopup === 'edit' ? 'Save' : 'Create'}</div>
+                                    <div className="popup-form-row-2">
+                                        <input 
+                                            className="popup-input" 
+                                            type="text"
+                                            value={this.state.activeProject.name} 
+                                            onChange={this.handleChange}  
+                                        />
+                                        <div className="popup-selected-color">
+                                            <div>c</div>
+                                            <div className="popup-color-palette-container">
+                                                <ColorPalette colors={this.state.colors} />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            long client name
+                                        </div>
                                     </div>
-                                </form>
+                                    <div className="popup-form-row-3">
+                                        <div>
+                                            <div className="popup-buttons popup-create-button" onClick={this.save}>{showPopup === 'edit' ? 'Save' : 'Create'} Project</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                
 
                     }
                     

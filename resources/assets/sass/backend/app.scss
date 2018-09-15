@@ -42,8 +42,10 @@ ul, li {
 
 
 main {
+    position: relative;
     grid-area: main;
     background-color: $main-background-color;
+    padding: 10px;
 }
 
 .main-header {

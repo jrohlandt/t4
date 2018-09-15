@@ -5,6 +5,8 @@ import DisplayTimer from './timer.jsx';
 import DateHelper from '../../core/Helpers/DateHelper';
 import TaskHelper from '../../core/Helpers/TaskHelper';
 import Trash from 'react-icons/lib/md/delete';
+import Stop from 'react-icons/lib/fa/stop-circle-o';
+import Play from 'react-icons/lib/fa/play-circle-o';
 
 
 const getProjectName = (projectId, projects) => {
@@ -193,7 +195,7 @@ class TaskRow extends React.Component {
                                 ? <div 
                                         className={TaskHelper.isStarted(task) ? 'ttr-stop-button' : 'ttr-start-button'}
                                         onClick={this.toggleTimer}>
-                                        {TaskHelper.isStarted(task) ? 'stop' : 'start'}
+                                        {TaskHelper.isStarted(task) ? <Stop size={30} /> : <Play size={30}/>}
                                     </div>
                                 : ''
                             }
