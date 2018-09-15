@@ -28,7 +28,7 @@ class Timer extends React.Component {
         super(props);
 
         this.state = {
-            authUser: {},
+            // authUser: {},
             tasks: [],
             activeTask: Object.assign({}, emptyTask),
             projects: [],

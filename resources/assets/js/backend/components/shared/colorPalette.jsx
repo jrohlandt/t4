@@ -1,16 +1,20 @@
 import React from 'react';
 
+import Check from 'react-icons/lib/fa/check';
+
 const ColorPalette = (props) => (
     <div className="color-palette">
         { props.colors.map(c => (
-            <li key={c.id} >
-                <div 
-                    className='color-patch' 
-                    style={{ backgroundColor: `hsl(${ c.value })` }}></div>
-            </li>
-            )) 
+            <div 
+                key={c.id}
+                className='color-swatch' 
+                onClick={() => props.handleChange(c.id)} 
+                style={{ backgroundColor: `hsl(${ c.value })` }}
+            >
+                { c.id === props.selected ? <Check /> : '' }
+            </div>
+            ))
         }
-        
     </div>
 );
 

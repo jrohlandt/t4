@@ -83,13 +83,12 @@
 
 .ttr-start-button, .ttr-stop-button {
     float: left;
+    display:flex;
+    justify-content: center;
+    align-items: center;
     height: 35px;
     width: 35px;
-    text-align: center;
-    line-height: 35px;
     color: white;
-    font-size: .8em;
-    font-weight: bold;
     border-radius: 50px;
     cursor: pointer;
 }

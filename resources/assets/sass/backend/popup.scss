@@ -54,16 +54,25 @@
     border: none;
 }
 
-.popup-selected-color {
+.popup-selected-color-container {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: pink;
-
 }
 
 .popup-color-palette-container {
     position: absolute;
     top: 50px;
     left: 0;
+}
+
+.popup-selected-color {
+    
+    height: 30px;
+    width: 30px;
+    border-radius: 3px;
 }
 
 .popup-buttons {

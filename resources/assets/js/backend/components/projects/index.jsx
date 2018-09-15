@@ -8,8 +8,8 @@ import ColorPalette from '../shared/colorPalette.jsx';
 import Close from 'react-icons/lib/fa/times-circle-o';
 const emptyProject = {
     name: '',
-    clientId: 0,
-    colorId: 0,
+    client_id: 0,
+    color_id: 1,
 };
 
 class Projects extends React.Component {
@@ -34,6 +34,8 @@ class Projects extends React.Component {
         this.save = this.save.bind(this);
         this.hidePopup = this.hidePopup.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.changeColor = this.changeColor.bind(this);
+        this.getColorValueById = this.getColorValueById.bind(this);
     }
 
     handleChange(event) {
@@ -58,6 +60,20 @@ class Projects extends React.Component {
             showPopup: false,
             activeProject: {...emptyProject},
         });
+    }
+
+    changeColor(colorId) {
+        let activeProject = {...this.state.activeProject};
+        activeProject.color_id = colorId;
+        this.setState({activeProject});
+    }
+
+    getColorValueById(colorId) {
+        const colors = this.state.colors.filter(c => c.id === colorId);
+
+        if (colors.length > 0) {
+            return colors[0]['value'];
+        }
     }
 
     delete() {
@@ -181,10 +197,14 @@ class Projects extends React.Component {
                                             value={this.state.activeProject.name} 
                                             onChange={this.handleChange}  
                                         />
-                                        <div className="popup-selected-color">
-                                            <div>c</div>
+                                        <div className="popup-selected-color-container">
+                                            <div className='popup-selected-color' style={{background: `hsl(${this.getColorValueById(this.state.activeProject.color_id)})`}}></div>
                                             <div className="popup-color-palette-container">
-                                                <ColorPalette colors={this.state.colors} />
+                                                <ColorPalette 
+                                                    selected={this.state.activeProject.color_id} 
+                                                    handleChange={this.changeColor} 
+                                                    colors={this.state.colors} 
+                                                />
                                             </div>
                                         </div>
                                         <div>
