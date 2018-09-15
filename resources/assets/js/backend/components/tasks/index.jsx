@@ -159,16 +159,9 @@ class Timer extends React.Component {
             }
 
             tasksRows.push(
-                <li 
-                    key={dateKey} 
-                    className='tasks-date-heading'
-                >
-                    <div >
-                        <h3>
-                            {this.date.formatDateHeading(dateKey)}
-                            <span>{TaskHelper.dailyTotal(tasks[dateKey])}</span>
-                        </h3>
-                    </div>
+                <li key={dateKey} className='tasks-date-heading'>
+                    <div><h3>{this.date.formatDateHeading(dateKey)}</h3></div>
+                    <div><h3>{TaskHelper.dailyTotal(tasks[dateKey])}</h3></div>
                 </li>
             );
             tasksRows.push(tasks[dateKey].map((t, i) => 

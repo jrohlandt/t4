@@ -5,7 +5,7 @@ import List from '../shared/listing/list.jsx';
 import Row from '../shared/listing/row.jsx';
 import ColorPalette from '../shared/colorPalette.jsx';
 
-import Close from 'react-icons/lib/fa/times-circle-o';
+import Close from 'react-icons/lib/fa/close';
 const emptyProject = {
     name: '',
     client_id: 0,
