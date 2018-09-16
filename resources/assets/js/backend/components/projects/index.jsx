@@ -24,8 +24,10 @@ class Projects extends React.Component {
             colors: [],
             clients: [],
             showPopup: false, // Valid values are: create, edit, delete and false.
+            showColorPalette: false,
             activeProject: {...emptyProject},
             savingToDb: false,
+            errors: {},
         }
 
         this.showPopup = this.showPopup.bind(this);
@@ -38,6 +40,9 @@ class Projects extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.changeColor = this.changeColor.bind(this);
         this.getColorValueById = this.getColorValueById.bind(this);
+        this.toggleColorPalette = this.toggleColorPalette.bind(this);
+        this.handleValidationErrors = this.handleValidationErrors.bind(this);
+        this.clearValidationErrors = this.clearValidationErrors.bind(this);
     }
 
     handleChange(event) {
@@ -60,13 +65,19 @@ class Projects extends React.Component {
     hidePopup() {
         this.setState({
             showPopup: false,
+            showColorPalette: false,
             activeProject: {...emptyProject},
         });
+    }
+
+    toggleColorPalette() {
+        this.setState({showColorPalette: !this.state.showColorPalette});
     }
 
     changeColor(colorId) {
         let activeProject = {...this.state.activeProject};
         activeProject.color_id = colorId;
+        this.toggleColorPalette();
         this.setState({activeProject});
     }
 
@@ -93,6 +104,12 @@ class Projects extends React.Component {
     }
 
     save() {
+
+        if (this.state.activeProject.name === undefined || this.state.activeProject.name === '') {
+            this.handleValidationErrors({validationErrors: {name: 'Please enter a project name'}});
+            return;
+        }
+
         if (!this.state.activeProject.id) {
             return this.store();
         }
@@ -108,7 +125,8 @@ class Projects extends React.Component {
         this.hidePopup();
         
         Ajax.put('/app/projects/' + id, this.state.activeProject)
-            .catch(err => console.log(err));
+            .then(() => this.clearValidationErrors())
+            .catch(err => this.handleValidationErrors(err));
     }
 
     create() {
@@ -128,9 +146,23 @@ class Projects extends React.Component {
                 let projects = [...this.state.projects];
                 projects.push(res.project);
                 this.setState({projects, savingToDb: false}); 
+                this.clearValidationErrors();
                 this.hidePopup();
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                this.handleValidationErrors(err);
+            })
+            .then(() => this.setState({savingToDb: false}));
+    }
+
+    clearValidationErrors() {
+        this.setState({errors: {}});
+    }
+
+    handleValidationErrors(errors) {
+        if (errors.validationErrors !== undefined) {
+            this.setState({errors: errors.validationErrors});
+        }
     }
 
     componentDidMount() {
@@ -173,7 +205,7 @@ class Projects extends React.Component {
                         showPopup === 'delete' 
                             ? 
                             <div>
-                                <div className='popup-form' >
+                                <div className='popup-form box-shadow-heavy' >
                                     <div className="popup-form-row-1">
                                         <h3>Deleting project <small>{this.state.activeProject.name}</small></h3>
                                         <div className="popup-close" onClick={this.hidePopup} ><Close size={20}/></div>
@@ -187,24 +219,29 @@ class Projects extends React.Component {
                             </div>
                             : 
                             <div>
-                                <div className="popup-form">
+                                <div className="popup-form box-shadow-heavy">
                                     <div className="popup-form-row-1">
                                         <h3 className="popup-heading">{this.state.activeProject.id ? 'Edit' : 'Create'} project</h3>
                                         <div className="popup-close" onClick={this.hidePopup} ><Close size={20}/></div>
                                     </div>
                                     <div className="popup-form-row-2">
-                                        <input 
-                                            className="popup-input" 
-                                            type="text"
-                                            value={this.state.activeProject.name} 
-                                            onChange={this.handleChange}  
-                                        />
-                                        <div className='popup-selected-client-container'>
-                                            long client name
-                                        </div>
+                                        <div>
+                                            <div className='box-shadow-light'>
+                                                <input 
+                                                    className="popup-input" 
+                                                    type="text"
+                                                    value={this.state.activeProject.name} 
+                                                    onChange={this.handleChange}  
+                                                />
+                                                <div className='popup-selected-client-container'>
+                                                    long client name
+                                                </div>
+                                            </div>
+                                            <span>{ this.state.errors.name }</span>
+                                        </div> 
                                     </div>
                                     <div className="popup-form-row-3">
-                                        <div className="popup-selected-color-container">
+                                        <div className="popup-selected-color-container box-shadow-light" onClick={this.toggleColorPalette} >
                                             <div 
                                                 className='popup-selected-color' 
                                                 style={{background: `hsl(${this.getColorValueById(this.state.activeProject.color_id)})`}}>
@@ -212,13 +249,18 @@ class Projects extends React.Component {
                                             <div className='popup-selected-color-container-caret'>
                                                 <CaretDown size={15} />
                                             </div>
-                                            <div className="popup-color-palette-container">
-                                                <ColorPalette 
-                                                    selected={this.state.activeProject.color_id} 
-                                                    handleChange={this.changeColor} 
-                                                    colors={this.state.colors} 
-                                                />
-                                            </div>
+                                            { this.state.showColorPalette 
+                                                ? 
+                                                <div className="popup-color-palette-container box-shadow-heavy">
+                                                    <ColorPalette 
+                                                        selected={this.state.activeProject.color_id} 
+                                                        handleChange={this.changeColor} 
+                                                        colors={this.state.colors} 
+                                                    />
+                                                </div>
+                                                : ''
+                                            }
+                                            
                                         </div>
                                         <div>
                                             <div className="popup-buttons popup-create-button" onClick={this.save}>{showPopup === 'edit' ? 'Save' : 'Create'} Project</div>

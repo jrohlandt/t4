@@ -1114,12 +1114,33 @@ var DateHelper = function () {
 			__WEBPACK_IMPORTED_MODULE_0_axios___default.a[requestType.toLowerCase()](url, data).then(function (response) {
 				return resolve(response.data);
 			}).catch(function (error) {
-				if (error.response.status == 403 || error.response.status == 419) {
-					console.log('Ajax error: ', error);
-					window.location.href = '/login';
-					return;
+				if (error.response) {
+					// The request was made and the server responded with a status code
+					// that falls out of the range of 2xx
+					// console.log(error.response.data);
+					// console.log(error.response.status);
+					// console.log(error.response.headers);
+
+					// If server session expired then just redirect to login page.
+					if (error.response.status == 403 || error.response.status == 419) {
+						console.log('Ajax error: ', error);
+						window.location.href = '/login';
+						return;
+					} else if (error.response.status == 422) {
+						reject({ validationErrors: error.response.data.errors });
+					} else {
+						reject(error.response.data);
+					}
+				} else if (error.request) {
+					// The request was made but no response was received
+					// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+					// http.ClientRequest in node.js
+					console.log(error.request);
+				} else {
+					// Something happened in setting up the request that triggered an Error
+					console.log('Error', error.message);
 				}
-				reject(error.response.data);
+				console.log(error.config);
 			});
 		});
 	}
@@ -28058,8 +28079,10 @@ var Projects = function (_React$Component) {
             colors: [],
             clients: [],
             showPopup: false, // Valid values are: create, edit, delete and false.
+            showColorPalette: false,
             activeProject: _extends({}, emptyProject),
-            savingToDb: false
+            savingToDb: false,
+            errors: {}
         };
 
         _this.showPopup = _this.showPopup.bind(_this);
@@ -28072,6 +28095,9 @@ var Projects = function (_React$Component) {
         _this.handleChange = _this.handleChange.bind(_this);
         _this.changeColor = _this.changeColor.bind(_this);
         _this.getColorValueById = _this.getColorValueById.bind(_this);
+        _this.toggleColorPalette = _this.toggleColorPalette.bind(_this);
+        _this.handleValidationErrors = _this.handleValidationErrors.bind(_this);
+        _this.clearValidationErrors = _this.clearValidationErrors.bind(_this);
         return _this;
     }
 
@@ -28103,14 +28129,21 @@ var Projects = function (_React$Component) {
         value: function hidePopup() {
             this.setState({
                 showPopup: false,
+                showColorPalette: false,
                 activeProject: _extends({}, emptyProject)
             });
+        }
+    }, {
+        key: 'toggleColorPalette',
+        value: function toggleColorPalette() {
+            this.setState({ showColorPalette: !this.state.showColorPalette });
         }
     }, {
         key: 'changeColor',
         value: function changeColor(colorId) {
             var activeProject = _extends({}, this.state.activeProject);
             activeProject.color_id = colorId;
+            this.toggleColorPalette();
             this.setState({ activeProject: activeProject });
         }
     }, {
@@ -28148,6 +28181,11 @@ var Projects = function (_React$Component) {
         value: function save() {
             var _this2 = this;
 
+            if (this.state.activeProject.name === undefined || this.state.activeProject.name === '') {
+                this.handleValidationErrors({ validationErrors: { name: 'Please enter a project name' } });
+                return;
+            }
+
             if (!this.state.activeProject.id) {
                 return this.store();
             }
@@ -28162,8 +28200,10 @@ var Projects = function (_React$Component) {
             this.setState({ projects: projects });
             this.hidePopup();
 
-            __WEBPACK_IMPORTED_MODULE_1__core_Helpers_AjaxHelper__["a" /* default */].put('/app/projects/' + id, this.state.activeProject).catch(function (err) {
-                return console.log(err);
+            __WEBPACK_IMPORTED_MODULE_1__core_Helpers_AjaxHelper__["a" /* default */].put('/app/projects/' + id, this.state.activeProject).then(function () {
+                return _this2.clearValidationErrors();
+            }).catch(function (err) {
+                return _this2.handleValidationErrors(err);
             });
         }
     }, {
@@ -28186,10 +28226,25 @@ var Projects = function (_React$Component) {
                 var projects = [].concat(_toConsumableArray(_this3.state.projects));
                 projects.push(res.project);
                 _this3.setState({ projects: projects, savingToDb: false });
+                _this3.clearValidationErrors();
                 _this3.hidePopup();
             }).catch(function (err) {
-                return console.log(err);
+                _this3.handleValidationErrors(err);
+            }).then(function () {
+                return _this3.setState({ savingToDb: false });
             });
+        }
+    }, {
+        key: 'clearValidationErrors',
+        value: function clearValidationErrors() {
+            this.setState({ errors: {} });
+        }
+    }, {
+        key: 'handleValidationErrors',
+        value: function handleValidationErrors(errors) {
+            if (errors.validationErrors !== undefined) {
+                this.setState({ errors: errors.validationErrors });
+            }
         }
     }, {
         key: 'componentDidMount',
@@ -28252,7 +28307,7 @@ var Projects = function (_React$Component) {
                         null,
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
-                            { className: 'popup-form' },
+                            { className: 'popup-form box-shadow-heavy' },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
                                 { className: 'popup-form-row-1' },
@@ -28288,7 +28343,7 @@ var Projects = function (_React$Component) {
                         null,
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
-                            { className: 'popup-form' },
+                            { className: 'popup-form box-shadow-heavy' },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
                                 { className: 'popup-form-row-1' },
@@ -28307,16 +28362,29 @@ var Projects = function (_React$Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
                                 { className: 'popup-form-row-2' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-                                    className: 'popup-input',
-                                    type: 'text',
-                                    value: this.state.activeProject.name,
-                                    onChange: this.handleChange
-                                }),
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'div',
-                                    { className: 'popup-selected-client-container' },
-                                    'long client name'
+                                    null,
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'div',
+                                        { className: 'box-shadow-light' },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+                                            className: 'popup-input',
+                                            type: 'text',
+                                            value: this.state.activeProject.name,
+                                            onChange: this.handleChange
+                                        }),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'div',
+                                            { className: 'popup-selected-client-container' },
+                                            'long client name'
+                                        )
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'span',
+                                        null,
+                                        this.state.errors.name
+                                    )
                                 )
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -28324,7 +28392,7 @@ var Projects = function (_React$Component) {
                                 { className: 'popup-form-row-3' },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'div',
-                                    { className: 'popup-selected-color-container' },
+                                    { className: 'popup-selected-color-container box-shadow-light', onClick: this.toggleColorPalette },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', {
                                         className: 'popup-selected-color',
                                         style: { background: 'hsl(' + this.getColorValueById(this.state.activeProject.color_id) + ')' } }),
@@ -28333,15 +28401,15 @@ var Projects = function (_React$Component) {
                                         { className: 'popup-selected-color-container-caret' },
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6_react_icons_lib_fa_caret_down___default.a, { size: 15 })
                                     ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    this.state.showColorPalette ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'div',
-                                        { className: 'popup-color-palette-container' },
+                                        { className: 'popup-color-palette-container box-shadow-heavy' },
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__shared_colorPalette_jsx__["a" /* default */], {
                                             selected: this.state.activeProject.color_id,
                                             handleChange: this.changeColor,
                                             colors: this.state.colors
                                         })
-                                    )
+                                    ) : ''
                                 ),
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'div',

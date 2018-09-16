@@ -29,4 +29,12 @@ class ProjectRequest extends FormRequest
             'color_id' => 'nullable|numeric',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Please enter a project name',
+            'name.max' => 'Your project name is too long'
+        ];
+    }
 }

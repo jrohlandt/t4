@@ -27,6 +27,22 @@ ul, li {
     margin: 0;
 }
 
+textarea:focus, input:focus{
+    outline: none;
+}
+
+*:focus {
+    outline: none;
+}
+
+.box-shadow-light {
+    box-shadow: 0 1px 3px rgba(128, 128, 128, .2);
+}
+
+.box-shadow-heavy {
+    box-shadow: 0 5px 15px rgba(128, 128, 128, .5);
+}
+
 #app {
     height: 100%;
 }
