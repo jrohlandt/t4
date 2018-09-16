@@ -12,4 +12,9 @@ class Project extends Model
         'client_id',
         'color_id',
     ];
+
+    public function color()
+    {
+        return $this->belongsTo('\App\Color');
+    }
 }

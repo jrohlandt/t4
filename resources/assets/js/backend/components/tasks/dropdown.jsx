@@ -40,7 +40,7 @@ class DropDown extends React.Component {
             if (props.selected != 0 && props.selected === o.id) {
                 selectedName = o.name;
                 if (o.color != undefined) {
-                    itemColor = o.color;
+                    itemColor = o.color.value;
                 }
             }
             return (
@@ -72,7 +72,7 @@ class DropDown extends React.Component {
                 >
                     <div 
                         className='ttr-dropdown-icon'
-                        style={ itemColor ? {'color': `rgb(${itemColor})`} : {} }
+                        style={ itemColor ? {'color': `hsl(${itemColor})`} : {} }
                     >
                         { selectedName ? selectedName : icon }
                     </div>

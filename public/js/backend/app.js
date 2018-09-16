@@ -26208,7 +26208,7 @@ var DropDown = function (_React$Component) {
                 if (props.selected != 0 && props.selected === o.id) {
                     selectedName = o.name;
                     if (o.color != undefined) {
-                        itemColor = o.color;
+                        itemColor = o.color.value;
                     }
                 }
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -26248,7 +26248,7 @@ var DropDown = function (_React$Component) {
                         'div',
                         {
                             className: 'ttr-dropdown-icon',
-                            style: itemColor ? { 'color': 'rgb(' + itemColor + ')' } : {}
+                            style: itemColor ? { 'color': 'hsl(' + itemColor + ')' } : {}
                         },
                         selectedName ? selectedName : icon
                     ),
