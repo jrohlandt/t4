@@ -72,6 +72,7 @@ class Projects extends React.Component {
             showPopup: false,
             showColorPalette: false,
             showClientDropdown: false,
+            errors: {},
             activeProject: {...emptyProject},
         });
     }
