@@ -52,7 +52,7 @@
 
 .popup-form-row-2 > div > div {
     display: grid;
-    grid-template-columns: auto 150px;
+    grid-template-columns: auto 200px;
     margin-bottom: 10px;
 }
 
@@ -88,7 +88,56 @@
 }
 
 .popup-selected-client-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 30px;
+    border-left: solid thin $grey-lightest;
+    color: $grey-darker;
+    cursor: pointer;
+}
 
+.popup-selected-client, .popup-selected-client-caret {
+    display: flex;
+    align-items: center;
+    background: white;
+}
+
+.popup-selected-client {
+    padding: 0 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.popup-selected-client-caret {
+    padding: 0 5px;
+}
+
+.popup-client-dropdown {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 200px;
+    min-height: 50px;
+    background: $grey-lightest;
+}
+
+.popup-client-dropdown ul {
+    list-style: none;
+}
+
+.popup-client-dropdown li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.popup-client-dropdown li:hover {
+    font-weight: bold;
+    color: white;
+    background: $grey-lighter;
+}
+
+.popup-client-dropdown li.selected {
+    font-weight: bold;
 }
 
 .popup-selected-color-container {

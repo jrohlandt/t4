@@ -7,6 +7,7 @@ import ColorPalette from '../shared/colorPalette.jsx';
 
 import Close from 'react-icons/lib/fa/close';
 import CaretDown from 'react-icons/lib/fa/caret-down';
+import AngleDown from 'react-icons/lib/fa/angle-down';
 
 const emptyProject = {
     name: '',
@@ -24,6 +25,7 @@ class Projects extends React.Component {
             colors: [],
             clients: [],
             showPopup: false, // Valid values are: create, edit, delete and false.
+            showClientDropdown: false,
             showColorPalette: false,
             activeProject: {...emptyProject},
             savingToDb: false,
@@ -43,6 +45,9 @@ class Projects extends React.Component {
         this.toggleColorPalette = this.toggleColorPalette.bind(this);
         this.handleValidationErrors = this.handleValidationErrors.bind(this);
         this.clearValidationErrors = this.clearValidationErrors.bind(this);
+        this.getClientNameById = this.getClientNameById.bind(this);
+        this.changeClient = this.changeClient.bind(this);
+        this.toggleClientDropdown = this.toggleClientDropdown.bind(this);
     }
 
     handleChange(event) {
@@ -66,6 +71,7 @@ class Projects extends React.Component {
         this.setState({
             showPopup: false,
             showColorPalette: false,
+            showClientDropdown: false,
             activeProject: {...emptyProject},
         });
     }
@@ -86,6 +92,25 @@ class Projects extends React.Component {
 
         if (colors.length > 0) {
             return colors[0]['value'];
+        }
+    }
+
+    toggleClientDropdown() {
+        this.setState({showClientDropdown: !this.state.showClientDropdown});
+    }
+
+    changeClient(clientId) {
+        let activeProject = {...this.state.activeProject};
+        activeProject.client_id = clientId;
+        this.toggleClientDropdown();
+        this.setState({activeProject});
+    }
+
+    getClientNameById(clientId) {
+        const clients = this.state.clients.filter(c => c.id === clientId);
+
+        if (clients.length > 0) {
+            return clients[0]['name'];
         }
     }
 
@@ -170,6 +195,10 @@ class Projects extends React.Component {
             .then(res => this.setState({projects: res.projects}))
             .catch(err => console.log(err));
 
+        Ajax.get('/app/clients')
+            .then(res => this.setState({clients: res.clients}))
+            .catch(err => console.log(err));
+
         Ajax.get('/app/colors')
             .then(res => this.setState({colors: res.colors}))
             .catch(err => console.log(err));
@@ -233,8 +262,42 @@ class Projects extends React.Component {
                                                     value={this.state.activeProject.name} 
                                                     onChange={this.handleChange}  
                                                 />
-                                                <div className='popup-selected-client-container'>
-                                                    long client name
+                                                <div className='popup-selected-client-container' onClick={this.toggleClientDropdown}>
+                                                    <div className='popup-selected-client' >
+                                                        { 
+                                                            this.state.activeProject.client_id 
+                                                                ? this.getClientNameById(this.state.activeProject.client_id)
+                                                                : 'Select Client' 
+                                                        }
+                                                    </div>
+                                                    <div className='popup-selected-client-caret'>
+                                                        <AngleDown size={20} />
+                                                    </div>
+                                                    {
+                                                        this.state.showClientDropdown 
+                                                        ? 
+                                                        <div className="popup-client-dropdown box-shadow-heavy">
+                                                            {
+                                                                this.state.clients.length
+                                                                    ? 
+                                                                    <ul>
+                                                                        {
+                                                                            this.state.clients.map(c => (
+                                                                                <li 
+                                                                                    key={c.id} 
+                                                                                    onClick={() => this.changeClient(c.id)}
+                                                                                    className={ c.id === this.state.activeProject.client_id ? 'selected' : '' }
+                                                                                >
+                                                                                    {c.name}
+                                                                                </li>
+                                                                            ))
+                                                                        } 
+                                                                    </ul>
+                                                                    : 'No clients'
+                                                            }
+                                                        </div>
+                                                        : ''
+                                                    }
                                                 </div>
                                             </div>
                                             <span>{ this.state.errors.name }</span>
