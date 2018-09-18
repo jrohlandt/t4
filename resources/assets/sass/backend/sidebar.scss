@@ -5,11 +5,12 @@
 @media screen and (min-width: 700px) {
 
     #sidebar-left {
-        position: sticky;
+        position: fixed;
         display: block;
         grid-area: leftnav;
         height: 100vh;
         background-color: $leftnav-background-color;
+        z-index: 10;
     }
 
     #sidebar-left h3 {
@@ -45,6 +46,10 @@
 
 @media screen and (min-width: 1000px) {
 
+    #sidebar-left {
+        width: 150px;
+    }
+    
     #sidebar-left nav ul li a span {
         display: inline;
         margin-left: 10px;
