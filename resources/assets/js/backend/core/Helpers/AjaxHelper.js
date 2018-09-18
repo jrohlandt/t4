@@ -67,11 +67,12 @@ export default {
 							// console.log(error.response.headers);
 
 							// If server session expired then just redirect to login page.
-							if (error.response.status == 403 || error.response.status == 419) {
+							const status = error.response.status;
+							if ( status == 401 || status == 403 || status == 419) {
 								console.log('Ajax error: ', error);
 								window.location.href = '/login';
 								return;
-							} else if (error.response.status == 422) {
+							} else if (status == 422) {
 								reject( {validationErrors: error.response.data.errors});
 							} else {
 								reject( error.response.data );
