@@ -48,6 +48,7 @@ class Projects extends React.Component {
         this.getClientNameById = this.getClientNameById.bind(this);
         this.changeClient = this.changeClient.bind(this);
         this.toggleClientDropdown = this.toggleClientDropdown.bind(this);
+        this.hideDropdowns = this.hideDropdowns.bind(this);
     }
 
     handleChange(event) {
@@ -75,6 +76,16 @@ class Projects extends React.Component {
             errors: {},
             activeProject: {...emptyProject},
         });
+    }
+
+    hideDropdowns() {
+        if (this.state.showColorPalette === true) {
+            this.setState({showColorPalette: false});
+        }
+
+        if (this.state.showClientDropdown === true) {
+            this.setState({showClientDropdown: false});
+        }
     }
 
     toggleColorPalette() {
@@ -249,7 +260,7 @@ class Projects extends React.Component {
                             </div>
                             : 
                             <div>
-                                <div className="popup-form box-shadow-heavy">
+                                <div className="popup-form box-shadow-heavy" onClick={this.hideDropdowns}>
                                     <div className="popup-form-row-1">
                                         <h3 className="popup-heading">{this.state.activeProject.id ? 'Edit' : 'Create'} project</h3>
                                         <div className="popup-close" onClick={this.hidePopup} ><Close size={20}/></div>
@@ -261,7 +272,8 @@ class Projects extends React.Component {
                                                     className="popup-input" 
                                                     type="text"
                                                     value={this.state.activeProject.name} 
-                                                    onChange={this.handleChange}  
+                                                    onChange={this.handleChange}
+                                                    placeholder='Project name...'
                                                 />
                                                 <div className='popup-selected-client-container' onClick={this.toggleClientDropdown}>
                                                     <div className='popup-selected-client' >

@@ -83,7 +83,7 @@
 
 .popup-input {
     height: 50px;
-    padding: 5px;
+    padding: 10px;
     border: none;
 }
 
@@ -104,7 +104,8 @@
 
 .popup-selected-client {
     padding: 0 10px;
-    font-size: 14px;
+    font-size: 12px;
+    font-weight: bold;
     text-transform: uppercase;
 }
 
@@ -118,11 +119,12 @@
     left: 0;
     width: 200px;
     min-height: 50px;
-    background: $grey-lightest;
+    background: white;
 }
 
 .popup-client-dropdown ul {
     list-style: none;
+    font-weight: 400;
 }
 
 .popup-client-dropdown li {
@@ -131,9 +133,7 @@
 }
 
 .popup-client-dropdown li:hover {
-    font-weight: bold;
-    color: white;
-    background: $grey-lighter;
+    background: $grey-lightest;
 }
 
 .popup-client-dropdown li.selected {
@@ -166,7 +166,7 @@
 
 .popup-color-palette-container {
     position: absolute;
-    top: 70px;
+    top: 60px;
     left: 0;
 }
 
@@ -181,15 +181,23 @@
     justify-content: center;
     align-items: center;
     height: 45px;
+    min-width: 200px;
     padding: 0 20px;
     font-size: 14px;
+    font-weight: bold;
+    color: white;
     cursor: pointer;
 }
 
 
 
 .popup-create-button {
-    background: rgb(64, 223, 117);
+    background: hsl(112, 66%, 55%);
+    box-shadow: inset 0 -2px 0 hsl(112, 66%, 45%);
+}
+
+.popup-create-button:hover {
+    background: hsl(112, 66%, 45%);
 }
 
 .popup-delete-button {
