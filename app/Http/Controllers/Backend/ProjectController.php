@@ -40,6 +40,8 @@ class ProjectController extends Controller
         $input['user_id'] = \Auth::id();
 
         $project = Project::create($input);
+        $project->load(['client', 'color']);
+        
         return response()->json(['message' => 'success', 'project' => $project]);
     }
 

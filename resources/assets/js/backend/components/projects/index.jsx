@@ -53,6 +53,7 @@ class Projects extends React.Component {
         this.toggleColorPalette = this.toggleColorPalette.bind(this);
         this.handleValidationErrors = this.handleValidationErrors.bind(this);
         this.clearValidationErrors = this.clearValidationErrors.bind(this);
+        this.getClientById = this.getClientById.bind(this);
         this.getClientNameById = this.getClientNameById.bind(this);
         this.changeClient = this.changeClient.bind(this);
         this.toggleClientDropdown = this.toggleClientDropdown.bind(this);
@@ -126,17 +127,23 @@ class Projects extends React.Component {
 
     changeClient(clientId) {
         let activeProject = {...this.state.activeProject};
+        activeProject.client = this.getClientById(clientId);
         activeProject.client_id = clientId;
         this.toggleClientDropdown();
         this.setState({activeProject});
     }
 
-    getClientNameById(clientId) {
+    getClientById(clientId) {
         const clients = this.state.clients.filter(c => c.id === clientId);
 
         if (clients.length > 0) {
-            return clients[0]['name'];
+            return clients[0];
         }
+    }
+
+    getClientNameById(clientId) {
+        const client = this.getClientById(clientId);
+        return client['name'];
     }
 
     delete() {
@@ -239,8 +246,10 @@ class Projects extends React.Component {
                 <div className='main-header'>
                     <h1>Projects</h1>
                     <div 
-                        className='create-new-btn'
-                        onClick={this.create}>Create New</div>
+                        className="button create-button" 
+                        onClick={this.create}>Create Project
+                    </div>
+
                 </div>
                 
                 <div className={ 'popup-overlay ' + (showPopup ? '' : 'popup-hide')}>
@@ -342,7 +351,7 @@ class Projects extends React.Component {
                                             
                                         </div>
                                         <div>
-                                            <div className="popup-buttons popup-create-button" onClick={this.save}>{showPopup === 'edit' ? 'Save' : 'Create'} Project</div>
+                                            <div className="button create-button" onClick={this.save}>{showPopup === 'edit' ? 'Save' : 'Create'} Project</div>
                                         </div>
                                     </div>
                                 </div>

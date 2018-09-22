@@ -5,7 +5,7 @@ import RowActions from './RowActions';
 
 const List = (props) => (
     <div className='listing-table-wrapper'>
-        <table className='listing-table'>
+        <table className='listing-table' cellSpacing='0'>
             { props.config.head !== true 
                 ? <thead></thead>
                 : 

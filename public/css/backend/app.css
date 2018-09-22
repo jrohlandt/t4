@@ -602,13 +602,26 @@
 
 .listing-table {
   width: 100%;
-  border: thin black solid;
-  color: greenyellow;
+  border-collapse: collapse;
+}
+
+.listing-table thead {
+  margin-bottom: 20px;
+  border-bottom: thick solid whitesmoke;
 }
 
 .listing-table th {
   text-align: left;
   padding: 10px;
+  color: #7c7c7c;
+}
+
+.listing-table td {
+  height: 50px;
+  font-size: .9em;
+  color: #616161;
+  padding-left: 15px;
+  border-bottom: thin solid whitesmoke;
 }
 
 .listing-td-actions {
@@ -618,7 +631,13 @@
 .listing-td-actions div {
   float: right;
   padding: 5px;
+  color: #a7a7a7;
+  font-weight: bold;
   cursor: pointer;
+}
+
+.listing-td-actions div:hover {
+  color: #3d3d3d;
 }
 
 .popup-overlay {
@@ -819,7 +838,7 @@
   border-radius: 3px;
 }
 
-.popup-buttons {
+.button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -838,7 +857,7 @@
   cursor: pointer;
 }
 
-.popup-create-button {
+.create-button {
   background: #55d841;
   -webkit-box-shadow: inset 0 -2px 0 #3bbe27;
           box-shadow: inset 0 -2px 0 #3bbe27;
@@ -953,6 +972,15 @@ main > div {
 }
 
 .main-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   height: 100px;
   width: 100%;
 }

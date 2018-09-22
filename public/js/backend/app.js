@@ -1802,7 +1802,7 @@ var List = function List(props) {
         { className: 'listing-table-wrapper' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'table',
-            { className: 'listing-table' },
+            { className: 'listing-table', cellSpacing: '0' },
             props.config.head !== true ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('thead', null) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'thead',
                 null,
@@ -3483,14 +3483,14 @@ var RowActions = function RowActions(props) {
             { onClick: function onClick() {
                     return props.delete(props.id);
                 } },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_icons_lib_fa_trash___default.a, null)
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_icons_lib_fa_trash___default.a, { size: 20 })
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
             { onClick: function onClick() {
                     return props.edit(props.id);
                 } },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_icons_lib_fa_edit___default.a, null)
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_icons_lib_fa_edit___default.a, { size: 20 })
         )
     );
 };
@@ -28154,6 +28154,7 @@ var Projects = function (_React$Component) {
         _this.toggleColorPalette = _this.toggleColorPalette.bind(_this);
         _this.handleValidationErrors = _this.handleValidationErrors.bind(_this);
         _this.clearValidationErrors = _this.clearValidationErrors.bind(_this);
+        _this.getClientById = _this.getClientById.bind(_this);
         _this.getClientNameById = _this.getClientNameById.bind(_this);
         _this.changeClient = _this.changeClient.bind(_this);
         _this.toggleClientDropdown = _this.toggleClientDropdown.bind(_this);
@@ -28245,20 +28246,27 @@ var Projects = function (_React$Component) {
         key: 'changeClient',
         value: function changeClient(clientId) {
             var activeProject = _extends({}, this.state.activeProject);
+            activeProject.client = this.getClientById(clientId);
             activeProject.client_id = clientId;
             this.toggleClientDropdown();
             this.setState({ activeProject: activeProject });
         }
     }, {
-        key: 'getClientNameById',
-        value: function getClientNameById(clientId) {
+        key: 'getClientById',
+        value: function getClientById(clientId) {
             var clients = this.state.clients.filter(function (c) {
                 return c.id === clientId;
             });
 
             if (clients.length > 0) {
-                return clients[0]['name'];
+                return clients[0];
             }
+        }
+    }, {
+        key: 'getClientNameById',
+        value: function getClientNameById(clientId) {
+            var client = this.getClientById(clientId);
+            return client['name'];
         }
     }, {
         key: 'delete',
@@ -28393,9 +28401,9 @@ var Projects = function (_React$Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         {
-                            className: 'create-new-btn',
+                            className: 'button create-button',
                             onClick: this.create },
-                        'Create New'
+                        'Create Project'
                     )
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -28546,7 +28554,7 @@ var Projects = function (_React$Component) {
                                     null,
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'div',
-                                        { className: 'popup-buttons popup-create-button', onClick: this.save },
+                                        { className: 'button create-button', onClick: this.save },
                                         showPopup === 'edit' ? 'Save' : 'Create',
                                         ' Project'
                                     )
@@ -29031,9 +29039,9 @@ var Clients = function (_React$Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         {
-                            className: 'create-new-btn',
+                            className: 'button create-button',
                             onClick: this.createClient },
-                        'Create New'
+                        'Create Client'
                     )
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -29307,14 +29315,14 @@ var Labels = function (_React$Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'h1',
                         null,
-                        'labels'
+                        'Labels'
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         {
-                            className: 'create-new-btn',
+                            className: 'button create-button',
                             onClick: this.create },
-                        'Create New'
+                        'Create Label'
                     )
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(

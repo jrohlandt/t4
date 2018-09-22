@@ -134,10 +134,11 @@ class Labels extends React.Component {
             <div>
 
                 <div className='main-header'>
-                    <h1>labels</h1>
+                    <h1>Labels</h1>
                     <div 
-                        className='create-new-btn'
-                        onClick={this.create}>Create New</div>
+                        className="button create-button" 
+                        onClick={this.create}>Create Label
+                    </div>
                 </div>
                 
                 <div className={ 'popup-overlay ' + (showPopup ? 'popup-show' : 'popup-hide')}>

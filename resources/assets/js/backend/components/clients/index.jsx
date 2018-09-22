@@ -137,8 +137,9 @@ class Clients extends React.Component {
                 <div className='main-header'>
                     <h1>Clients</h1>
                     <div 
-                        className='create-new-btn'
-                        onClick={this.createClient}>Create New</div>
+                        className="button create-button" 
+                        onClick={this.createClient}>Create Client
+                    </div>
                 </div>
                 
                 <div className={ 'popup-overlay ' + (showPopup ? 'popup-show' : 'popup-hide')}>

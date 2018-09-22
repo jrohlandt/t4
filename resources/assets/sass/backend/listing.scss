@@ -1,12 +1,25 @@
 .listing-table {
     width: 100%;
-    border: thin black solid;
-    color: greenyellow;
+    border-collapse: collapse;
+}
+
+.listing-table thead {
+    margin-bottom: 20px;
+    border-bottom: thick solid $grey-lightest;
 }
 
 .listing-table th {
     text-align: left;
     padding: 10px;
+    color: $grey-light;
+}
+
+.listing-table td {
+    height: 50px;
+    font-size: .9em;
+    color: $grey-darker;
+    padding-left: 15px;
+    border-bottom: thin solid $grey-lightest;
 }
 
 .listing-td-actions {
@@ -16,5 +29,11 @@
 .listing-td-actions div {
     float: right;
     padding: 5px;
+    color: $grey-lighter;
+    font-weight: bold;
     cursor: pointer;
+}
+
+.listing-td-actions div:hover {
+    color: $grey-dark;
 }
