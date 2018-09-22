@@ -1,8 +1,10 @@
 import React from 'react';
 import Ajax from '../../core/Helpers/AjaxHelper';
 
+import Close from 'react-icons/lib/fa/close';
 import List from '../shared/listing/table';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
+
 
 const emptyClient = {
     name: ''
@@ -39,6 +41,7 @@ class Clients extends React.Component {
     }
 
     handleChange(event) {
+        console.log('hadnle');
         let client = {...this.state.activeClient};
         client.name = event.target.value;
         this.setState({activeClient: client});
@@ -81,6 +84,7 @@ class Clients extends React.Component {
     }
 
     saveClient() {
+
         if (!this.state.activeClient.id) {
             return this.storeClient();
         }
@@ -154,20 +158,41 @@ class Clients extends React.Component {
                                     close={this.hidePopup}
                                 /> 
                             : 
-                                <form className='popup-form'>
-                                    <h3>{this.state.activeClient.id ? 'Edit' : 'Create'} client</h3>        
-                                    <input 
-                                        type="text" 
-                                        value={this.state.activeClient.name} 
-                                        onChange={this.handleChange} 
-                                    />
-                                    <div className='popup-buttons'>
-                                        <div className='popup-btn-cancel'
-                                            onClick={this.hidePopup}>Cancel</div>
-                                        <div className={ 'popup-btn-save ' + (this.state.storingNewClient ? 'btn-disable' : '') }
-                                            onClick={this.saveClient}>{showPopup === 'edit' ? 'Save' : 'Create'}</div>
+                                <div>
+                                    <div className='popup-edit box-shadow-heavy' >
+                                        <div className="popup-form-row-1">
+                                            <h3 className="popup-heading">
+                                                {(this.state.activeClient.id ? 'Edit' : 'Create') + ' Client'}
+                                            </h3>
+                                            <div className="popup-close" onClick={this.hidePopup} >
+                                                <Close size={20}/>
+                                            </div>
+                                        </div>
+                                        <div className='popup-form-row-2'>
+                                            <input 
+                                                className="popup-input"
+                                                type="text" 
+                                                value={this.state.activeClient.name} 
+                                                onChange={this.handleChange} 
+                                            />
+                                        </div>
+                                        <div className="popup-form-edit-row-3">
+                                            {
+                                                this.state.storingNewClient
+                                                    ?
+                                                        <div className='button button-disabled'>
+                                                            Creating...
+                                                        </div>
+                                                    :
+                                                        <div 
+                                                            className='button create-button' 
+                                                            onClick={this.saveClient}>
+                                                            {showPopup === 'edit' ? 'Save' : 'Create'}
+                                                        </div>
+                                            }
+                                        </div>
                                     </div>
-                                </form>
+                                </div>
 
                     }
                     

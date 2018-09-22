@@ -1,6 +1,8 @@
 import React from 'react';
 import Ajax from '../../core/Helpers/AjaxHelper';
 
+import Close from 'react-icons/lib/fa/close';
+
 import List from '../shared/listing/table';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
 
@@ -152,20 +154,56 @@ class Labels extends React.Component {
                                     delete={this.delete}
                                     close={this.hidePopup}
                                 /> 
-                            : <form className='popup-form'>
-                                    <h3>{this.state.activeLabel.id ? 'Edit' : 'Create'} label</h3>        
-                                    <input 
-                                        type="text" 
-                                        value={this.state.activeLabel.name} 
-                                        onChange={this.handleChange} 
-                                    />
-                                    <div className='popup-buttons'>
-                                        <div className='popup-btn-cancel'
-                                            onClick={this.hidePopup}>Cancel</div>
-                                        <div className={ 'popup-btn-save ' + (this.state.storingNewLabel ? 'btn-disable' : '') }
-                                            onClick={this.save}>{showPopup === 'edit' ? 'Save' : 'Create'}</div>
+                            : 
+                                <div>
+                                    <div className='popup-edit box-shadow-heavy' >
+                                        <div className="popup-form-row-1">
+                                            <h3 className="popup-heading">
+                                                {(this.state.activeLabel.id ? 'Edit' : 'Create') + ' Label'}
+                                            </h3>
+                                            <div className="popup-close" onClick={this.hidePopup} >
+                                                <Close size={20}/>
+                                            </div>
+                                        </div>
+                                        <div className='popup-form-row-2'>
+                                            <input 
+                                                className="popup-input"
+                                                type="text" 
+                                                value={this.state.activeLabel.name} 
+                                                onChange={this.handleChange} 
+                                            />
+                                        </div>
+                                        <div className="popup-form-edit-row-3">
+                                            {
+                                                this.state.storingNewLabel
+                                                    ?
+                                                        <div className='button button-disabled'>
+                                                            Creating...
+                                                        </div>
+                                                    :
+                                                        <div 
+                                                            className='button create-button' 
+                                                            onClick={this.save}>
+                                                            {showPopup === 'edit' ? 'Save' : 'Create'}
+                                                        </div>
+                                            }
+                                        </div>
                                     </div>
-                                </form>
+                                </div>
+                            // <form className='popup-form'>
+                            //         <h3>{this.state.activeLabel.id ? 'Edit' : 'Create'} label</h3>        
+                            //         <input 
+                            //             type="text" 
+                            //             value={this.state.activeLabel.name} 
+                            //             onChange={this.handleChange} 
+                            //         />
+                            //         <div className='popup-buttons'>
+                            //             <div className='popup-btn-cancel'
+                            //                 onClick={this.hidePopup}>Cancel</div>
+                            //             <div className={ 'popup-btn-save ' + (this.state.storingNewLabel ? 'btn-disable' : '') }
+                            //                 onClick={this.save}>{showPopup === 'edit' ? 'Save' : 'Create'}</div>
+                            //         </div>
+                            //     </form>
 
                     }
                     

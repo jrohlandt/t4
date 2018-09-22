@@ -697,6 +697,16 @@
   padding: 10px 30px;
 }
 
+.popup-edit {
+  display: grid;
+  grid-template-rows: 50px 100px 50px;
+  height: 240px;
+  width: 400px;
+  margin-top: 150px;
+  background: whitesmoke;
+  padding: 10px 30px;
+}
+
 .popup-form-row-1 {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -747,6 +757,18 @@
   -webkit-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
+}
+
+.popup-form-edit-row-3 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .popup-heading {
@@ -867,10 +889,6 @@
   border-radius: 3px;
 }
 
-.btn-disable {
-  background: blue;
-}
-
 .button {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -908,6 +926,11 @@
 
 .delete-button:hover {
   background: #ba1212;
+}
+
+.button-disabled {
+  background: #616161;
+  cursor: default;
 }
 
 .color-palette {
