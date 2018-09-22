@@ -1,7 +1,12 @@
 .listing-table {
     width: 100%;
     border: thin black solid;
-    color: red;
+    color: greenyellow;
+}
+
+.listing-table th {
+    text-align: left;
+    padding: 10px;
 }
 
 .listing-td-actions {

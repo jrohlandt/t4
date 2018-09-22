@@ -1,8 +1,7 @@
 import React from 'react';
 import Ajax from '../../core/Helpers/AjaxHelper';
 
-import List from '../shared/listing/list.jsx';
-import Row from '../shared/listing/row.jsx';
+import List from '../shared/listing/table';
 
 const emptyLabel = {
     name: ''
@@ -18,6 +17,12 @@ class Labels extends React.Component {
             showPopup: false, // Valid values are: create, edit, delete and false.
             activeLabel: {...emptyLabel},
             storingNewLabel: false,
+            tableConfig: {
+                head: false,
+                columns: [
+                    {name: 'name'},
+                ]
+            }
         }
 
         this.showPopup = this.showPopup.bind(this);
@@ -28,12 +33,17 @@ class Labels extends React.Component {
         this.save = this.save.bind(this);
         this.hidePopup = this.hidePopup.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.confirmDelete = this.confirmDelete.bind(this);
     }
 
     handleChange(event) {
         let label = {...this.state.activeLabel};
         label.name = event.target.value;
         this.setState({activeLabel: label});
+    }
+
+    confirmDelete(id) {
+        this.showPopup('delete', id);
     }
 
     showPopup(type, id=0) {
@@ -118,16 +128,6 @@ class Labels extends React.Component {
 
     render() {
 
-        const labelRows = this.state.labels.map(c => 
-            <Row 
-                key={c.id} 
-                id={c.id} 
-                name={c.name} 
-                showPopup={this.showPopup}
-                editRow={this.edit}
-            />
-        );
-
         const showPopup = this.state.showPopup;
 
         return (
@@ -172,9 +172,12 @@ class Labels extends React.Component {
                     
                 </div>
 
-                <List>
-                    {labelRows}
-                </List>
+                <List 
+                    config={this.state.tableConfig}
+                    data={this.state.labels}
+                    delete={this.confirmDelete}
+                    edit={this.edit}
+                />
 
                 
             </div>

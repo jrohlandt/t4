@@ -1,8 +1,7 @@
 import React from 'react';
 import Ajax from '../../core/Helpers/AjaxHelper';
 
-import List from '../shared/listing/list.jsx';
-import Row from '../shared/listing/row.jsx';
+import List from '../shared/listing/table';
 
 const emptyClient = {
     name: ''
@@ -18,6 +17,12 @@ class Clients extends React.Component {
             showPopup: false, // Valid values are: create, edit, delete and false.
             activeClient: {...emptyClient},
             storingNewClient: false,
+            tableConfig: {
+                head: false,
+                columns: [
+                    {name: 'name'},
+                ]
+            }
         }
 
         this.showPopup = this.showPopup.bind(this);
@@ -28,12 +33,18 @@ class Clients extends React.Component {
         this.saveClient = this.saveClient.bind(this);
         this.hidePopup = this.hidePopup.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.confirmDelete = this.confirmDelete.bind(this);
+
     }
 
     handleChange(event) {
         let client = {...this.state.activeClient};
         client.name = event.target.value;
         this.setState({activeClient: client});
+    }
+
+    confirmDelete(id) {
+        this.showPopup('delete', id);
     }
 
     showPopup(type, id=0) {
@@ -118,16 +129,6 @@ class Clients extends React.Component {
 
     render() {
 
-        const clientRows = this.state.clients.map(c => 
-            <Row 
-                key={c.id} 
-                id={c.id} 
-                name={c.name} 
-                showPopup={this.showPopup}
-                editRow={this.editClient}
-            />
-        );
-
         const showPopup = this.state.showPopup;
 
         return (
@@ -172,9 +173,12 @@ class Clients extends React.Component {
                     
                 </div>
 
-                <List>
-                    {clientRows}
-                </List>
+                <List 
+                    config={this.state.tableConfig}
+                    data={this.state.clients}
+                    delete={this.confirmDelete}
+                    edit={this.editClient}
+                />
 
                 
             </div>

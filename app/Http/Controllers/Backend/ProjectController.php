@@ -19,7 +19,10 @@ class ProjectController extends Controller
     {
         if (request()->ajax()) {
 
-            $projects = Project::where('user_id', \Auth::id())->with('color')->get();
+            $projects = Project::where('user_id', \Auth::id())
+                ->with('color')
+                ->with('client')
+                ->get();
             return response()->json(['projects' => $projects]);
         }
         return view('backend.index');

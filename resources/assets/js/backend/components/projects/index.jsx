@@ -1,8 +1,7 @@
 import React from 'react';
 import Ajax from '../../core/Helpers/AjaxHelper';
 
-import List from '../shared/listing/list.jsx';
-import Row from '../shared/listing/row.jsx';
+import List from '../shared/listing/table';
 import ColorPalette from '../shared/colorPalette.jsx';
 
 import Close from 'react-icons/lib/fa/close';
@@ -30,6 +29,15 @@ class Projects extends React.Component {
             activeProject: {...emptyProject},
             savingToDb: false,
             errors: {},
+            tableConfig: {
+                head: true,
+                columns: [
+                    {name: 'name', displayName: 'Project', size: 20},
+                    {name: 'client.name', displayName: 'Client', size: 20},
+                    // {name: 'total', displayName: 'Total'},
+    
+                ]
+            },
         }
 
         this.showPopup = this.showPopup.bind(this);
@@ -49,12 +57,17 @@ class Projects extends React.Component {
         this.changeClient = this.changeClient.bind(this);
         this.toggleClientDropdown = this.toggleClientDropdown.bind(this);
         this.hideDropdowns = this.hideDropdowns.bind(this);
+        this.confirmDelete = this.confirmDelete.bind(this);
     }
 
     handleChange(event) {
         let activeProject = {...this.state.activeProject};
         activeProject.name = event.target.value;
         this.setState({activeProject});
+    }
+
+    confirmDelete(id) {
+        this.showPopup('delete', id);
     }
 
     showPopup(type, id=0) {
@@ -218,16 +231,6 @@ class Projects extends React.Component {
 
     render() {
 
-        const projectRows = this.state.projects.map(v => 
-            <Row 
-                key={v.id} 
-                id={v.id} 
-                name={v.name} 
-                showPopup={this.showPopup}
-                editRow={this.edit}
-            />
-        );
-
         const showPopup = this.state.showPopup;
 
         return (
@@ -351,10 +354,12 @@ class Projects extends React.Component {
                     
                 </div>
 
-                <List>
-                    {projectRows}
-                </List>
-
+                <List 
+                    config={this.state.tableConfig} 
+                    data={this.state.projects} 
+                    edit={this.edit}
+                    delete={this.confirmDelete}
+                />
                 
             </div>
         );

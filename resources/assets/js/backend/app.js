@@ -2,11 +2,11 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 
-import Timer from './components/tasks/index.jsx';
-import Reports from './components/reports/index.jsx';
-import Projects from './components/projects/index.jsx';
-import Clients from './components/clients/index.jsx';
-import Labels from './components/labels/index.jsx';
+import Timer from './components/tasks';
+import Reports from './components/reports';
+import Projects from './components/projects';
+import Clients from './components/clients';
+import Labels from './components/labels';
 
 import FaClock from 'react-icons/lib/fa/clock-o';
 import FaBarChart from 'react-icons/lib/fa/bar-chart';

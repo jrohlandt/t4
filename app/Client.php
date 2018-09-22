@@ -10,4 +10,9 @@ class Client extends Model
         'name',
         'user_id',
     ];
+
+    public function project()
+    {
+        return $this->hasMany('App\Project');
+    }
 }

@@ -17,4 +17,9 @@ class Project extends Model
     {
         return $this->belongsTo('\App\Color');
     }
+
+    public function client()
+    {
+        return $this->belongsTo('App\Client');
+    }
 }
