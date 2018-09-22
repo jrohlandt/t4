@@ -31,6 +31,7 @@ class Projects extends React.Component {
             errors: {},
             tableConfig: {
                 head: true,
+                project: true,
                 columns: [
                     {name: 'name', displayName: 'Project', size: 20},
                     {name: 'client.name', displayName: 'Client', size: 20},
@@ -49,6 +50,7 @@ class Projects extends React.Component {
         this.hidePopup = this.hidePopup.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.changeColor = this.changeColor.bind(this);
+        this.getColorById = this.getColorById.bind(this);
         this.getColorValueById = this.getColorValueById.bind(this);
         this.toggleColorPalette = this.toggleColorPalette.bind(this);
         this.handleValidationErrors = this.handleValidationErrors.bind(this);
@@ -109,16 +111,27 @@ class Projects extends React.Component {
     changeColor(colorId) {
         let activeProject = {...this.state.activeProject};
         activeProject.color_id = colorId;
+        activeProject.color = this.getColorById(colorId);
         this.toggleColorPalette();
         this.setState({activeProject});
     }
 
-    getColorValueById(colorId) {
+    getColorById(colorId) {
         const colors = this.state.colors.filter(c => c.id === colorId);
 
         if (colors.length > 0) {
-            return colors[0]['value'];
+            return colors[0];
         }
+    }
+
+    getColorValueById(colorId) {
+        const color = this.getColorById(colorId);
+
+        if (color) {
+            return color['value'];
+        }
+
+        return '';
     }
 
     toggleClientDropdown() {

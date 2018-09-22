@@ -16,11 +16,22 @@ class TaskHelper {
             if ( ! tasksByDate.hasOwnProperty(dateKey) ) {
                 tasksByDate[dateKey] = [];
             }
-
+            
             tasksByDate[dateKey].push(task);
         }
 
         return tasksByDate;
+    }
+
+    fillDefaultValues(tasks) {
+        const filledTasks = tasks.map(t => {
+            if (t.description === null) {
+                t.description = '';
+            }
+            return t;
+        });
+
+        return filledTasks;
     }
 
     dailyTotal(tasks) {

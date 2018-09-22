@@ -96,7 +96,8 @@
     cursor: pointer;
 }
 
-.popup-selected-client, .popup-selected-client-caret {
+.popup-selected-client, 
+.popup-selected-client-caret {
     display: flex;
     align-items: center;
     background: white;
@@ -174,30 +175,6 @@
     height: 30px;
     width: 30px;
     border-radius: 3px;
-}
-
-.button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 45px;
-    min-width: 200px;
-    padding: 0 20px;
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-}
-
-
-
-.create-button {
-    background: hsl(112, 66%, 55%);
-    box-shadow: inset 0 -2px 0 hsl(112, 66%, 45%);
-}
-
-.popup-create-button:hover {
-    background: hsl(112, 66%, 45%);
 }
 
 .popup-delete-button {

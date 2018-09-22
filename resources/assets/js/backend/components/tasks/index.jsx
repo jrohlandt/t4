@@ -47,7 +47,7 @@ class Timer extends React.Component {
 
     getTasks() {
         Ajax.get(this.ajaxUrl)
-            .then(res => this.setState({tasks: res.tasks}))
+            .then(res => this.setState({tasks: TaskHelper.fillDefaultValues(res.tasks) }))
             .catch(err => console.log('Could not fetch tasks. Error: ', err));
     }
 

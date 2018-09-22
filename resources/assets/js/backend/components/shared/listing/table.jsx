@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Actions from './RowActions';
 import RowActions from './RowActions';
 
 const List = (props) => (
@@ -49,7 +48,23 @@ const List = (props) => (
                                     if (c.size !== undefined) {
                                         style = {width: c.size + '%'};
                                     }
-                                    return <td key={c.name} style={style}>{ item }</td>;
+                                    
+                                    return (
+                                        <td key={c.name} style={style}>
+                                            { props.config.project && c.name === 'name' && v.color.value
+                                                ? 
+                                                    <div className='listing-project-color-wrapper'>
+                                                        <span 
+                                                            className='listing-project-color'
+                                                            style={{background: `hsl(${v.color.value})`}}>
+                                                        </span>
+                                                    </div>
+                                                : ''
+                                            }
+                                            <div className='listing-item-wrapper'>{item}</div>
+                                            
+                                        </td>
+                                    );
                                 })
                             }
                             <RowActions id={v.id} edit={props.edit} delete={props.delete} />
