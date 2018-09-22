@@ -1904,7 +1904,7 @@ var ConfirmDelete = function ConfirmDelete(props) {
                 { className: 'popup-form-row-1' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'h3',
-                    null,
+                    { className: 'popup-heading' },
                     props.text
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(

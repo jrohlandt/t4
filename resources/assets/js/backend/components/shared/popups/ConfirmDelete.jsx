@@ -7,7 +7,7 @@ const ConfirmDelete = (props) => {
         <div>
             <div className='popup-delete box-shadow-heavy' >
                 <div className="popup-form-row-1">
-                    <h3>{props.text}</h3>
+                    <h3 className="popup-heading">{props.text}</h3>
                     <div className="popup-close" onClick={props.close} >
                         <Close size={20}/>
                     </div>
