@@ -23,6 +23,22 @@
     padding: 10px 30px;
 }
 
+.popup-delete {
+    display: grid;
+    grid-template-rows: 50px 100px;
+    height: 160px;
+    width: 400px;
+    margin-top: 150px;
+    background: $grey-lightest;
+    padding: 10px 30px;
+}
+
+// .popup-delete-row-2 {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
+
 .popup-form-row-1 {
     display: flex;
     justify-content: space-between;
@@ -40,7 +56,8 @@
 //     justify-content: center;
 //     align-items: center;
 // }
-.popup-form-row-2 {
+.popup-form-row-2,
+.popup-delete-row-2 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -175,8 +192,4 @@
     height: 30px;
     width: 30px;
     border-radius: 3px;
-}
-
-.popup-delete-button {
-    background: red;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import Ajax from '../../core/Helpers/AjaxHelper';
 
 import List from '../shared/listing/table';
+import ConfirmDelete from '../shared/popups/ConfirmDelete';
 
 const emptyClient = {
     name: ''
@@ -146,16 +147,14 @@ class Clients extends React.Component {
 
                     {
                         showPopup === 'delete' 
-                            ? <div className='popup-form'>
-                                    <h3>Deleting client <small>{this.state.activeClient.name}</small></h3>.
-                                    <div className='popup-buttons'>
-                                        <div className='popup-btn-cancel'
-                                            onClick={this.hidePopup}>Cancel</div>
-                                        <div className='popup-btn-delete'
-                                            onClick={this.deleteClient}>Delete</div>
-                                    </div>
-                                </div>
-                            : <form className='popup-form'>
+                            ? 
+                                <ConfirmDelete 
+                                    text={`Deleting Client ${this.state.activeClient.name}`}
+                                    delete={this.deleteClient}
+                                    close={this.hidePopup}
+                                /> 
+                            : 
+                                <form className='popup-form'>
                                     <h3>{this.state.activeClient.id ? 'Edit' : 'Create'} client</h3>        
                                     <input 
                                         type="text" 

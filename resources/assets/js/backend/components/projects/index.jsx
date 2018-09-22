@@ -2,7 +2,8 @@ import React from 'react';
 import Ajax from '../../core/Helpers/AjaxHelper';
 
 import List from '../shared/listing/table';
-import ColorPalette from '../shared/colorPalette.jsx';
+import ColorPalette from '../shared/colorPalette';
+import ConfirmDelete from '../shared/popups/ConfirmDelete';
 
 import Close from 'react-icons/lib/fa/close';
 import CaretDown from 'react-icons/lib/fa/caret-down';
@@ -269,20 +270,12 @@ class Projects extends React.Component {
 
                     {
                         showPopup === 'delete' 
-                            ? 
-                            <div>
-                                <div className='popup-form box-shadow-heavy' >
-                                    <div className="popup-form-row-1">
-                                        <h3>Deleting project <small>{this.state.activeProject.name}</small></h3>
-                                        <div className="popup-close" onClick={this.hidePopup} ><Close size={20}/></div>
-                                    </div>
-                                    <div className="popup-form-row-2">
-                                    </div>
-                                    <div className="popup-form-row-3">
-                                        <div className="popup-buttons popup-delete-button" onClick={this.delete}>Delete</div>
-                                    </div>
-                                </div>
-                            </div>
+                            ?
+                            <ConfirmDelete 
+                                text={`Deleting Project ${this.state.activeProject.name}`}
+                                delete={this.delete}
+                                close={this.hidePopup}
+                            /> 
                             : 
                             <div>
                                 <div className="popup-form box-shadow-heavy" onClick={this.hideDropdowns}>

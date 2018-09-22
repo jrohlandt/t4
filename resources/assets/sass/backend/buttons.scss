@@ -25,3 +25,12 @@
 .create-button:hover {
     background: hsl(112, 66%, 45%);
 }
+
+.delete-button {
+    background: hsl(0, 100%, 50%);
+    box-shadow: inset 0 -2px 0 hsl(0, 82%, 40%);
+}
+
+.delete-button:hover {
+    background: hsl(0, 82%, 40%);
+}

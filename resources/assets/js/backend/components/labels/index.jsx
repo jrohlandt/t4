@@ -2,6 +2,7 @@ import React from 'react';
 import Ajax from '../../core/Helpers/AjaxHelper';
 
 import List from '../shared/listing/table';
+import ConfirmDelete from '../shared/popups/ConfirmDelete';
 
 const emptyLabel = {
     name: ''
@@ -145,15 +146,12 @@ class Labels extends React.Component {
 
                     {
                         showPopup === 'delete' 
-                            ? <div className='popup-form'>
-                                    <h3>Deleting label <small>{this.state.activeLabel.name}</small></h3>.
-                                    <div className='popup-buttons'>
-                                        <div className='popup-btn-cancel'
-                                            onClick={this.hidePopup}>Cancel</div>
-                                        <div className='popup-btn-delete'
-                                            onClick={this.delete}>Delete</div>
-                                    </div>
-                                </div>
+                            ? 
+                                <ConfirmDelete 
+                                    text={`Deleting Label ${this.state.activeLabel.name}`}
+                                    delete={this.delete}
+                                    close={this.hidePopup}
+                                /> 
                             : <form className='popup-form'>
                                     <h3>{this.state.activeLabel.id ? 'Edit' : 'Create'} label</h3>        
                                     <input 
