@@ -132,6 +132,10 @@ class Labels extends React.Component {
 
     render() {
         
+        if (this.state.loading) {
+            return (<LoadingAnimation/>);
+        }
+        
         const showPopup = this.state.showPopup;
 
         return (
