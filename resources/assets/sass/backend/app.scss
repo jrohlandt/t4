@@ -78,10 +78,13 @@ main > div {
     align-items: center;
     height: 100px;
     width: 100%;
+    border-bottom: thin solid $grey-lightest;
+    margin-bottom: 30px;
 }
 
 .main-header h1 {
     float: left;
+    color: $grey-dark;
     margin-left: 20px;
 }
 

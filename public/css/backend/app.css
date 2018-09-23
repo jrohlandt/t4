@@ -928,9 +928,12 @@
   background: #ba1212;
 }
 
-.button-disabled {
-  background: #616161;
+.button-disabled,
+.button-disabled:hover {
+  background: #7c7c7c;
   cursor: default;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .color-palette {
@@ -970,7 +973,7 @@
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: #616161;
+  background: #7c7c7c;
   -webkit-animation-timing-function: cubic-bezier(0, 1, 1, 0);
           animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
@@ -1081,6 +1084,7 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  min-height: 300px;
   background: white;
 }
 
@@ -1100,7 +1104,7 @@
   font-weight: bold;
   height: 85px;
   padding: 10px;
-  color: #616161;
+  color: #7c7c7c;
 }
 
 html,
@@ -1187,10 +1191,13 @@ main > div {
           align-items: center;
   height: 100px;
   width: 100%;
+  border-bottom: thin solid whitesmoke;
+  margin-bottom: 30px;
 }
 
 .main-header h1 {
   float: left;
+  color: #3d3d3d;
   margin-left: 20px;
 }
 

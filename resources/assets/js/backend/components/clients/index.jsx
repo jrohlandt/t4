@@ -4,7 +4,6 @@ import Ajax from '../../core/Helpers/AjaxHelper';
 import Close from 'react-icons/lib/fa/close';
 import List from '../shared/listing/table';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
-import LoadingAnimation from '../shared/loadingAnimation';
 
 
 const emptyClient = {
@@ -136,10 +135,6 @@ class Clients extends React.Component {
 
     render() {
 
-        if (this.state.loading) {
-            return (<LoadingAnimation/>);
-        }
-
         const showPopup = this.state.showPopup;
         return (
             <div>
@@ -204,6 +199,7 @@ class Clients extends React.Component {
                 </div>
 
                 <List 
+                    loading={this.state.loading}
                     config={this.state.tableConfig}
                     data={this.state.clients}
                     delete={this.confirmDelete}

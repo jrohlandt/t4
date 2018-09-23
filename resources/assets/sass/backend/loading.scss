@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 300px;
     background: white;
 }
 
@@ -14,5 +15,5 @@
     font-weight: bold;
     height: 85px;
     padding: 10px;
-    color: $grey-darker;
+    color: $grey-light;
 }

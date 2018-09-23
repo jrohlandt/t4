@@ -5,7 +5,6 @@ import Close from 'react-icons/lib/fa/close';
 
 import List from '../shared/listing/table';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
-import LoadingAnimation from '../shared/loadingAnimation';
 
 const emptyLabel = {
     name: ''
@@ -132,10 +131,6 @@ class Labels extends React.Component {
     }
 
     render() {
-
-        if (this.state.loading) {
-            return (<LoadingAnimation/>);
-        }
         
         const showPopup = this.state.showPopup;
 
@@ -196,26 +191,13 @@ class Labels extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-                            // <form className='popup-form'>
-                            //         <h3>{this.state.activeLabel.id ? 'Edit' : 'Create'} label</h3>        
-                            //         <input 
-                            //             type="text" 
-                            //             value={this.state.activeLabel.name} 
-                            //             onChange={this.handleChange} 
-                            //         />
-                            //         <div className='popup-buttons'>
-                            //             <div className='popup-btn-cancel'
-                            //                 onClick={this.hidePopup}>Cancel</div>
-                            //             <div className={ 'popup-btn-save ' + (this.state.storingNewLabel ? 'btn-disable' : '') }
-                            //                 onClick={this.save}>{showPopup === 'edit' ? 'Save' : 'Create'}</div>
-                            //         </div>
-                            //     </form>
 
                     }
                     
                 </div>
 
                 <List 
+                    loading={this.state.loading}
                     config={this.state.tableConfig}
                     data={this.state.labels}
                     delete={this.confirmDelete}

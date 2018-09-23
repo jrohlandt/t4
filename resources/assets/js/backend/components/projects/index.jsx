@@ -4,7 +4,6 @@ import Ajax from '../../core/Helpers/AjaxHelper';
 import List from '../shared/listing/table';
 import ColorPalette from '../shared/colorPalette';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
-import LoadingAnimation from '../shared/loadingAnimation';
 
 import Close from 'react-icons/lib/fa/close';
 import CaretDown from 'react-icons/lib/fa/caret-down';
@@ -254,10 +253,6 @@ class Projects extends React.Component {
 
     render() {
 
-        if (this.state.loading) {
-            return (<LoadingAnimation/>);
-        }
-
         const showPopup = this.state.showPopup;
 
         return (
@@ -363,7 +358,17 @@ class Projects extends React.Component {
                                             
                                         </div>
                                         <div>
-                                            <div className="button create-button" onClick={this.save}>{showPopup === 'edit' ? 'Save' : 'Create'} Project</div>
+                                            {
+                                                this.state.savingToDb 
+                                                    ?   
+                                                        <div className="button create-button button-disabled">
+                                                            Creating Project... 
+                                                        </div>
+                                                    :
+                                                        <div className="button create-button" onClick={this.save}>
+                                                            {showPopup === 'edit' ? 'Save' : 'Create'} Project
+                                                        </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -375,19 +380,13 @@ class Projects extends React.Component {
                     
                 </div>
 
-                {
-                    this.state.projects
-                        ?
-                            <List 
-                                config={this.state.tableConfig} 
-                                data={this.state.projects} 
-                                edit={this.edit}
-                                delete={this.confirmDelete}
-                            />
-                        :
-                            'You don\'t have any projects yet.'
-                }
-                
+                <List 
+                    loading={this.state.loading}
+                    config={this.state.tableConfig} 
+                    data={this.state.projects} 
+                    edit={this.edit}
+                    delete={this.confirmDelete}
+                />
                 
             </div>
         );
