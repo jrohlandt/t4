@@ -199,7 +199,6 @@ class Clients extends React.Component {
                 </div>
 
                 <List 
-                    loading={this.state.loading}
                     config={this.state.tableConfig}
                     data={this.state.clients}
                     delete={this.confirmDelete}
