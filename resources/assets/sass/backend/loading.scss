@@ -1,0 +1,18 @@
+.loading-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+    font-size: 20px;
+    font-weight: bold;
+    height: 85px;
+    padding: 10px;
+    color: $grey-darker;
+}

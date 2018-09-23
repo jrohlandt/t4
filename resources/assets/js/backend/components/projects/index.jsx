@@ -4,6 +4,7 @@ import Ajax from '../../core/Helpers/AjaxHelper';
 import List from '../shared/listing/table';
 import ColorPalette from '../shared/colorPalette';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
+import LoadingAnimation from '../shared/loadingAnimation';
 
 import Close from 'react-icons/lib/fa/close';
 import CaretDown from 'react-icons/lib/fa/caret-down';
@@ -21,6 +22,7 @@ class Projects extends React.Component {
         super(props);
 
         this.state = {
+            loading: true,
             projects: [],
             colors: [],
             clients: [],
@@ -238,7 +240,7 @@ class Projects extends React.Component {
 
     componentDidMount() {
         Ajax.get('/app/projects')
-            .then(res => this.setState({projects: res.projects}))
+            .then(res => this.setState({projects: res.projects, loading: false}))
             .catch(err => console.log(err));
 
         Ajax.get('/app/clients')
@@ -251,6 +253,10 @@ class Projects extends React.Component {
     }
 
     render() {
+
+        if (this.state.loading) {
+            return (<LoadingAnimation/>);
+        }
 
         const showPopup = this.state.showPopup;
 
@@ -369,12 +375,19 @@ class Projects extends React.Component {
                     
                 </div>
 
-                <List 
-                    config={this.state.tableConfig} 
-                    data={this.state.projects} 
-                    edit={this.edit}
-                    delete={this.confirmDelete}
-                />
+                {
+                    this.state.projects
+                        ?
+                            <List 
+                                config={this.state.tableConfig} 
+                                data={this.state.projects} 
+                                edit={this.edit}
+                                delete={this.confirmDelete}
+                            />
+                        :
+                            'You don\'t have any projects yet.'
+                }
+                
                 
             </div>
         );

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import TaskRow from './task-row.jsx';
+import LoadingAnimation from '../shared/loadingAnimation';
 
 import Ajax from '../../core/Helpers/AjaxHelper';
 import DateHelper from '../../core/Helpers/DateHelper';
@@ -28,7 +29,7 @@ class Timer extends React.Component {
         super(props);
 
         this.state = {
-            // authUser: {},
+            loading: true,
             tasks: [],
             activeTask: Object.assign({}, emptyTask),
             projects: [],
@@ -47,7 +48,7 @@ class Timer extends React.Component {
 
     getTasks() {
         Ajax.get(this.ajaxUrl)
-            .then(res => this.setState({tasks: TaskHelper.fillDefaultValues(res.tasks) }))
+            .then(res => this.setState({tasks: TaskHelper.fillDefaultValues(res.tasks), loading: false }))
             .catch(err => console.log('Could not fetch tasks. Error: ', err));
     }
 
@@ -148,6 +149,10 @@ class Timer extends React.Component {
     }
 
     render() {
+
+        if (this.state.loading) {
+            return (<LoadingAnimation/>);
+        }
 
         let tasksRows = [];
         let dateKey;

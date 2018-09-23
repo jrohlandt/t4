@@ -5,6 +5,7 @@ import Close from 'react-icons/lib/fa/close';
 
 import List from '../shared/listing/table';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
+import LoadingAnimation from '../shared/loadingAnimation';
 
 const emptyLabel = {
     name: ''
@@ -16,6 +17,7 @@ class Labels extends React.Component {
         super(props);
 
         this.state = {
+            loading: true,
             labels: [],
             showPopup: false, // Valid values are: create, edit, delete and false.
             activeLabel: {...emptyLabel},
@@ -124,13 +126,17 @@ class Labels extends React.Component {
     componentDidMount() {
         Ajax.get('/app/labels')
             .then(res => {
-                this.setState({labels: res.labels});
+                this.setState({labels: res.labels, loading: false});
             })
             .catch(err => console.log(err));
     }
 
     render() {
 
+        if (this.state.loading) {
+            return (<LoadingAnimation/>);
+        }
+        
         const showPopup = this.state.showPopup;
 
         return (

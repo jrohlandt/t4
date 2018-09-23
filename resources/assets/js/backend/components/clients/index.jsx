@@ -4,6 +4,7 @@ import Ajax from '../../core/Helpers/AjaxHelper';
 import Close from 'react-icons/lib/fa/close';
 import List from '../shared/listing/table';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
+import LoadingAnimation from '../shared/loadingAnimation';
 
 
 const emptyClient = {
@@ -16,6 +17,7 @@ class Clients extends React.Component {
         super(props);
 
         this.state = {
+            loading: true,
             clients: [],
             showPopup: false, // Valid values are: create, edit, delete and false.
             activeClient: {...emptyClient},
@@ -127,15 +129,18 @@ class Clients extends React.Component {
     componentDidMount() {
         Ajax.get('/app/clients')
             .then(res => {
-                this.setState({clients: res.clients});
+                this.setState({clients: res.clients, loading: false});
             })
             .catch(err => console.log(err));
     }
 
     render() {
 
-        const showPopup = this.state.showPopup;
+        if (this.state.loading) {
+            return (<LoadingAnimation/>);
+        }
 
+        const showPopup = this.state.showPopup;
         return (
             <div>
 
