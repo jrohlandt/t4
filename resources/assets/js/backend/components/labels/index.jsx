@@ -5,6 +5,7 @@ import Close from 'react-icons/lib/fa/close';
 
 import List from '../shared/listing/table';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
+import LoadingAnimation from '../shared/loadingAnimation';
 
 const emptyLabel = {
     name: ''

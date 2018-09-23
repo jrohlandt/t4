@@ -4,6 +4,7 @@ import Ajax from '../../core/Helpers/AjaxHelper';
 import List from '../shared/listing/table';
 import ColorPalette from '../shared/colorPalette';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
+import LoadingAnimation from '../shared/loadingAnimation';
 
 import Close from 'react-icons/lib/fa/close';
 import CaretDown from 'react-icons/lib/fa/caret-down';
