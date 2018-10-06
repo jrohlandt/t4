@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ActiveTaskRow from './task-row.active.jsx';
 import TaskRow from './task-row.jsx';
 import LoadingAnimation from '../shared/loadingAnimation';
 
@@ -184,7 +185,7 @@ class Timer extends React.Component {
         const activeTask = this.state.activeTask;
 
         return (
-            <div>
+            <div className='tasks-main'>
                 <div>
                     <ul className="tasks-rows" >
                         <TaskRow 

@@ -65,7 +65,7 @@ main {
     display: flex;
     justify-content: center;
     background-color: $main-background-color;
-    padding: 10px;
+    padding: 20px;
 }
 
 main > div {
@@ -104,7 +104,6 @@ main > div {
         grid-template-columns: 50px auto;
         grid-template-areas: 
             "leftnav main";
-    
     }
 }
 
@@ -118,11 +117,20 @@ main > div {
         width: 1000px;
     }
 
+    .tasks-main {
+        width: 100%;
+    }
+
 }
 
 @media screen and (min-with: 1200px) {
 
     main > div {
         width: 1200px;
+    }
+
+
+    .tasks-main {
+        width: 100%;
     }
 }

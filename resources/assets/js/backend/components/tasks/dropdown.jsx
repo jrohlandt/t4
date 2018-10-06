@@ -74,7 +74,11 @@ class DropDown extends React.Component {
                         className='ttr-dropdown-icon'
                         style={ itemColor ? {'color': `hsl(${itemColor})`} : {} }
                     >
-                        { selectedName ? selectedName : icon }
+                        { 
+                            selectedName 
+                                ? (props.role === 'project-select' ? <div><span style={{background: (itemColor ? `hsl(${itemColor})`: '') }}className='ttr-dropdown-project-dot'></span>{selectedName}</div> : selectedName)
+                                : icon 
+                        }
                     </div>
                     { this.state.expand 
                         ? <div className='ttr-dropdown-list'>

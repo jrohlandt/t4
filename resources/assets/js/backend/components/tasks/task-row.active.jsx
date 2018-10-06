@@ -33,16 +33,13 @@ const getLabelName = (labelId, labels) => {
     return '';
 };
 
-class TaskRow extends React.Component {
+class ActiveTaskRow extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
             isActiveTask: false,
-            showInput: false,
-            showExtras: false,
-            descriptionChanged: false,
             task: {
                 description: '',
                 start_time: 0,
@@ -55,47 +52,20 @@ class TaskRow extends React.Component {
         this.updateTask                 = this.updateTask.bind(this);
         this.toggleTimer                = this.toggleTimer.bind(this);
         this.handleProjectChange        = this.handleProjectChange.bind(this);
-        this.handleLabelChange          = this.handleLabelChange.bind(this);
+        this.handleLabelChange           = this.handleLabelChange.bind(this);
         this.handleDescriptionChange    = this.handleDescriptionChange.bind(this);
         this.handleDescriptionOnBlur    = this.handleDescriptionOnBlur.bind(this);
-        this.showInput                  = this.showInput.bind(this);
-        this.hideInput                  = this.hideInput.bind(this);
-        this.showExtras                  = this.showExtras.bind(this);
-        this.hideExtras                  = this.hideExtras.bind(this);
-    }
-
-    showExtras() {
-        console.log('showExtras');
-        this.setState({showExtras: true});
-    }
-
-    hideExtras() {
-        console.log('hideExtras');
-        this.setState({showExtras: false});
     }
 
     handleDescriptionChange(event) {
         const task = this.state.task;
         task.description = event.target.value;
 
-        this.setState({task, descriptionChanged: true});
-    }
-
-    showInput() {
-        this.setState({showInput: true});
-    }
-
-    hideInput() {
-        this.setState({showInput: false});
+        this.setState({task});
     }
 
     handleDescriptionOnBlur(event) {
-        this.hideInput();
-
-        if (this.state.descriptionChanged) {
-            this.setState({descriptionChanged: false});        
-            this.updateTask();        
-        }
+        this.updateTask();
     }
 
     createTask(task={}) {
@@ -109,6 +79,7 @@ class TaskRow extends React.Component {
     }
 
     updateTask(task={}) {
+        console.log('task row: ', task);
         let t;
         if (Object.keys(task).length > 0) {
             t = Object.assign({}, task);
@@ -178,77 +149,36 @@ class TaskRow extends React.Component {
         const props = this.props;
         const task = this.state.task;
         return (
-            <li 
-                onMouseOver={this.showExtras} 
-                onMouseLeave={this.hideExtras}
-                className={(props.isActiveTask ? 'timer-active-task-row ' : 'timer-task-row ') + (this.state.showExtras ? ' timer-task-row-active' : '') } 
-            >
+            <li className={props.isActiveTask ? 'timer-active-task-row' : 'timer-task-row' } >
 
                 <div className="ttr-left">
                         <div className="ttr-description-wrapper" >
-                            {
-                                this.state.showInput === false 
-                                ?   <div className='ttr-description'
-                                        onClick={this.showInput}>{task.description ? task.description : (props.isActiveTask ? 'Type task description...' : 'no description')}</div>
-                                : 
-                                    <input 
-                                        autoFocus
-                                        size={ task.description ? task.description.length : 15 }
-                                        className={ 'ttr-description-input ' + (this.state.showExtras ? ' ttr-description-input-active' : '')}
-                                        type="text" 
-                                        onChange={ this.handleDescriptionChange } 
-                                        onBlur={ this.handleDescriptionOnBlur }
-                                        value={ task.description }
-                                        placeholder={props.isActiveTask ? 'Type task description...' : 'no description'}
-                                    />
-                            }
-                            
+                            <input 
+                                size={ task.description ? task.description.length : 1 }
+                                className='ttr-description'
+                                type="text" 
+                                onChange={ this.handleDescriptionChange } 
+                                onBlur={ this.handleDescriptionOnBlur }
+                                value={ task.description }
+                                placeholder={props.isActiveTask ? 'Type task description...' : 'no description'}
+                            />
                         </div>
 
-                        {   task.project_id 
-                                ?
-                                <DropDown 
-                                    selected={ task.project_id } 
-                                    handleChange={ this.handleProjectChange } 
-                                    options={ props.projects }
-                                    role="project-select"
-                                />
-                                : 
-                                (this.state.showExtras
-                                    ? 
-                                    <DropDown 
-                                        selected={ task.project_id } 
-                                        handleChange={ this.handleProjectChange } 
-                                        options={ props.projects }
-                                        role="project-select"
-                                    />
-                                    : ''
-                                )
-                        }
-                        
+                        <DropDown 
+                            selected={ task.project_id } 
+                            handleChange={ this.handleProjectChange } 
+                            options={ props.projects }
+                            role="project-select"
+                        />
                 </div>
                 
                 <div className="ttr-right">
-                    {   task.label_id 
-                                ?
-                                <DropDown 
-                                    selected={ task.label_id } 
-                                    handleChange={ this.handleLabelChange } 
-                                    options={ props.labels } 
-                                    role="label-select"
-                                />
-                                : 
-                                (this.state.showExtras
-                                    ? 
-                                    <DropDown 
-                                        selected={ task.label_id } 
-                                        handleChange={ this.handleLabelChange } 
-                                        options={ props.labels } 
-                                        role="label-select"
-                                    />
-                                    : <div style={{width: '100px'}}></div>
-                                )
-                        }
+                    <DropDown 
+                        selected={ task.label_id } 
+                        handleChange={ this.handleLabelChange } 
+                        options={ props.labels } 
+                        role="label-select"
+                    />
                     <div className="ttr-last">
                         <div className="ttr-times" >
                             { ! props.isActiveTask 
@@ -287,4 +217,4 @@ class TaskRow extends React.Component {
     
 };
 
-export default TaskRow;
+export default ActiveTaskRow;
