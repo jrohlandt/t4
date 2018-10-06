@@ -16,12 +16,23 @@ class FreshTasksSeeder extends Seeder {
     {
 
         $tasks = [
-            'description' => 'Fix problem with user login.',
-            'user_id' => 1,
-            'start_time' => Carbon::now()->subDays(1),
-            'end_time' => Carbon::now()->subDays(1)->addHours(1)->addMinutes(17),
-            'created_at' => Carbon::now()->subDays(1),
-            'updated_at' => Carbon::now()->subDays(1),
+            [
+                'description' => 'Fix problem with user login.',
+                'user_id' => 1,
+                'start_time' => Carbon::now()->subDays(1),
+                'end_time' => Carbon::now()->subDays(1)->addHours(1)->addMinutes(17),
+                'created_at' => Carbon::now()->subDays(1),
+                'updated_at' => Carbon::now()->subDays(1),
+            ],
+            [
+                'description' => 'Style tasks list.',
+                'user_id' => 1,
+                'start_time' => Carbon::now()->subDays(1)->addHours(1)->addMinutes(19),
+                'end_time' => Carbon::now()->subDays(1)->addHours(3)->addMinutes(5),
+                'created_at' => Carbon::now()->subDays(1)->addHours(1)->addMinutes(19),
+                'updated_at' => Carbon::now()->subDays(1)->addHours(1)->addMinutes(19),
+            ],
+            
         ];
 
         Task::insert($tasks);
