@@ -19,10 +19,12 @@
     }
 
     #sidebar-left nav ul li {
-        padding: 10px;
+        padding: 10px 10px 0 10px;
     }
 
     #sidebar-left nav ul li a {
+        display: inline-block;
+        width: 100%;
         color: $leftnav-item-color;
         text-decoration: none;
         padding: 5px;
@@ -35,7 +37,7 @@
 
     #sidebar-left nav ul li a.left-nav-active {
         color: lighten($leftnav-item-color, 50%);
-        background: $leftnav-active-item-background;
+        background: $grey-dark;
     }
 
     #sidebar-left nav ul li a:hover {

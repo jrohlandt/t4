@@ -8,7 +8,7 @@ const RowActions = (props) => (
         <div onClick={() => props.delete(props.id)}>
             <Trash size={20}/>
         </div>
-        <div onClick={() => props.edit(props.id)}>
+        <div style={{paddingTop: '6px'}}onClick={() => props.edit(props.id)}>
             <Pencil size={20}/>
         </div>
     </td>

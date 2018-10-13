@@ -19,7 +19,7 @@ const App = () => (
         <div id="wrapper">
             <aside id="sidebar-left">
                 <div>
-                    <h3>T3</h3>
+                    <h3>T4</h3>
                 </div>
                 <nav>
                     <ul>
