@@ -72,8 +72,10 @@ class Timer extends React.Component {
         if (task.id)
             return;
 
+        // this.setState({activeTask: task});
+
         Ajax.post(this.ajaxUrl, task)
-            .then(res => this.setState( {activeTask: Object.assign(task, res.task)} ))
+            .then(res => this.setState( {activeTask: {task, ...res.task}} ))
             .catch(err => console.log('Task could not be created. Error: ', err));
     }
 

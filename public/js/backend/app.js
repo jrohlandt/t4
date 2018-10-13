@@ -26061,6 +26061,8 @@ module.exports = hoistNonReactStatics;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core_Helpers_TaskHelper__ = __webpack_require__(21);
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26154,8 +26156,10 @@ var Timer = function (_React$Component) {
 
             if (task.id) return;
 
+            // this.setState({activeTask: task});
+
             __WEBPACK_IMPORTED_MODULE_4__core_Helpers_AjaxHelper__["a" /* default */].post(this.ajaxUrl, task).then(function (res) {
-                return _this4.setState({ activeTask: Object.assign(task, res.task) });
+                return _this4.setState({ activeTask: _extends({ task: task }, res.task) });
             }).catch(function (err) {
                 return console.log('Task could not be created. Error: ', err);
             });
@@ -26353,6 +26357,8 @@ var Timer = function (_React$Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_icons_lib_fa_play___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react_icons_lib_fa_play__);
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26417,7 +26423,8 @@ var ActiveTaskRow = function (_React$Component) {
 
         _this.createTask = _this.createTask.bind(_this);
         _this.updateTask = _this.updateTask.bind(_this);
-        _this.toggleTimer = _this.toggleTimer.bind(_this);
+        _this.startTimer = _this.startTimer.bind(_this);
+        _this.stopTimer = _this.stopTimer.bind(_this);
         _this.handleProjectChange = _this.handleProjectChange.bind(_this);
         _this.handleLabelChange = _this.handleLabelChange.bind(_this);
         _this.handleDescriptionChange = _this.handleDescriptionChange.bind(_this);
@@ -26450,7 +26457,7 @@ var ActiveTaskRow = function (_React$Component) {
         value: function handleDescriptionOnBlur(event) {
             this.hideInput();
 
-            if (this.state.descriptionChanged) {
+            if (this.state.descriptionChanged && this.state.task.id) {
                 this.setState({ descriptionChanged: false });
                 this.updateTask();
             }
@@ -26473,14 +26480,9 @@ var ActiveTaskRow = function (_React$Component) {
         value: function updateTask() {
             var task = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-            var t = void 0;
-            if (Object.keys(task).length > 0) {
-                t = Object.assign({}, task);
-            } else {
-                t = Object.assign({}, this.state.task);
-            }
+            var t = Object.keys(task).length > 0 ? _extends({}, task) : _extends({}, this.state.task);
 
-            if (__WEBPACK_IMPORTED_MODULE_4__core_Helpers_TaskHelper__["a" /* default */].hasNotBeenCreated(t)) {
+            if (!t.id) {
                 this.createTask(task);
                 return;
             }
@@ -26488,19 +26490,23 @@ var ActiveTaskRow = function (_React$Component) {
             this.props.updateTask(t, this.state.isActiveTask);
         }
     }, {
-        key: 'toggleTimer',
-        value: function toggleTimer() {
+        key: 'startTimer',
+        value: function startTimer() {
+            var task = _extends({}, this.state.task);
 
-            var task = Object.assign({}, this.state.task);
-            var date = new Date();
+            if (__WEBPACK_IMPORTED_MODULE_4__core_Helpers_TaskHelper__["a" /* default */].isStarted(task)) return;
 
-            if (!__WEBPACK_IMPORTED_MODULE_4__core_Helpers_TaskHelper__["a" /* default */].isStarted(task)) {
-                task.start_time = this.date.toMysqlDateTime(date);
-                this.updateTask(task);
-                return;
-            }
+            task.start_time = this.date.toMysqlDateTime(new Date());
+            this.updateTask(task);
+        }
+    }, {
+        key: 'stopTimer',
+        value: function stopTimer() {
+            var task = _extends({}, this.state.task);
 
-            task.end_time = this.date.toMysqlDateTime(date);
+            if (!__WEBPACK_IMPORTED_MODULE_4__core_Helpers_TaskHelper__["a" /* default */].isStarted(task)) return;
+
+            task.end_time = this.date.toMysqlDateTime(new Date());
             this.updateTask(task);
         }
     }, {
@@ -26553,11 +26559,7 @@ var ActiveTaskRow = function (_React$Component) {
             var task = this.state.task;
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
-                {
-                    onMouseOver: this.showExtras,
-                    onMouseLeave: this.hideExtras,
-                    className: (props.isActiveTask ? 'timer-active-task-row ' : 'timer-task-row ') + (this.state.showExtras ? ' timer-task-row-active' : '')
-                },
+                { className: 'timer-active-task-row' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'ttr-left' },
@@ -26568,7 +26570,7 @@ var ActiveTaskRow = function (_React$Component) {
                             'div',
                             { className: 'ttr-description',
                                 onClick: this.showInput },
-                            task.description ? task.description : props.isActiveTask ? 'Type task description...' : 'no description'
+                            task.description ? task.description : 'Type task description...'
                         ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
                             autoFocus: true,
                             size: task.description ? task.description.length : 15,
@@ -26577,19 +26579,19 @@ var ActiveTaskRow = function (_React$Component) {
                             onChange: this.handleDescriptionChange,
                             onBlur: this.handleDescriptionOnBlur,
                             value: task.description,
-                            placeholder: props.isActiveTask ? 'Type task description...' : 'no description'
+                            placeholder: 'Type task description...'
                         })
-                    ),
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'ttr-active-right' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__dropdown_jsx__["a" /* default */], {
                         selected: task.project_id,
                         handleChange: this.handleProjectChange,
                         options: props.projects,
                         role: 'project-select'
-                    })
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'ttr-right' },
+                    }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__dropdown_jsx__["a" /* default */], {
                         selected: task.label_id,
                         handleChange: this.handleLabelChange,
@@ -26599,7 +26601,6 @@ var ActiveTaskRow = function (_React$Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'ttr-last' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'ttr-times' }),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
                             { className: 'ttr-display-timer' },
@@ -26608,22 +26609,18 @@ var ActiveTaskRow = function (_React$Component) {
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
                             { className: 'ttr-actions' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            !__WEBPACK_IMPORTED_MODULE_4__core_Helpers_TaskHelper__["a" /* default */].isStarted(task) ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
                                 {
-                                    className: __WEBPACK_IMPORTED_MODULE_4__core_Helpers_TaskHelper__["a" /* default */].isStarted(task) ? 'ttr-stop-button' : 'ttr-start-button',
-                                    onClick: this.toggleTimer },
-                                __WEBPACK_IMPORTED_MODULE_4__core_Helpers_TaskHelper__["a" /* default */].isStarted(task) ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6_react_icons_lib_fa_stop___default.a, { size: 15 }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_icons_lib_fa_play___default.a, { size: 15 })
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'span',
+                                    className: 'ttr-start-button',
+                                    onClick: this.startTimer },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_icons_lib_fa_play___default.a, { size: 15 })
+                            ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
                                 {
-                                    className: 'ttr-delete',
-                                    onClick: function onClick() {
-                                        return props.deleteTask(task.id);
-                                    }
-                                },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_react_icons_lib_md_delete___default.a, { size: 20 })
+                                    className: 'ttr-stop-button',
+                                    onClick: this.stopTimer },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6_react_icons_lib_fa_stop___default.a, { size: 15 })
                             )
                         )
                     )

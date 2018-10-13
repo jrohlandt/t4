@@ -43,15 +43,16 @@
     width: 60%;
 }
 
-.ttr-right {
+.ttr-right, .ttr-active-right {
     float: right;
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
+    height: 100%;
     width: 40%;
     max-width: 400px;
-
 }
+
 
 .ttr-description-wrapper {
     float: left;
@@ -101,6 +102,12 @@
     width: 60%;
 }
 
+.ttr-active-right .ttr-last {
+    justify-content: flex-end;
+    width: 40%;
+    margin-left: 10px;
+}
+
 .ttr-times {
     display: none;
     float: left;
@@ -117,8 +124,9 @@
     height: 35px;
     width: 35px;
     color: white;
-    border-radius: 50px;
     cursor: pointer;
+    border-radius: 50px;
+    margin-left: 15px;
 }
 
 .ttr-start-button {
@@ -131,11 +139,11 @@
 
 .ttr-delete {
     cursor: pointer;
-    color: $grey-light;
+    color: hsl(0, 0%, 77%);
 }
 
 .ttr-delete:hover {
-    color: rgb(241, 59, 59);
+    color: $grey-lighter;
 }
 
 /* dropdown */
