@@ -40,6 +40,9 @@ class ActiveTaskRow extends React.Component {
 
         this.state = {
             isActiveTask: false,
+            showInput: false,
+            showExtras: false,
+            descriptionChanged: false,
             task: {
                 description: '',
                 start_time: 0,
@@ -52,20 +55,35 @@ class ActiveTaskRow extends React.Component {
         this.updateTask                 = this.updateTask.bind(this);
         this.toggleTimer                = this.toggleTimer.bind(this);
         this.handleProjectChange        = this.handleProjectChange.bind(this);
-        this.handleLabelChange           = this.handleLabelChange.bind(this);
+        this.handleLabelChange          = this.handleLabelChange.bind(this);
         this.handleDescriptionChange    = this.handleDescriptionChange.bind(this);
         this.handleDescriptionOnBlur    = this.handleDescriptionOnBlur.bind(this);
+        this.showInput                  = this.showInput.bind(this);
+        this.hideInput                  = this.hideInput.bind(this);
     }
 
     handleDescriptionChange(event) {
         const task = this.state.task;
         task.description = event.target.value;
 
-        this.setState({task});
+        this.setState({task, descriptionChanged: true});
+    }
+
+    showInput() {
+        this.setState({showInput: true});
+    }
+
+    hideInput() {
+        this.setState({showInput: false});
     }
 
     handleDescriptionOnBlur(event) {
-        this.updateTask();
+        this.hideInput();
+
+        if (this.state.descriptionChanged) {
+            this.setState({descriptionChanged: false});        
+            this.updateTask();        
+        }
     }
 
     createTask(task={}) {
@@ -79,7 +97,6 @@ class ActiveTaskRow extends React.Component {
     }
 
     updateTask(task={}) {
-        console.log('task row: ', task);
         let t;
         if (Object.keys(task).length > 0) {
             t = Object.assign({}, task);
@@ -97,8 +114,8 @@ class ActiveTaskRow extends React.Component {
 
     toggleTimer() {
 
-        let task            = Object.assign({}, this.state.task);
-        const date          = new Date();
+        let task = Object.assign({}, this.state.task);
+        const date = new Date();
 
         if ( ! TaskHelper.isStarted(task) ) {
             task.start_time = this.date.toMysqlDateTime(date);
@@ -149,19 +166,31 @@ class ActiveTaskRow extends React.Component {
         const props = this.props;
         const task = this.state.task;
         return (
-            <li className={props.isActiveTask ? 'timer-active-task-row' : 'timer-task-row' } >
+            <li 
+                onMouseOver={this.showExtras} 
+                onMouseLeave={this.hideExtras}
+                className={(props.isActiveTask ? 'timer-active-task-row ' : 'timer-task-row ') + (this.state.showExtras ? ' timer-task-row-active' : '') } 
+            >
 
                 <div className="ttr-left">
                         <div className="ttr-description-wrapper" >
-                            <input 
-                                size={ task.description ? task.description.length : 1 }
-                                className='ttr-description'
-                                type="text" 
-                                onChange={ this.handleDescriptionChange } 
-                                onBlur={ this.handleDescriptionOnBlur }
-                                value={ task.description }
-                                placeholder={props.isActiveTask ? 'Type task description...' : 'no description'}
-                            />
+                            {
+                                this.state.showInput === false 
+                                ?   <div className='ttr-description'
+                                        onClick={this.showInput}>{task.description ? task.description : (props.isActiveTask ? 'Type task description...' : 'no description')}</div>
+                                : 
+                                    <input 
+                                        autoFocus
+                                        size={ task.description ? task.description.length : 15 }
+                                        className={ 'ttr-description-input ' + (this.state.showExtras ? ' ttr-description-input-active' : '')}
+                                        type="text" 
+                                        onChange={ this.handleDescriptionChange } 
+                                        onBlur={ this.handleDescriptionOnBlur }
+                                        value={ task.description }
+                                        placeholder={props.isActiveTask ? 'Type task description...' : 'no description'}
+                                    />
+                            }
+                            
                         </div>
 
                         <DropDown 
@@ -170,6 +199,7 @@ class ActiveTaskRow extends React.Component {
                             options={ props.projects }
                             role="project-select"
                         />
+                        
                 </div>
                 
                 <div className="ttr-right">
@@ -181,26 +211,20 @@ class ActiveTaskRow extends React.Component {
                     />
                     <div className="ttr-last">
                         <div className="ttr-times" >
-                            { ! props.isActiveTask 
+                            {/* { ! props.isActiveTask 
                                 ? <span>{this.displayTime(task.start_time)} - {this.displayTime(task.end_time)}</span> 
                                 : ''
-                            }
+                            } */}
                         </div>
                         <div className="ttr-display-timer">
-                            { props.isActiveTask && TaskHelper.isStarted(task)
-                                ? <DisplayTimer startTime={task.start_time} />
-                                : this.displayDuration(task)
-                            }
+                            { TaskHelper.isStarted(task) ? <DisplayTimer startTime={task.start_time} /> : this.displayDuration(task) }
                         </div> 
                         <div className="ttr-actions">
-                            { props.isActiveTask 
-                                ? <div 
-                                        className={TaskHelper.isStarted(task) ? 'ttr-stop-button' : 'ttr-start-button'}
-                                        onClick={this.toggleTimer}>
-                                        {TaskHelper.isStarted(task) ? <Stop size={15} /> : <Play size={15}/>}
-                                    </div>
-                                : ''
-                            }
+                            <div 
+                                className={TaskHelper.isStarted(task) ? 'ttr-stop-button' : 'ttr-start-button'}
+                                onClick={this.toggleTimer}>
+                                {TaskHelper.isStarted(task) ? <Stop size={15} /> : <Play size={15}/>}
+                            </div>
                             <span 
                                 className="ttr-delete"
                                 onClick={ () => props.deleteTask(task.id) }

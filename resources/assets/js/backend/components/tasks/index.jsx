@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import ActiveTaskRow from './task-row.active.jsx';
+import ActiveTaskRow from './active-task-row.jsx';
 import TaskRow from './task-row.jsx';
 import LoadingAnimation from '../shared/loadingAnimation';
 
@@ -188,7 +188,7 @@ class Timer extends React.Component {
             <div className='tasks-main'>
                 <div>
                     <ul className="tasks-rows" >
-                        <TaskRow 
+                        <ActiveTaskRow 
                             task={activeTask} 
                             projects={this.state.projects} 
                             labels={this.state.labels} 
