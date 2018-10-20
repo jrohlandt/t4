@@ -35,6 +35,9 @@ Route::group(['prefix' => 'app', 'middleware' => 'auth'], function() {
     Route::put('/tasks/{id}', 'Backend\TaskController@update'); // Todo change to patch as per laravel convention.
     Route::delete('/tasks/{id}', 'Backend\TaskController@destroy');
 
+    // Reports
+    Route::get('/reports', 'Backend\ReportController@index');
+    
     // Projects
     Route::get('/projects', 'Backend\ProjectController@index');
     Route::post('/projects', 'Backend\ProjectController@store');

@@ -24,5 +24,7 @@
         "react-router-dom": "^4.2.2"
     },
     "dependencies": {
+        "chart.js": "^1.1.1",
+        "react-chartjs": "^1.2.0"
     }
 }
