@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Ajax from '../../core/Helpers/AjaxHelper';
+
 const LineChart = require("react-chartjs").Line;
 
 class Reports extends React.Component {
@@ -13,7 +15,9 @@ class Reports extends React.Component {
     }
 
     componentDidMount() {
-
+        Ajax.get('/app/reports')
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
     }
 
 
@@ -56,6 +60,10 @@ class Reports extends React.Component {
                 },
             ]
         };
+
+        $data2 = {
+            // labels
+        }
     
         return (
             <div>
