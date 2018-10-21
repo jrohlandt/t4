@@ -37,6 +37,8 @@ Route::group(['prefix' => 'app', 'middleware' => 'auth'], function() {
 
     // Reports
     Route::get('/reports', 'Backend\ReportController@index');
+    Route::post('/reports/stats', 'Backend\ReportController@stats');
+
     
     // Projects
     Route::get('/projects', 'Backend\ProjectController@index');

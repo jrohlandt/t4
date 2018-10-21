@@ -10,65 +10,93 @@ use Carbon\Carbon;
 
 class ReportController extends Controller
 {
-   /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        if (request()->ajax()) {
-            $from = Carbon::now()->subWeeks(2);
-            $to = Carbon::now();
+        return view('backend.index');
+    }
+
+    public function stats(Request $request)
+    {
+        // dd(request()->get('action'));
+        switch($request->get("action")) {
+            case "past-two-weeks":
+                return $this->pastTwoWeeks();
+            default:
+                dd('nothing');
+        }
+    }
+
+    private function pastTwoWeeks()
+    {
+        $from = Carbon::now()->subWeeks(2);
+        $to = Carbon::now();
+        
+        $tasks = Task::where('user_id', \Auth::id())
+            ->whereNotNull('start_time')
+            ->whereNotNull('end_time')
+            ->whereBetween('created_at', [$from, $to])
+            ->orderBy('created_at', 'asc')
+            // ->take(100)
+            ->get();
+
+        if ($tasks->isEmpty()) {
+            return response()->json(['message' => 'No tasks.']);
+        }
+
+        $durations = [];
+        foreach ($tasks as $task) {
+
+            if (empty($task->project_id))
+                continue;
+
+            $start = Carbon::parse($task->start_time);
+            $end = Carbon::parse($task->end_time);
+            $diff = $start->diffInSeconds($end);
+
+            $dateKey = $start->format('Y-m-d');
+            if (!isset($durations[$task->project_id][$dateKey])) {
+                $durations[$task->project_id][$dateKey] = $diff;
+            } else {
+                $durations[$task->project_id][$dateKey] = $durations[$task->project_id][$dateKey] + $diff;
+            }
+        }
             
-            $tasks = Task::where('user_id', \Auth::id())
-                ->whereNotNull('start_time')
-                ->whereNotNull('end_time')
-                ->whereBetween('created_at', [$from, $to])
-                ->orderBy('created_at', 'desc')
-                ->take(100)
-                ->get();
 
-            $data = [];
-            // array with only project id and duration
-            $durations = [];
+        $data = [];
+        $dateKeys = [];
+        for ($i = 1; $i <= 14; $i++) {
+            $dateKeys[] = Carbon::now()->subDays(14)->addDays($i)->format('Y-m-d');
+            $data['labels'][] = Carbon::now()->subDays(14)->addDays($i)->format('d M');
 
-            if ( ! $tasks->isEmpty() ) {
-                foreach ($tasks as $task) {
+        }
 
-                    if (empty($task->project_id))
-                        continue;
-
-                    $start = Carbon::parse($task->start_time);
-                    $end = Carbon::parse($task->end_time);
-                    $diff = $start->diffInSeconds($end);
-
-                    if (!isset($durations[$task->project_id])) {
-                        $durations[$task->project_id] = $diff;
-                    } else {
-                        $durations[$task->project_id] = $durations[$task->project_id] + $diff;
-                    }
-
-                    // if (!isset($durations[$task->project_id])) {
-                    //     $durations[$task->project_id] = 1;
-                    // } else {
-                    //     $durations[$task->project_id] = $durations[$task->project_id] + 1;
-                    // }
+        foreach ($durations as $projectId => $duration) {
+            foreach($dateKeys as $dateKey) {
+                if (!isset($durations[$projectId][$dateKey])) {
+                    $durations[$projectId][$dateKey] = 0;
                 }
             }
-            arsort($durations);
-            $p = Project::where('id', 17)->with('color')->first();
-            // dd($durations,  $p);
 
-            $data['projects'] = [];
-            foreach ($durations as $projectId => $duration) {
-                $project = Project::where('id', $projectId)->with('color')->first();
-                $project->duration = $duration;
-                $data['projects'][$projectId] = $project;
-            } 
-            
-            return response()->json(['data' => $data]);
+            $project = Project::where('id', $projectId)->with('color')->first();
+            $dataSet = (object) [
+                'label' => $project->name,
+                'fillColor' => 'rgba(0, 0, 0, 0)',
+                'strokeColor' => "hsl({$project->color->value})",
+                'pointColor' => "hsl({$project->color->value})",
+                'pointStrokeColor' => '#fff',
+                'pointHighlightFill' => '#fff',
+                'pointHighlightStroke' => 'rgba(220,220,220,1)',
+                'data' => [],
+            ];
+
+            ksort($durations[$projectId]);
+            foreach($durations[$projectId] as $duration) {
+                $dataSet->data[] = $duration / 3600;
+            }
+
+            $data['datasets'][] = $dataSet;
         }
-        return view('backend.index');
+        
+        return response()->json(['data' => $data]);
     }
 }
