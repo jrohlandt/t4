@@ -6,6 +6,7 @@ import List from '../shared/listing/table';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
 import LoadingAnimation from '../shared/loadingAnimation';
 
+import { CSSTransition } from 'react-transition-group';
 
 const emptyClient = {
     name: ''
@@ -142,6 +143,12 @@ class Clients extends React.Component {
 
         const showPopup = this.state.showPopup;
         return (
+        <CSSTransition
+            in={true}
+            appear={true}
+            timeout={300}
+            classNames="fade"
+            >
             <div>
 
                 <div className='main-header'>
@@ -212,6 +219,7 @@ class Clients extends React.Component {
 
                 
             </div>
+        </CSSTransition>
         );
     }
 };

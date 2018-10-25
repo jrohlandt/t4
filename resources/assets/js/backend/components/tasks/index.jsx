@@ -9,6 +9,7 @@ import Ajax from '../../core/Helpers/AjaxHelper';
 import DateHelper from '../../core/Helpers/DateHelper';
 import TaskHelper from '../../core/Helpers/TaskHelper';
 
+import { CSSTransition } from 'react-transition-group';
 
 var emptyTask = {
     description: '',
@@ -187,27 +188,34 @@ class Timer extends React.Component {
         const activeTask = this.state.activeTask;
 
         return (
-            <div className='tasks-main'>
-                <div>
-                    <ul className="tasks-rows" >
-                        <ActiveTaskRow 
-                            task={activeTask} 
-                            projects={this.state.projects} 
-                            labels={this.state.labels} 
-                            key={activeTask.id} 
-                            createTask={this.createTask} 
-                            updateTask={this.updateTask}
-                            deleteTask={this.deleteTask}
-                            isActiveTask='true'
-                        />
-                    </ul>
+            <CSSTransition
+                    in={true}
+                    appear={true}
+                    timeout={300}
+                    classNames="fade"
+                >
+                <div className='tasks-main'>
+                    <div>
+                        <ul className="tasks-rows" >
+                            <ActiveTaskRow 
+                                task={activeTask} 
+                                projects={this.state.projects} 
+                                labels={this.state.labels} 
+                                key={activeTask.id} 
+                                createTask={this.createTask} 
+                                updateTask={this.updateTask}
+                                deleteTask={this.deleteTask}
+                                isActiveTask='true'
+                            />
+                        </ul>
+                    </div>
+                    <div>
+                        <ul className="tasks-rows">
+                            {tasksRows}
+                        </ul>       
+                    </div>
                 </div>
-                <div>
-                    <ul className="tasks-rows">
-                        {tasksRows}
-                    </ul>       
-                </div>
-            </div>
+            </CSSTransition>
         );
     }
 }; 

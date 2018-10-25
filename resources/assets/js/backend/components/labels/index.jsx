@@ -7,6 +7,8 @@ import List from '../shared/listing/table';
 import ConfirmDelete from '../shared/popups/ConfirmDelete';
 import LoadingAnimation from '../shared/loadingAnimation';
 
+import { CSSTransition } from 'react-transition-group';
+
 const emptyLabel = {
     name: ''
 };
@@ -140,6 +142,12 @@ class Labels extends React.Component {
         const showPopup = this.state.showPopup;
 
         return (
+        <CSSTransition
+            in={true}
+            appear={true}
+            timeout={300}
+            classNames="fade"
+            >
             <div>
 
                 <div className='main-header'>
@@ -210,6 +218,7 @@ class Labels extends React.Component {
 
                 
             </div>
+        </CSSTransition>
         );
     }
 };

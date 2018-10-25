@@ -10,6 +10,8 @@ import Close from 'react-icons/lib/fa/close';
 import CaretDown from 'react-icons/lib/fa/caret-down';
 import AngleDown from 'react-icons/lib/fa/angle-down';
 
+import { CSSTransition } from 'react-transition-group';
+
 const emptyProject = {
     name: '',
     client_id: 0,
@@ -261,6 +263,12 @@ class Projects extends React.Component {
         const showPopup = this.state.showPopup;
 
         return (
+        <CSSTransition
+                in={true}
+                appear={true}
+                timeout={300}
+                classNames="fade"
+                >
             <div>
 
                 <div className='main-header'>
@@ -384,15 +392,14 @@ class Projects extends React.Component {
                     }
                     
                 </div>
-
                 <List 
                     config={this.state.tableConfig} 
                     data={this.state.projects} 
                     edit={this.edit}
                     delete={this.confirmDelete}
                 />
-                
             </div>
+        </CSSTransition>
         );
     }
 };
