@@ -74,3 +74,8 @@ Route::group(['middleware' => 'auth'], function() {
         return view('prototyping.project-popup');
     });
 });
+
+Route::get('/logout', function() {
+    Auth::logout();
+    return redirect('login');
+});

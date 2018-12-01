@@ -14,6 +14,8 @@ import FaFolderO from 'react-icons/lib/fa/folder-o';
 import FaUser from 'react-icons/lib/fa/user';
 import FaTags from 'react-icons/lib/fa/tags';
 
+const logout = () => window.location = '/logout';
+
 const App = () => (
     <Router>
         <div id="wrapper">
@@ -71,6 +73,11 @@ const App = () => (
                         </li>
                     </ul>
                 </nav>
+                <div 
+                    onClick={logout}
+                    className="sidenav-logout">
+                    Logout
+                </div>
             </aside>
             <main>
                 <Route exact path="/app" component={Timer} />

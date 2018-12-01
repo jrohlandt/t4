@@ -43,6 +43,16 @@
     #sidebar-left nav ul li a:hover {
         color: lighten($leftnav-item-color, 50%);
     }
+
+    .sidenav-logout {
+        display: flex;
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        color: white;        
+        justify-content: center;
+        cursor: pointer;
+    }
     
 }
 
