@@ -11,7 +11,10 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.react('resources/assets/js/backend/app.js', 'public/js/backend/app.js')
+mix.react(
+   'resources/assets/js/backend/app.js', 
+   'public/js/backend/app.js'
+   )
    .extract([
       'react', 
       'react-dom', 
@@ -20,4 +23,12 @@ mix.react('resources/assets/js/backend/app.js', 'public/js/backend/app.js')
       'chart.js',
       'react-chartjs',
    ]);
-mix.sass('resources/assets/sass/backend/app.scss', 'public/css/backend/app.css');
+
+mix.sass(
+   'resources/assets/sass/backend/app.scss', 
+   'public/css/backend/app.css'
+   );
+
+if (mix.inProduction()) {
+   mix.version();
+}
