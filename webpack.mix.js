@@ -12,4 +12,12 @@ let mix = require('laravel-mix');
  */
 
 mix.react('resources/assets/js/backend/app.js', 'public/js/backend/app.js')
-   .sass('resources/assets/sass/backend/app.scss', 'public/css/backend/app.css');
+   .extract([
+      'react', 
+      'react-dom', 
+      'react-router-dom',
+      'react-transition-group',
+      'chart.js',
+      'react-chartjs',
+   ]);
+mix.sass('resources/assets/sass/backend/app.scss', 'public/css/backend/app.css');

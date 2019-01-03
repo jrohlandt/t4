@@ -44,7 +44,7 @@
         color: lighten($leftnav-item-color, 50%);
     }
 
-    .sidenav-logout {
+    .sidenav-sign-out {
         display: flex;
         position: absolute;
         bottom: 20px;
@@ -53,6 +53,20 @@
         justify-content: center;
         cursor: pointer;
     }
+
+    .sidenav-sign-out div {
+        display: none;
+    }
+
+    .sidenav-sign-out span.sign-out-icon {
+        display: none;
+    }
+
+    .sidenav-sign-out span.power-out-icon {
+        display: inline;
+    }
+
+    
     
 }
 
@@ -69,6 +83,19 @@
 
     #sidebar-left nav ul li a {
         padding: 5px 10px;
+    }
+
+    .sidenav-sign-out div {
+        display: block;
+    }
+
+    .sidenav-sign-out span.sign-out-icon {
+        display: inline;
+        margin-left: 15px;
+    }
+
+    .sidenav-sign-out span.power-out-icon {
+        display: none;
     }
 
 }

@@ -11,6 +11,8 @@
 </head>
 <body>
     <div id="app"></div>
+    <script src="/js/backend/manifest.js"></script> 
+    <script src="/js/backend/vendor.js"></script> 
     <script src="/js/backend/app.js"></script> 
 </body>
 </html>

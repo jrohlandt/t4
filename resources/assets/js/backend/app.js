@@ -13,6 +13,8 @@ import FaBarChart from 'react-icons/lib/fa/bar-chart';
 import FaFolderO from 'react-icons/lib/fa/folder-o';
 import FaUser from 'react-icons/lib/fa/user';
 import FaTags from 'react-icons/lib/fa/tags';
+import FaSignOut from 'react-icons/lib/fa/sign-out';
+import FaPowerOff from 'react-icons/lib/fa/power-off';
 
 const logout = () => window.location = '/logout';
 
@@ -73,10 +75,10 @@ const App = () => (
                         </li>
                     </ul>
                 </nav>
-                <div 
-                    onClick={logout}
-                    className="sidenav-logout">
-                    Logout
+                <div onClick={logout} className="sidenav-sign-out">
+                    <div>Sign Out</div> 
+                    <span className="sign-out-icon"><FaSignOut size={20} /></span>
+                    <span className="power-out-icon"><FaPowerOff size={20} /></span>
                 </div>
             </aside>
             <main>
