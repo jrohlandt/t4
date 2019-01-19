@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" >
+    <title>Workout Generator</title>
+</head>
+<body>
+    <h1>Workout</h1>
+
+    <div>
+        <ol id="workout-list">
+
+        </ol>
+    </div>
+
+    <script>
+        (() => {
+            function getRandomInt(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            const exercises = [
+                {name: 'Dumbbell Squats'},
+                {name: 'Knuckle Pushups'},
+                {name: 'Chinups'},
+                {name: 'planks'},
+                {name: 'Overhead lifts'},
+            ];
+
+            let rand = [];
+
+            const max = exercises.length - 1;
+            const maxTries = 100;
+            let t = 0;
+            while(t < maxTries) {
+                ++t;
+                const n = getRandomInt(0, max);
+                console.log(n);
+
+                if (rand.indexOf(n) === -1) {
+                    rand.push(n);
+                    if (rand.length >= exercises.length) break;
+                }
+            }
+
+            let workoutList = document.getElementById('workout-list');
+            let workouts = [];
+            rand.forEach((n) => {
+                for (let i=0; i < 3; ++i) {
+                    let item = document.createElement('li');
+                    let text = document.createTextNode(exercises[n].name);
+                    item.appendChild(text);
+                    workouts.push(item);
+                }
+            });
+
+            let next = 0;
+            workoutList.appendChild(workouts[next]);
+            next = 1;
+            const intervalId = setInterval(() => {
+                workoutList.appendChild(workouts[next]);
+                next++;
+                if (next >= workouts.length) {
+                    clearInterval(intervalId);
+                    let element = document.createElement('h1');
+                    let endText = document.createTextNode('Workout Done!');
+                    element.appendChild(endText);
+                    document.body.appendChild(element);
+                }
+            }, 90000 );
+
+        })();
+    </script>
+</body>
+</html>
