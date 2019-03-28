@@ -25,41 +25,44 @@ Route::get('/sandbox', function() {
     return view('sandbox', compact(['colors']));
 });
 
-Route::group(['prefix' => 'app', 'middleware' => 'auth'], function() {
+Route::group([
+    'prefix' => 'app',
+    'namespace' => 'Backend',
+    'middleware' => 'auth'], function() {
 
     // Tasks
-    Route::get('/', 'Backend\TaskController@index');
-    Route::get('/tasks', 'Backend\TaskController@index');
-    Route::get('/tasks/active', 'Backend\TaskController@active');
-    Route::post('/tasks', 'Backend\TaskController@store');
-    Route::put('/tasks/{id}', 'Backend\TaskController@update'); // Todo change to patch as per laravel convention.
-    Route::delete('/tasks/{id}', 'Backend\TaskController@destroy');
+    Route::get('/', 'TaskController@index');
+    Route::get('/tasks', 'TaskController@index');
+    Route::get('/tasks/active', 'TaskController@active');
+    Route::post('/tasks', 'TaskController@store');
+    Route::put('/tasks/{id}', 'TaskController@update'); // Todo change to patch as per laravel convention.
+    Route::delete('/tasks/{id}', 'TaskController@destroy');
 
     // Reports
-    Route::get('/reports', 'Backend\ReportController@index');
-    Route::post('/reports/stats', 'Backend\ReportController@stats');
+    Route::get('/reports', 'ReportController@index');
+    Route::post('/reports/stats', 'ReportController@stats');
 
     
     // Projects
-    Route::get('/projects', 'Backend\ProjectController@index');
-    Route::post('/projects', 'Backend\ProjectController@store');
-    Route::put('/projects/{id}', 'Backend\ProjectController@update'); // Todo change to patch as per laravel convention.
-    Route::delete('/projects/{id}', 'Backend\ProjectController@destroy');
+    Route::get('/projects', 'ProjectController@index');
+    Route::post('/projects', 'ProjectController@store');
+    Route::put('/projects/{id}', 'ProjectController@update'); // Todo change to patch as per laravel convention.
+    Route::delete('/projects/{id}', 'ProjectController@destroy');
 
     // Clients
-    Route::get('/clients', 'Backend\ClientController@index');
-    Route::post('/clients', 'Backend\ClientController@store');
-    Route::put('/clients/{id}', 'Backend\ClientController@update'); // Todo change to patch as per laravel convention.
-    Route::delete('/clients/{id}', 'Backend\ClientController@destroy');
+    Route::get('/clients', 'ClientController@index');
+    Route::post('/clients', 'ClientController@store');
+    Route::put('/clients/{id}', 'ClientController@update'); // Todo change to patch as per laravel convention.
+    Route::delete('/clients/{id}', 'ClientController@destroy');
 
     // Labels
-    Route::get('/labels', 'Backend\LabelController@index');
-    Route::post('/labels', 'Backend\LabelController@store');
-    Route::put('/labels/{id}', 'Backend\LabelController@update'); // Todo change to patch as per laravel convention.
-    Route::delete('/labels/{id}', 'Backend\LabelController@destroy');
+    Route::get('/labels', 'LabelController@index');
+    Route::post('/labels', 'LabelController@store');
+    Route::put('/labels/{id}', 'LabelController@update'); // Todo change to patch as per laravel convention.
+    Route::delete('/labels/{id}', 'LabelController@destroy');
 
     // Colors 
-    Route::get('/colors', 'Backend\ColorController@index');
+    Route::get('/colors', 'ColorController@index');
     
 });
 
