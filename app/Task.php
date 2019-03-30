@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Task extends Model
 {
@@ -19,7 +21,18 @@ class Task extends Model
         'user_id' => 'int',
     ];
 
-    public function scopeActive(\Illuminate\Database\Eloquent\Builder $query)
+    public function scopeRecent(Builder $query)
+    {
+        $from = Carbon::now()->subWeek();
+        $to = Carbon::now();
+
+        return $query
+            ->whereNotNull('start_time')
+            ->whereNotNull('end_time')
+            ->whereBetween('created_at', [$from, $to]);
+    }
+
+    public function scopeActive(Builder $query)
     {
         return $query->where('end_time', null);
     }

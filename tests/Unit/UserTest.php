@@ -8,18 +8,16 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class TaskTest extends TestCase
+class UserTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function can_get_active_task()
+    public function can_get_recent_tasks()
     {
         $user = factory(User::class)->create();
-        $user->tasks()->create();
+        factory(Task::class, 20)->create(['user_id' => $user->id]);
 
-        $task = $user->activeTask();
-
-        $this->assertNotNull($task);
+        $this->assertNotEmpty($user->recentTasks());
     }
 }

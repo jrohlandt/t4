@@ -91,7 +91,9 @@ class TasksTest extends TestCase
 
         $response = $this->actingAs($otherUser)->json('get', 'app/tasks/active');
 
-        $response->assertStatus(404);
+        $response->assertStatus(200);
+        $res = $response->decodeResponseJson();
+        $this->assertNull($res['task']);
     }
 
     /** @test */

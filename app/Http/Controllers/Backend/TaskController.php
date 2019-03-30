@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Backend;
 
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -27,62 +28,41 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $from = Carbon::now()->subWeek();
-            $to = Carbon::now();
-            
-            $tasks = Task::where('user_id', \Auth::id())
-                ->whereNotNull('start_time')
-                ->whereNotNull('end_time')
-                ->whereBetween('created_at', [$from, $to])
-                ->orderBy('created_at', 'desc')
-                ->take(100)
-                ->get();
+        if (!$request->ajax())
+            return view('backend.index');
 
-            return response()->json(['tasks' => $tasks]);
-        }
-        return view('backend.index');
+        return response()->json(['tasks' => Auth::user()->recentTasks()]);
     }
 
     // Get Active Task
-    public function active()
+    public function active(): JsonResponse
     {
-        // Fetch only the last task.
-        $task = Task::where('user_id', \Auth::id())->orderByDesc('id')->firstOrFail();
+        $task = Auth::User()->activeTask();
+        if (empty($task->id))
+            return response()->json(['message' => 'No active task', 'task' => null]);
 
-        // Then check if the task is still active (has a end_time or not).
-        // If it has no end_time then the task is still active.
-        if (empty($task->end_time))
-            return response()->json(['message' => 'success', 'task' => $task]);
-
-        return response()->json(['message' => 'No active task']);
+        return response()->json(['message' => 'success', 'task' => $task]);
     }
 
     // Store
-    public function store(TaskRequest $request) : JsonResponse
+    public function store(TaskRequest $request): JsonResponse
     {
-        $input = $request->validated();
-        $input['user_id'] = \Auth::id();
-
-        $task = $this->task->create($input);
+        $task = Auth::User()->tasks()->create($request->validated());
         return response()->json(['message' => 'success', 'task' => $task]);
     }
 
     // Update
-    public function update(TaskRequest $request, int $id) : JsonResponse
+    public function update(TaskRequest $request, int $id): JsonResponse
     {
-        $task = $this->task->findOrFail($id);
-        $task->update($request->validated());
+        $this->task->findOrFail($id)->update($request->validated());
         return response()->json(['message' => 'success']);
     }
 
     // Destroy
     public function destroy(int $id): JsonResponse
     {
-        $task = Task::findOrFail($id);
-
+        $task = $this->task->findOrFail($id);
         $this->authorize('delete', $task);
-
         $task->delete();
         return response()->json(['message' => 'success']);
     }
