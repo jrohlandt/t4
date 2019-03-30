@@ -18,12 +18,12 @@ var emptyTask = {
 const emptyLabel = {
     id: 0,
     name: 'none',
-}
+};
 
 const emptyProject = {
     id: 0,
     name: 'none',
-}
+};
 
 class Timer extends React.Component {
 
@@ -110,7 +110,6 @@ class Timer extends React.Component {
             };
 
         });
-
 
         // Update server.
         Ajax.put(this.ajaxUrl + task.id, task)
@@ -218,6 +217,6 @@ class Timer extends React.Component {
             </CSSTransition>
         );
     }
-}; 
+}
 
 export default Timer;
