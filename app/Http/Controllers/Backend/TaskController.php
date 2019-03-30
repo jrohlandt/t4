@@ -1,21 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Task;
-use App\Http\Requests\StoreTask;
-use App\Http\Requests\UpdateTask;
 use Carbon\Carbon;
-
+use App\Task;
+use App\Http\Requests\TaskRequest;
 
 class TaskController extends Controller
 {
+    private $task;
+
+    public function __construct(Task $task)
+    {
+        $this->task = $task;
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -36,10 +44,11 @@ class TaskController extends Controller
         return view('backend.index');
     }
 
-    public function active() {
-
+    // Get Active Task
+    public function active()
+    {
         // Fetch only the last task.
-        $task = Task::orderByDesc('id')->first();
+        $task = Task::where('user_id', \Auth::id())->orderByDesc('id')->firstOrFail();
 
         // Then check if the task is still active (has a end_time or not).
         // If it has no end_time then the task is still active.
@@ -49,54 +58,30 @@ class TaskController extends Controller
         return response()->json(['message' => 'No active task']);
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreTask $request)
+    // Store
+    public function store(TaskRequest $request) : JsonResponse
     {
         $input = $request->validated();
         $input['user_id'] = \Auth::id();
 
-        $task = Task::create($input);
+        $task = $this->task->create($input);
         return response()->json(['message' => 'success', 'task' => $task]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateTask $request, $id)
+    // Update
+    public function update(TaskRequest $request, int $id) : JsonResponse
     {
-        if (!$task = Task::find($id))
-            return response()->json(['error' => 'Not Found'], 404);
-
-        if ($task->user_id != \Auth::id())
-            return response()->json(['error' => 'Not Authorized'], 401);
-
+        $task = $this->task->findOrFail($id);
         $task->update($request->validated());
         return response()->json(['message' => 'success']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    // Destroy
+    public function destroy(int $id): JsonResponse
     {
-        if (!$task = Task::find($id))
-            return response()->json(['error' => 'Not Found'], 404);
+        $task = Task::findOrFail($id);
 
-        if ($task->user_id != \Auth::id())
-            return response()->json(['error' => 'Not Authorized'], 401);
+        $this->authorize('delete', $task);
 
         $task->delete();
         return response()->json(['message' => 'success']);

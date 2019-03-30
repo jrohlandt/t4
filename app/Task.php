@@ -14,4 +14,13 @@ class Task extends Model
         'start_time',
         'end_time',
     ];
+
+    protected $casts = [
+        'user_id' => 'int',
+    ];
+
+    public function scopeActive(\Illuminate\Database\Eloquent\Builder $query)
+    {
+        return $query->where('end_time', null);
+    }
 }
