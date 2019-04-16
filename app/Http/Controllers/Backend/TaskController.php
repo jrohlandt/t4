@@ -8,7 +8,6 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use App\Task;
 use App\Http\Requests\TaskRequest;
 
@@ -23,8 +22,8 @@ class TaskController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse or \Illuminate\View\View
      */
     public function index(Request $request)
     {
