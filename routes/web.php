@@ -63,6 +63,9 @@ Route::group([
 
     // Colors 
     Route::get('/colors', 'ColorController@index');
+
+    // User Profile
+    Route::get('/profile', 'UserProfileController@loggedInProfile');
     
 });
 
