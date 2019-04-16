@@ -31,9 +31,4 @@ class Task extends Model
             ->whereNotNull('end_time')
             ->whereBetween('created_at', [$from, $to]);
     }
-
-    public function scopeActive(Builder $query)
-    {
-        return $query->where('end_time', null);
-    }
 }

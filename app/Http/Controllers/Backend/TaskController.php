@@ -38,8 +38,9 @@ class TaskController extends Controller
     public function active(): JsonResponse
     {
         $task = Auth::User()->activeTask();
-        if (empty($task->id))
+        if (is_null($task)) {
             return response()->json(['message' => 'No active task', 'task' => null]);
+        }
 
         return response()->json(['message' => 'success', 'task' => $task]);
     }

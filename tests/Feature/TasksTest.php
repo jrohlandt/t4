@@ -49,6 +49,7 @@ class TasksTest extends TestCase
             ->assertJson(['task' => [
                 'user_id' => $this->user->id,
                 'description' => 'my active task',
+                'end_time' => null,
             ]]);
     }
 
