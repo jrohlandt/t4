@@ -12,12 +12,12 @@ class UserProfileTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function can_get_user_details()
+    public function can_get_auth_user_details()
     {
 //        $this->withExceptionHandling();
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->json('get', 'app/profile');
+        $response = $this->actingAs($user)->json('get', 'app/profile', [], [ 'X-Requested-With' => 'XMLHttpRequest']);
 
         $response->assertStatus(200);
         $response->assertJson([

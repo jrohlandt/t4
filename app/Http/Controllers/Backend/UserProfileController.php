@@ -8,8 +8,12 @@ use App\Http\Controllers\Controller;
 
 class UserProfileController extends Controller
 {
-    public function loggedInProfile()
+    public function loggedInProfile(Request $request)
     {
-        return response()->json(['user' => Auth::User()]);
+        if ($request->ajax()) {
+            return response()->json(['profile' => Auth::User()]);
+        }
+
+        return view('backend.index');
     }
 }

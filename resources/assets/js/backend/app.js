@@ -7,6 +7,7 @@ import Reports from './components/reports';
 import Projects from './components/projects';
 import Clients from './components/clients';
 import Labels from './components/labels';
+import ProfileShow from './components/profile/index.jsx';
 
 import FaClock from 'react-icons/lib/fa/clock-o';
 import FaBarChart from 'react-icons/lib/fa/bar-chart';
@@ -15,6 +16,7 @@ import FaUser from 'react-icons/lib/fa/user';
 import FaTags from 'react-icons/lib/fa/tags';
 import FaSignOut from 'react-icons/lib/fa/sign-out';
 import FaPowerOff from 'react-icons/lib/fa/power-off';
+import FaGroup from 'react-icons/lib/fa/group';
 
 const logout = () => window.location = '/logout';
 
@@ -60,7 +62,7 @@ const App = () => (
                                 to="/app/clients"
                                 activeClassName="left-nav-active"
                             >
-                            <FaUser size={20} style={{marginBottom: '5px'}}/>                                                        
+                            <FaGroup size={20} style={{marginBottom: '5px'}}/>
                             <span>Clients</span>
                             </NavLink>
                         </li>
@@ -71,6 +73,12 @@ const App = () => (
                             >
                             <FaTags size={20} style={{marginBottom: '5px'}}/>                                                        
                             <span>Labels</span>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="app/profile" activeClassName="left-nav-active" >
+                                <FaUser size={20} style={{maginBottom: '5px'}}/>
+                                <span>Profile</span>
                             </NavLink>
                         </li>
                     </ul>
@@ -87,6 +95,7 @@ const App = () => (
                 <Route path="/app/projects" component={Projects} />
                 <Route path="/app/clients" component={Clients} />
                 <Route path="/app/labels" component={Labels} />
+                <Route path="/app/profile" component={ProfileShow} />
             </main>
         </div>
     </Router>
