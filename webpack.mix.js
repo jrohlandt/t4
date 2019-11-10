@@ -11,23 +11,24 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.react(
-   'resources/assets/js/backend/app.js', 
-   'public/js/backend/app.js'
-   )
-   .extract([
-      'react', 
-      'react-dom', 
-      'react-router-dom',
-      'react-transition-group',
-      'chart.js',
-      'react-chartjs',
-   ]);
-
-mix.sass(
-   'resources/assets/sass/backend/app.scss', 
-   'public/css/backend/app.css'
-   );
+// DONT USE, react client moved to https://github.com/jrohlandt/t4-client
+// mix.react(
+//    'resources/assets/js/backend/app.js',
+//    'public/js/backend/app.js'
+//    )
+//    .extract([
+//       'react',
+//       'react-dom',
+//       'react-router-dom',
+//       'react-transition-group',
+//       'chart.js',
+//       'react-chartjs',
+//    ]);
+//
+// mix.sass(
+//    'resources/assets/sass/backend/app.scss',
+//    'public/css/backend/app.css'
+//    );
 
 if (mix.inProduction()) {
    mix.version();
