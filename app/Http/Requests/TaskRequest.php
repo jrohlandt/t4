@@ -33,8 +33,6 @@ class TaskRequest extends FormRequest
             'description' => 'max:100',
             'project_id' => 'nullable|numeric',
             'label_id' => 'nullable|numeric',
-            'start_time' => 'nullable|date',
-            'end_time' => 'nullable|date',
         ];
     }
 }

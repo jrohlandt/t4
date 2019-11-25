@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Backend;
 
-use Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -36,7 +37,7 @@ class TaskController extends Controller
     // Get Active Task
     public function active(): JsonResponse
     {
-        $task = Auth::User()->activeTask();
+        $task = auth()->user()->activeTask();
         if (is_null($task)) {
             return response()->json(['message' => 'No active task', 'task' => null]);
         }
@@ -47,21 +48,36 @@ class TaskController extends Controller
     // Store
     public function store(TaskRequest $request): JsonResponse
     {
-        $task = Auth::User()->tasks()->create($request->validated());
+        $data = $request->validated();
+
+        if ($request->filled('start_time') ) {
+            // Don't use the time sent from the client.
+            $data['start_time'] = Carbon::now();
+        }
+
+        $task = auth()->user()->tasks()->create($data);
+
         return response()->json(['message' => 'success', 'task' => $task]);
     }
 
     // Update
     public function update(TaskRequest $request, int $id): JsonResponse
     {
-        $this->task->findOrFail($id)->update($request->validated());
+        $data = $request->validated();
+
+        if ($request->filled('end_time') ) {
+            // Don't use the time sent from the client.
+            $data['end_time'] = Carbon::now();
+        }
+
+        auth()->user()->tasks()->findOrFail($id)->update($data);
         return response()->json(['message' => 'success']);
     }
 
     // Destroy
     public function destroy(int $id): JsonResponse
     {
-        $task = $this->task->findOrFail($id);
+        $task = auth()->user()->tasks()->findOrFail($id);
         $this->authorize('delete', $task);
         $task->delete();
         return response()->json(['message' => 'success']);

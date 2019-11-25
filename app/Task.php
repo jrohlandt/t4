@@ -19,6 +19,8 @@ class Task extends Model
 
     protected $casts = [
         'user_id' => 'int',
+        'start_time' => 'datetime:c', // c iso 8601
+        'end_time' => 'datetime:c', // c iso 8601
     ];
 
     public function scopeRecent(Builder $query)
