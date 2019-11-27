@@ -64,13 +64,15 @@ class TaskController extends Controller
     public function update(TaskRequest $request, int $id): JsonResponse
     {
         $data = $request->validated();
+        $task = auth()->user()->tasks()->findOrFail($id);
 
-        if ($request->filled('end_time') ) {
+        if (!$task->end_time && $request->filled('end_time') ) {
             // Don't use the time sent from the client.
             $data['end_time'] = Carbon::now();
         }
 
-        auth()->user()->tasks()->findOrFail($id)->update($data);
+        $task->update($data);
+
         return response()->json(['message' => 'success']);
     }
 
