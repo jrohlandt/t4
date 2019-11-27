@@ -1,9 +1,10 @@
 #!/bin/bash
 
-cd /home/forge/t4.crud.co.za
-git pull origin master
+#git pull origin master
 
 # Laravel
+cd /home/forge/t4.crud.co.za
+
 composer install --no-interaction --prefer-dist --optimize-autoloader
 echo "" | sudo -S service php7.3-fpm reload
 
@@ -13,6 +14,9 @@ then
 fi
 
 # React
+cd /home/forge/t4.crud.co.za/reactapp
+
+npm install
 npm run build
 rm -r ../public/static
 cp -r build/static ../public/static
