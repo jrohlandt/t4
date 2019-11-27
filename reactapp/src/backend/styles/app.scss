@@ -1,0 +1,136 @@
+@import 'variables';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import './normalize.css';
+@import './sidebar.scss';
+@import './tasks.scss';
+@import './listing.scss';
+@import './popup.scss';
+@import './buttons.scss';
+@import './colorPalette.scss';
+@import './animations.scss';
+@import './loading.scss';
+
+html, body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    height: 100%;
+
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+ul, li {
+    padding: 0;
+    margin: 0;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+*:focus {
+    outline: none;
+}
+
+.box-shadow-light {
+    box-shadow: 0 1px 3px rgba(128, 128, 128, .2);
+}
+
+.box-shadow-heavy {
+    box-shadow: 0 5px 15px rgba(128, 128, 128, .5);
+}
+
+#app {
+    height: 100%;
+}
+
+#wrapper {
+    display: grid;
+    height: 100%;
+    grid-template-columns: auto;
+    grid-template-areas: 
+        "main";
+}
+
+
+
+main {
+    position: relative;
+    grid-area: main;
+    display: flex;
+    justify-content: center;
+    background-color: $main-background-color;
+    padding: 20px;
+}
+
+main > div {
+    width: 100%;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.main-header h1 {
+    float: left;
+    color: $grey-dark;
+    margin-left: 20px;
+}
+
+.main-header .create-new-btn {
+    float: right;
+    width: 150px;
+    margin-right: 20px;
+    padding: 5px;
+    border: thin solid black;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 700px) {
+    
+    #wrapper {
+        display: grid;
+        height: 100%;
+        grid-template-columns: 50px auto;
+        grid-template-areas: 
+            "leftnav main";
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    
+    #wrapper {
+        grid-template-columns: 150px auto;
+    }
+
+    main > div {
+        width: 1000px;
+    }
+
+    .tasks-main {
+        width: 100%;
+    }
+
+}
+
+@media screen and (min-width: 1200px) {
+
+    main > div {
+        width: 1200px;
+    }
+
+
+    .tasks-main {
+        width: 100%;
+    }
+}

@@ -1,0 +1,231 @@
+.tasks-date-heading {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: .9em;
+    text-transform: capitalize;
+    color: $grey-dark;
+}
+
+.tasks-rows {
+    width: 100%;
+    list-style: none;
+}
+
+.timer-active-task-row,
+.timer-task-row {
+    clear: left;
+    height: 50px;
+    padding: 5px;
+    border-bottom: 1px solid rgba(116, 118, 143, .1);
+}
+
+.timer-active-task-row {
+    height: 70px;
+    // font-size: .8em;
+    margin-bottom: 30px;
+}
+
+.timer-task-row {
+    font-size: .9em;
+}
+
+.timer-task-row-active {
+    background-color: $grey-lightest;
+}
+
+.ttr-left, .ttr-right {
+    height: 100%;
+}
+
+.ttr-left {
+    float: left;
+    width: 60%;
+}
+
+.ttr-right, .ttr-active-right {
+    float: right;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 40%;
+    max-width: 400px;
+}
+
+
+.ttr-description-wrapper {
+    float: left;
+    max-width: 70%;
+    height: 100%;
+}
+
+.ttr-active-task-row.ttr-description-wrapper {
+    min-width: 30%;
+}
+
+.ttr-description {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: $grey-darker;
+    margin-right: 20px;
+}
+
+.ttr-description-input {
+    width: 100%;
+    height: 100%;
+    color: $grey-darkest;
+    background-color: $main-background-color;
+    padding: 0 10px;
+    border: none;
+}
+
+.ttr-description, .ttr-description-input {
+    max-width: 500px;
+    overflow: hidden;
+}
+
+.ttr-description-input::placeholder {
+    color: $grey-lighter;
+}
+
+.ttr-description-input-active {
+    background-color: $grey-lightest;
+}
+
+.ttr-last {
+    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.ttr-active-right .ttr-last {
+    justify-content: flex-end;
+    width: 40%;
+    margin-left: 10px;
+}
+
+.ttr-times {
+    display: none;
+    float: left;
+    // font-size: .8em;
+    color: $task-row-start-end-times-color;
+}
+
+
+.ttr-start-button, .ttr-stop-button {
+    float: left;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    width: 35px;
+    color: white;
+    cursor: pointer;
+    border-radius: 50px;
+    margin-left: 15px;
+}
+
+.ttr-start-button {
+    background: rgb(24, 179, 24);
+}
+
+.ttr-stop-button {
+    background: rgb(233, 16, 16);
+}
+
+.ttr-delete {
+    cursor: pointer;
+    color: hsl(0, 0%, 77%);
+}
+
+.ttr-delete:hover {
+    color: $grey-lighter;
+}
+
+/* dropdown */
+.ttr-dropdown {
+    height: 100%;
+}
+
+.ttr-project-select, .ttr-label-select, .ttr-no-selected {
+    display: inline-flex;
+    align-items: center;
+    width: 50px;
+    // font-size: .8em;
+    cursor: pointer;
+    // overflow: hidden;
+}
+
+.ttr-project-select {
+    width: 100%;
+    margin-left: 20px;
+}
+
+.ttr-project-select.ttr-dropdown-expanded, 
+.ttr-label-select.ttr-dropdown-expanded {
+    background: $grey-lightest;
+}
+
+.ttr-project-select {
+    max-width: 150px;
+}
+
+.ttr-label-select {
+    width: 100px;
+}
+
+.ttr-dropdown-icon {
+    color: $task-row-icons-color;
+    // font-weight: bold;
+    font-size: .9em;
+}
+
+.ttr-dropdown-project-dot {
+    display: block;
+    float: left;
+    height: 6px;
+    width: 6px;
+    border-radius: 12px;
+    margin-top: 4px;
+    margin-right: 5px;
+}
+
+.ttr-dropdown-list-wrapper {
+    position: relative;
+}
+.ttr-dropdown-list {
+    position: absolute;
+    top: 30px;
+    left: -50px;
+    z-index: 10;
+    padding: 10px;
+    background: white;
+    width: 300px;
+    max-height: 350px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
+}
+
+.ttr-dropdown-list li {
+    list-style: none;
+    padding: 10px 5px;
+}
+
+// .ttr-dropdown-icon:hover {
+//     color: darken($default-color, 30%); or $grey-dark
+// }
+
+
+
+@media screen and (min-width: 1150px) {
+    .ttr-times {
+        display: block;
+        float: left;
+    }
+}
+
