@@ -47,4 +47,14 @@ class User extends Authenticatable
         }
         return null;
     }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    public function labels()
+    {
+        return $this->hasMany(Label::class);
+    }
 }
