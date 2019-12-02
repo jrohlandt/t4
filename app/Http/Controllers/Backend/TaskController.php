@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Backend;
 
+use App\Helpers\CsvParser\Exceptions\InvalidCsvFileException;
+use App\Helpers\CsvParser\Exceptions\InvalidDateException;
+use App\Helpers\CsvParser\Exceptions\InvalidValidationRule;
+use App\Helpers\TaskImportHelper;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -90,8 +94,26 @@ class TaskController extends Controller
 
     }
 
-    public function postImport()
+    public function postImport(Request $request)
     {
 
+        if (!$request->has('file')) {
+            return;
+        }
+
+        try {
+            $helper = new TaskImportHelper(Auth::user());
+            $parsedArray = $helper->parseCsvIntoArray();
+            $processed = $helper->process($parsedArray);
+
+        } catch(InvalidCsvFileException $e) {
+
+        } catch(InvalidValidationRule $e) {
+
+        } catch(InvalidDateException $e) {
+
+        } catch(\Exception $e) {
+
+        }
     }
 }

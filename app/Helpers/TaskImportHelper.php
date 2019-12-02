@@ -7,6 +7,7 @@ use App\Helpers\CsvParser\Exceptions\InvalidCsvFileException;
 use App\Helpers\CsvParser\Exceptions\InvalidDateException;
 use App\Helpers\CsvParser\Exceptions\InvalidValidationRule;
 use App\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class TaskImportHelper {
 
@@ -14,7 +15,7 @@ class TaskImportHelper {
     private $user;
     private $tz;
 
-    public function __construct(User $user, $tz = 'Africa/Johannesburg')
+    public function __construct(Authenticatable $user, $tz = 'Africa/Johannesburg')
     {
         $this->user = $user;
         $this->tz = $tz;
@@ -32,7 +33,13 @@ class TaskImportHelper {
                                 $name = str_replace(' ', '', $name);
                                 break;
                             case 'rebrandapps_tickethub':
+                            case 'rebrandapps_pinpoint':
+                            case 'rebrandapps_projecthub':
+                            case 'rebrandapps_seo_snapshot':
                                 $name = str_replace('rebrandapps_', '', $name);
+                                if ($name === 'seo_snapshot') {
+                                    $name = 'seosnapshot';
+                                }
                                 break;
                             case 'rebrandapps_general':
                                 $name = 'rebrandapps';
@@ -52,11 +59,7 @@ class TaskImportHelper {
                 'start_time',
                 'end_date',
                 'end_time',
-                'description' => [
-                    'callback' => function( $value ) {
-                        return strtolower($value) === 'lunch' ? null : $value;
-                    }
-                ],
+                'description',
 
             ]
         ];
@@ -67,27 +70,22 @@ class TaskImportHelper {
     public function parseCsvIntoArray(string $file): array
     {
         $parsedArray = [];
-        try {
+
             $parsedArray = $this->csvParser->parseCSVIntoArray($file, 0, 5000);
-        } catch(InvalidCsvFileException $e) {
-
-        } catch(InvalidValidationRule $e) {
-
-        } catch(\Exception $e) {
-
-        }
 
         return $parsedArray;
     }
 
     public function process(array $parsedArray): array
     {
-        try {
+
             $fixed = [];
             foreach ($parsedArray as $task) {
-                if (empty($task['description']) && empty($task['project_id'])) {
+                if (empty($task['description']) && empty($task['project'])) {
                     continue;
                 }
+
+                if ($task['description'] === 'Lunch' || strpos($task['labels'], 'lunch') !== false) continue;
 
                 $fixedTask = $task;
                 $fixedTask['start_time'] = CsvParser::parseDate($task['start_date'] . $task['start_time'], $this->tz);
@@ -103,11 +101,6 @@ class TaskImportHelper {
                 $fixed[] = $fixedTask;
             }
 
-        } catch(InvalidDateException $e) {
-
-        } catch(\Exception $e) {
-
-        }
 
         return $fixed;
 
