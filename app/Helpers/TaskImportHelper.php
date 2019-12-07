@@ -47,6 +47,9 @@ class TaskImportHelper {
                             case 'voicestak fix recordrtc':
                                 $name = 'voicestak';
                                 break;
+                            case 'magiweb backpacker':
+                                $name = 'mw core';
+                                break;
                         }
 
                         return $name;
@@ -69,11 +72,7 @@ class TaskImportHelper {
 
     public function parseCsvIntoArray(string $file): array
     {
-        $parsedArray = [];
-
-            $parsedArray = $this->csvParser->parseCSVIntoArray($file, 0, 5000);
-
-        return $parsedArray;
+        return $this->csvParser->parseCSVIntoArray($file, 0, 5000);
     }
 
     public function process(array $parsedArray): array
@@ -135,14 +134,19 @@ class TaskImportHelper {
             return null;
         }
 
-        $name = $exploded[0];
+        $name = strtolower($exploded[0]);
 
-        if ($name === 'lunch') {
-            return null;
+        if ($name === 'ticket' || $name === 'review tickets') {
+            $name = 'tickets';
         }
 
-        if ($name === 'ticket') {
-            $name = 'tickets';
+        if (
+            $name === 'fe dev'
+            || $name === 'research'
+            || $name === 'server admin'
+            || $name === 'installation'
+        ) {
+            $name = 'development';
         }
 
         $labels = $this->user->labels()->get()

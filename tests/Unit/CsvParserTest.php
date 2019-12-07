@@ -114,15 +114,15 @@ joedoe@gmail.com,Joe,Doe,2017-12-01 12:44:23
     public function can_parse_valid_dates()
     {
         $dates = [
-            ['original' => '2018-10-21 20:41:07', 'expected' => '2018-10-21 20:41:07'],
-            ['original' => '2019-10-21', 'expected' => '2019-10-21 00:00:00'],
-            ['original' => '2017-12-01 12:40:23', 'expected' => '2017-12-01 12:40:23'],
-            ['original' => '7/03/2007', 'expected' => '2007-07-03 00:00:00'],
-            ['original' => '7/03/2019 10:00:01', 'expected' => '2019-07-03 10:00:01'],
-            ['original' => '03/2/19', 'expected' => '2019-03-02 00:00:00'],
-            ['original' => '03/2/19 00:04:10', 'expected' => '2019-03-02 00:04:10'],
-            ['original' => '1/3/15', 'expected' => '2015-01-03 00:00:00'],
-            ['original' => '1/3/19 10:00:00', 'expected' => '2019-01-03 10:00:00'],
+            ['original' => '2018-10-21 20:41:07', 'expected' => '2018-10-21 18:41:07'],
+            ['original' => '2019-10-21', 'expected' => '2019-10-20 22:00:00'],
+            ['original' => '2017-12-01 12:40:23', 'expected' => '2017-12-01 10:40:23'],
+            ['original' => '7/03/2007', 'expected' => '2007-07-02 22:00:00'],
+            ['original' => '7/03/2019 10:00:01', 'expected' => '2019-07-03 08:00:01'],
+            ['original' => '03/2/19', 'expected' => '2019-03-01 22:00:00'],
+            ['original' => '03/2/19 00:04:10', 'expected' => '2019-03-01 22:04:10'],
+            ['original' => '1/3/15', 'expected' => '2015-01-02 22:00:00'],
+            ['original' => '1/3/19 11:00:00', 'expected' => '2019-01-03 09:00:00'],
         ];
         foreach ($dates as $date) {
             $parsed = CSVParser::parseDate($date['original'], $this->tz);

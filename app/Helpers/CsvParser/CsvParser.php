@@ -25,7 +25,9 @@ class CsvParser
 
     public static function normalizeColumnName($columnName)
     {
-        return strtolower(str_replace(' ', '_', trim($columnName)));
+        $string = strtolower( trim($columnName) );
+        $string = str_replace( ' ()', '', $string);
+        return str_replace([' '], '_', $string);
     }
 
     public static function normalizeColumnNames($columnNames): array
@@ -71,8 +73,19 @@ class CsvParser
             }
             $fields[] = self::IGNORE_COLUMN;
         }
-        if (empty($fields))
+
+        $noColumnsFound = true;
+
+        foreach($fields as $field) {
+            if ($field !== self::IGNORE_COLUMN) {
+                $noColumnsFound = false;
+                break;
+            }
+        }
+
+        if ($noColumnsFound) {
             throw new InvalidCsvFileException("Invalid CSV file: No Column names found.");
+        }
 
         return $fields;
     }
@@ -89,7 +102,8 @@ class CsvParser
     {
         try {
 //            $parsed = Carbon::parse($date)->toDateTimeString();
-            $date = Carbon::createFromFormat('Y-m-d H:i:s', $date, $tz);
+//            $date = Carbon::createFromFormat('Y-m-d H:i:s', $date, $tz);
+            $date = Carbon::parse($date, $tz);
             $date->setTimezone('UTC');
             $parsed = $date->toDateTimeString();
         }

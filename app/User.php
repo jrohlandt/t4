@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -35,7 +34,7 @@ class User extends Authenticatable
 
     public function recentTasks()
     {
-        return $this->tasks()->recent()->orderBy('created_at', 'desc')->take(100)->get();
+        return $this->tasks()->recent()->orderBy('start_time', 'desc')->take(100)->get();
     }
 
     public function activeTask(): ?Task

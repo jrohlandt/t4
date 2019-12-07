@@ -37,6 +37,8 @@ Route::group([
     Route::post('/tasks', 'TaskController@store');
     Route::put('/tasks/{id}', 'TaskController@update'); // Todo change to patch as per laravel convention.
     Route::delete('/tasks/{id}', 'TaskController@destroy');
+    Route::get('tasks/import', 'TaskController@import')->name('app.tasks.import');
+    Route::post('tasks/import', 'TaskController@csvImport')->name('app.tasks.csvImport');
 
     // Reports
     Route::get('/reports', 'ReportController@index');

@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Task;
 use App\Http\Requests\TaskRequest;
+use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
@@ -96,29 +97,41 @@ class TaskController extends Controller
 
     public function import()
     {
-
+        return view('backend.csvimport');
     }
 
-    public function postImport(Request $request)
+    public function csvImport(Request $request)
     {
-
-        if (!$request->has('file')) {
-            return;
+        if (!$request->file('csv_file')) {
+            return redirect()->back()->withErrors('No File');
         }
 
         try {
+
             $helper = new TaskImportHelper(Auth::user());
-            $parsedArray = $helper->parseCsvIntoArray();
+            $parsedArray = $helper->parseCsvIntoArray($request->file('csv_file')->getPathName());
             $processed = $helper->process($parsedArray);
 
+            foreach($processed as $task) {
+                auth()->user()->tasks()->create($task);
+            }
+
+            return redirect()->route('app.tasks.import')->with(['success' => 'Contacts imported successfully']);
+
         } catch(InvalidCsvFileException $e) {
-
+            Log::error($e->getMessage());
+            $error = 'Invalid CSV File';
         } catch(InvalidValidationRule $e) {
-
+            Log::error($e->getMessage());
+            $error = 'Invalid Validation rule';
         } catch(InvalidDateException $e) {
-
+            Log::error($e->getMessage());
+            $error = 'Invalid Validation rule';
         } catch(\Exception $e) {
-
+            Log::error($e->getMessage());
+            $error = 'An unknown error occurred.';
         }
+
+        return redirect()->back()->withErrors($error);
     }
 }
