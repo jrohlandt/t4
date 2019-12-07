@@ -70,6 +70,11 @@ class TaskController extends Controller
         $data = $request->validated();
         $task = auth()->user()->tasks()->findOrFail($id);
 
+        if (!$task->start_time && $request->filled('start_time') ) {
+            // Don't use the time sent from the client.
+            $data['start_time'] = Carbon::now();
+        }
+
         if (!$task->end_time && $request->filled('end_time') ) {
             // Don't use the time sent from the client.
             $data['end_time'] = Carbon::now();
