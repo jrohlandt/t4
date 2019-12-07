@@ -25,7 +25,7 @@ class Task extends Model
 
     public function scopeRecent(Builder $query)
     {
-        $from = Carbon::now()->subWeek();
+        $from = Carbon::now()->subDays(14);
         $to = Carbon::now();
 
         return $query
