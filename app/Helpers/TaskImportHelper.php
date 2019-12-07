@@ -47,9 +47,6 @@ class TaskImportHelper {
                             case 'voicestak fix recordrtc':
                                 $name = 'voicestak';
                                 break;
-                            case 'magiweb backpacker':
-                                $name = 'mw core';
-                                break;
                         }
 
                         return $name;
