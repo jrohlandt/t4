@@ -31,6 +31,6 @@ class Task extends Model
         return $query
             ->whereNotNull('start_time')
             ->whereNotNull('end_time')
-            ->whereBetween('created_at', [$from, $to]);
+            ->whereBetween('start_time', [$from, $to]);
     }
 }
