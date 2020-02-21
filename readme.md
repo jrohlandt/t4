@@ -9,7 +9,7 @@ $ sudo docker-compose build
 $ sudo docker-compose up -d
 $ sudo docker-compose ps // to check that all images are "UP"
 ```
-5. Next run "sudo docker-compose exec app bash" to access bash on the php container and,
+5. Next run "**sudo docker-compose exec app bash**" to access bash on the php container and,
 then run the following commands:
 ```
 $ composer install
